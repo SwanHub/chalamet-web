@@ -19,7 +19,8 @@ export default function Home() {
             <span className="text-6xl flex flex-col gap-4 pb-16">
               <h1 className="font-bold">Chalamet</h1>
               <h1 className="font-bold">Lookalike</h1>
-              <h1 className="text-6xl font-medium">Leaderboard</h1>
+              <div className="h-1 border-b w-48 pt-4" />
+              <h1 className="text-4xl font-medium">Global Leaderboard</h1>
             </span>
 
             <span className="text-lg opacity-80">

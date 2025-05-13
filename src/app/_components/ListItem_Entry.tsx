@@ -1,3 +1,5 @@
+import { formatRelativeTimestamp } from "@/lib/utils";
+
 export const ListItem_LeaderboardEntry = ({
   item,
   index,
@@ -9,7 +11,7 @@ export const ListItem_LeaderboardEntry = ({
     <div
       className="w-full mb-4 bg-cover bg-center flex items-stretch text-white group
         bg-gradient-to-r from-gray-900/60 to-transparent rounded-lg border-2 border-gray-900
-        cursor-pointer hover:border-gray-800 transition-all
+        cursor-pointer transition-all
         hover:scale-101 
         duration-300"
       style={{
@@ -27,7 +29,7 @@ export const ListItem_LeaderboardEntry = ({
           <div className="flex flex-col justify-center flex-grow">
             <div className="text-xl font-semibold">Submission</div>
             <div className="text-sm opacity-80">
-              {new Date(item.created_at).toLocaleDateString()}
+              {formatRelativeTimestamp(item.created_at)}
             </div>
           </div>
         </div>

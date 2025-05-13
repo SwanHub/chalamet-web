@@ -30,8 +30,6 @@ const fetcher = async (
     .order("similarity_score", { ascending: false });
 
   if (error) throw error as PostgrestError;
-
-  // Fix structure to match Submission type
   return data;
 };
 
