@@ -4,7 +4,6 @@ import { useState } from "react";
 import TextToImageSimilarity from "./TextToImage";
 import ImageToImageSimilarity from "./ImageToImage";
 import AvgToImageSimilarity from "./AvgToImage";
-import ChalametTest from "./ChalametTest";
 import NewUser from "./NewUser";
 
 export const Chooser = () => {
@@ -17,8 +16,6 @@ export const Chooser = () => {
     case 3:
       return <AvgToImageSimilarity />;
     case 4:
-      return <ChalametTest />;
-    case 5:
       return <NewUser />;
   }
 };

@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import { ClipResponse } from "../types";
 import { ID_CHALAMET_BASE_COMPARISON_TEXT_EMB } from "../constants";
 
-export default function ChalametTest() {
+export default function Submit() {
   // Camera and screenshot states
   const [isActive, setIsActive] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -279,13 +279,13 @@ export default function ChalametTest() {
     !success;
 
   return (
-    <div className="flex flex-col items-center w-full max-w-xl mx-auto p-4 bg-violet-50">
+    <div className="flex flex-col items-center w-full max-w-md mx-auto p-4 bg-violet-50">
       <h1 className="text-xl font-bold text-center mb-6 text-gray-800">
         Chalamet Similarity Test
       </h1>
 
       {/* Video display area */}
-      <div className="w-full relative rounded-lg overflow-hidden bg-gray-100 aspect-video mb-4 border-2 border-violet-300">
+      <div className="w-full relative rounded-lg overflow-hidden bg-gray-100 aspect-square mb-4 border-2 border-violet-300">
         <video
           ref={videoRef}
           autoPlay

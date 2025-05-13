@@ -35,3 +35,24 @@ export interface ClipComparisonResponse {
 }
 
 export type ClipComparisonResponseArray = ClipComparisonResponse[];
+
+export type Submission = {
+  id: string;
+  created_at: number;
+  similarity_score: number;
+  submissions: {
+    image_url: string;
+  };
+};
+
+export type SubmissionWithScore = {
+  id: string;
+  created_at: string; // or `Date` if you're converting it
+  similarity_score: number;
+  submission_id: string;
+  submissions: {
+    id: string;
+    image_url: string;
+    created_at: string; // or `Date`
+  };
+};

@@ -16,3 +16,5 @@ export const MASKED_3 = "https://i.ibb.co/j9ZG6myg/Frame-18.png";
 
 export const ID_CHALAMET_BASE_COMPARISON_TEXT_EMB =
   "d2d2f976-f967-4f95-8fa7-db2eedff13d3";
+
+export const LEADERBOARD_PAGE_SIZE = 10;
