@@ -1,7 +1,6 @@
 export function formatRelativeTimestamp(
   timestamp: string | number | Date
 ): string {
-  console.log(timestamp);
   // Convert input to Date object
   const date = timestamp instanceof Date ? timestamp : new Date(timestamp);
 

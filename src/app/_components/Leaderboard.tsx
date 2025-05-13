@@ -60,7 +60,12 @@ export const Leaderboard = () => {
   return (
     <div className="flex flex-col w-full">
       {submissions.map((item, index) => (
-        <ListItem_LeaderboardEntry key={item.id} item={item} index={index} />
+        <ListItem_LeaderboardEntry
+          key={item.id}
+          item={item}
+          index={index}
+          isActive={index === 0}
+        />
       ))}
     </div>
   );

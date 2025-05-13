@@ -17,28 +17,28 @@ export const Button_Generic = ({
     ? `
         bg-white
         border
-        border-violet-600
-        text-violet-600
-        hover:bg-violet-50
-        hover:border-violet-700
-        active:bg-violet-100
-        focus:ring-violet-300
+        border-cyan-600
+        text-cyan-600
+        hover:bg-cyan-50
+        hover:border-cyan-700
+        active:bg-cyan-100
+        focus:ring-cyan-300
         disabled:bg-white disabled:border-gray-300 disabled:text-gray-400
       `
     : `
-        bg-violet-600
+        bg-cyan-600
         text-white
-        hover:bg-violet-700
-        active:bg-violet-800
-        focus:ring-violet-400
-        disabled:bg-violet-300
+        hover:bg-cyan-700
+        active:bg-cyan-800
+        focus:ring-cyan-400
+        disabled:bg-cyan-300
       `;
   if (!!href) {
     return (
       <Link
         href={href}
         className={`${bgClass} cursor-pointer
-                    font-semibold py-3 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-400 focus:ring-opacity-75 transition
+                    font-semibold py-3 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-opacity-75 transition
                     duration-150 ease-in-out shadow-md hover:shadow-lg active:shadow-xl
                 `}
       >
@@ -51,8 +51,8 @@ export const Button_Generic = ({
         type="button"
         onClick={onClick}
         className={`${bgClass} cursor-pointer
-                    font-semibold py-3 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-400 focus:ring-opacity-75 transition
-                    duration-150 ease-in-out shadow-md hover:shadow-lg active:bg-violet-800 active:shadow-xl
+                    font-semibold py-3 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-opacity-75 transition
+                    duration-150 ease-in-out shadow-md hover:shadow-lg active:bg-cyan-800 active:shadow-xl
                 `}
       >
         {label}

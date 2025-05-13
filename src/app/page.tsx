@@ -13,7 +13,7 @@ export default function Home() {
         backgroundImage: "url('/banners/washington-square-park.png')",
       }}
     >
-      <div className="flex w-full justify-between bg-gray-900/80 px-8 ">
+      <div className="flex w-full justify-between bg-gray-900/80 px-8 h-full">
         <div className="py-16 h-full">
           <div className="max-w-xl text-white pb-24">
             <span className="text-6xl flex flex-col gap-4 pb-16">
