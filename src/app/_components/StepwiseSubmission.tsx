@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Button_GenericWithIcon } from "@/components/shared/Button_GenericWithIcon";
 import { CameraIcon } from "lucide-react";
-import { Button_Generic } from "@/components/shared/Button_Generic";
 import {
   createSubmission,
   createSubmissionScore,
@@ -12,6 +11,7 @@ import {
 } from "../_api/submit";
 import { base64ToBlob } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
+import { ChalametScoreCard } from "./ChalametCard";
 
 export const SubmitProcess2 = () => {
   // STATE.
@@ -25,10 +25,16 @@ export const SubmitProcess2 = () => {
   const [newSubId, setNewSubId] = useState<string | null>(null);
   const [btnSubText, setBtnSubText] = useState("");
   const [countdown, setCountdown] = useState<number | null>(null);
+  const [showResults, setShowResults] = useState(false);
+  const [fadeOut, setFadeOut] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   // SEQUENTIAL FUNCTIONS.
+  // automatic kickoff.
+  useEffect(() => {
+    nextStep();
+  }, []);
   const startCamera = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -46,7 +52,6 @@ export const SubmitProcess2 = () => {
 
   useEffect(() => {
     if (cameraActive) {
-      console.log("starting timer");
       startScreenshotTimer();
     }
   }, [cameraActive]);
@@ -104,6 +109,12 @@ export const SubmitProcess2 = () => {
     }
   }
 
+  useEffect(() => {
+    if (similarityScore && step === 3) {
+      nextStep();
+    }
+  }, [similarityScore, step]);
+
   const submitToSupabase = async (): Promise<void> => {
     if (!screenshot || similarityScore === null) {
       setError("Missing screenshot or similarity score");
@@ -132,6 +143,20 @@ export const SubmitProcess2 = () => {
     }
   };
 
+  useEffect(() => {
+    if (newSubId && step === 4) {
+      nextStep();
+    }
+  }, [newSubId, step]);
+
+  const showResultsView = () => {
+    setFadeOut(true);
+    setTimeout(() => {
+      setShowResults(true);
+      setFadeOut(false);
+    }, 1000);
+  };
+
   function nextStep() {
     switch (step) {
       case 0:
@@ -143,76 +168,83 @@ export const SubmitProcess2 = () => {
       case 3:
         return submitToSupabase();
       case 4:
-        return () => console.log("see results");
+        return showResultsView();
     }
   }
 
-  const btnText =
-    step === 0
-      ? "Open camera"
-      : step === 1
-      ? "Take screenshot"
-      : step === 2
-      ? "Get similarity score"
-      : step === 3
-      ? "Submit score 🎉"
-      : "Next: see results";
-
   useEffect(() => {
-    // unmount.
     return () => {
       stopCamera();
     };
   }, []);
 
   return (
-    <div className="flex flex-col items-center w-full mx-auto gap-4">
-      <div className="w-full relative rounded-lg overflow-hidden bg-gray-100 aspect-square border-2 border-cyan-300">
-        <video
-          ref={videoRef}
-          autoPlay
-          playsInline
-          className="w-full h-full object-cover"
-          style={{ display: step === 1 && cameraActive ? "block" : "none" }}
-        />
-        {step > 1 && screenshot && (
-          <img
-            src={screenshot}
-            alt="Screenshot"
-            className="w-full h-full object-cover"
-          />
+    <div className="bg-white text-black rounded-2xl p-8 max-w-lg w-full relative animate-fade-in h-[90vh] overflow-y-scroll">
+      {step === 0 && (
+        <>
+          <h2 className="text-2xl font-bold mb-4">Ready?</h2>
+          <p className="mb-6">
+            {
+              "Start the camera and we'll auto-capture a screenshot after a few seconds. Good luck 🤝"
+            }
+          </p>
+        </>
+      )}
+
+      <div className="flex flex-col items-center w-full mx-auto gap-4">
+        {!showResults ? (
+          <div
+            className={`transition-opacity duration-300 ${
+              fadeOut ? "opacity-0" : "opacity-100"
+            } w-full`}
+          >
+            <div className="w-full relative rounded-lg overflow-hidden bg-gray-100 aspect-square border-2 border-cyan-300">
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                className="w-full h-full object-cover"
+                style={{
+                  display: step === 1 && cameraActive ? "block" : "none",
+                }}
+              />
+              {step > 1 && screenshot && (
+                <img
+                  src={screenshot}
+                  alt="Screenshot"
+                  className="w-full h-full object-cover"
+                />
+              )}
+              <p className="bg-black text-white">
+                {gettingScore ? "Getting score" : ""}
+              </p>
+              <Overlay step={step} nextStep={nextStep} countdown={countdown} />
+              <canvas ref={canvasRef} className="hidden" />
+            </div>
+          </div>
+        ) : (
+          <>
+            {screenshot && similarityScore && newSubId && (
+              <ChalametScoreCard
+                imageSrc={screenshot}
+                similarityScore={similarityScore}
+                submissionId={newSubId}
+              />
+            )}
+          </>
         )}
-        <p className="bg-black text-white">
-          {gettingScore ? "Getting score" : ""}
-        </p>
-        <Overlay
-          step={step}
-          nextStep={nextStep}
-          countdown={countdown}
-          gettingScore={gettingScore}
-        />
-        <canvas ref={canvasRef} className="hidden" />
       </div>
-      {step > 2 && <Button_Generic onClick={nextStep} label={btnText} />}
-      <p>{btnSubText}</p>
     </div>
   );
 };
 
 interface OverlayProps {
   step: number;
-  gettingScore: boolean;
   countdown: number | null;
   nextStep: () => void;
 }
 
-const Overlay = ({ step, gettingScore, nextStep, countdown }: OverlayProps) => {
-  if (gettingScore) {
-    <div className="absolute top-2 left-2">
-      <p className="text-violet-500">GETTING SCORE</p>
-    </div>;
-  }
-
+const Overlay = ({ step, nextStep, countdown }: OverlayProps) => {
   if (step === 0) {
     return (
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white/80">
@@ -222,7 +254,6 @@ const Overlay = ({ step, gettingScore, nextStep, countdown }: OverlayProps) => {
           label="Start camera"
           icon={<CameraIcon />}
         />
-        <div className="absolute top-2 left-2">{step === 0 && <p>🟢</p>}</div>
       </div>
     );
   }
@@ -230,8 +261,6 @@ const Overlay = ({ step, gettingScore, nextStep, countdown }: OverlayProps) => {
   return (
     <div className="absolute top-2 left-2">
       {step === 1 && countdown !== null && <p>{countdown}</p>}
-      {step === 3 && <p>%</p>}
-      {step === 4 && <p>✅</p>}
     </div>
   );
 };

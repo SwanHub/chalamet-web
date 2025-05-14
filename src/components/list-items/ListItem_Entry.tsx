@@ -1,4 +1,4 @@
-import { formatRelativeTimestamp } from "@/lib/utils";
+import { formatPercent, formatRelativeTimestamp } from "@/lib/utils";
 
 export const ListItem_LeaderboardEntry = ({
   item,
@@ -12,6 +12,7 @@ export const ListItem_LeaderboardEntry = ({
   return (
     <div
       className={`${isActive ? "border-cyan-400 flex-col" : "border-gray-900"}
+      rounded-lg
         flex w-full bg-cover bg-center items-stretch text-white group mb-4
         bg-gradient-to-r from-gray-900/60 to-transparent border-2 
         cursor-pointer transition-all hover:scale-102 duration-300`}
@@ -20,7 +21,7 @@ export const ListItem_LeaderboardEntry = ({
       }}
     >
       {!isActive ? (
-        <div className="flex w-full justify-between bg-gradient-to-r from-gray-900/90 group-hover:from-gray-800/90 to-transparent">
+        <div className="flex w-full rounded-lg justify-between bg-gradient-to-r from-gray-900/90 group-hover:from-gray-800/90 to-transparent">
           <div className="flex">
             <Ranking isActive={isActive} index={index} />
             <SubmissionDetails createdAt={item.created_at} />
@@ -29,7 +30,7 @@ export const ListItem_LeaderboardEntry = ({
         </div>
       ) : (
         <div
-          className="flex flex-col w-full justify-between
+          className="flex flex-col w-full justify-between rounded-lg
           bg-gradient-to-r from-gray-900/90 group-hover:from-gray-800/90 to-transparent"
         >
           <div className="flex justify-between items-center w-full">
@@ -96,7 +97,7 @@ const SubmissionDetails = ({
 const SimilarityScore = ({ score }: { score: string }) => {
   return (
     <div className="flex font-serif items-center justify-center px-6 text-5xl font-bold bg-transparent">
-      {(parseFloat(score) * 100).toFixed(1)}%
+      {formatPercent(score)}
     </div>
   );
 };

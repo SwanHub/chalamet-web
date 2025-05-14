@@ -38,10 +38,7 @@ export const Button_GenericWithIcon = ({
       `;
 
   const buttonContent = (
-    <>
-      {icon && <span className="mr-2 inline-flex items-center">{icon}</span>}
-      {label}
-    </>
+    <>{icon && <span className="inline-flex items-center">{icon}</span>}</>
   );
 
   if (!!href) {

@@ -1,20 +1,18 @@
 import React from "react";
-import { Leaderboard } from "./_components/Leaderboard";
 import { Header } from "./_components/Header";
+import MediaToggle from "./_components/MediaToggle";
 
 export default function Home() {
   return (
     <div
-      className="relative min-h-screen bg-cover bg-center p-12"
+      className="relative min-h-screen bg-cover bg-center bg-fixed p-12"
       style={{
         backgroundImage: "url('/banners/washington-square-park.png')",
       }}
     >
-      <div className="flex w-full justify-between bg-gray-900/80 px-8 h-full">
+      <div className="flex flex-col w-full justify-between bg-gray-900/90 px-8 h-full">
         <Header />
-        <div className="max-w-3xl py-16 h-full w-full">
-          <Leaderboard />
-        </div>
+        <MediaToggle />
       </div>
     </div>
   );

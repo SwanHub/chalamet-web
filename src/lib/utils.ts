@@ -47,3 +47,9 @@ export const base64ToBlob = async (base64Data: string): Promise<Blob> => {
 export const formatSimilarityScore = (score: number): string => {
   return `${(score * 100).toFixed(2)}%`;
 };
+
+export function formatPercent(score: number | string): string {
+  const value = typeof score === "string" ? parseFloat(score) : score;
+  if (isNaN(value)) return "0.0%";
+  return `${(value * 100).toFixed(1)}%`;
+}

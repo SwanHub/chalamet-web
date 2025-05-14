@@ -1,5 +1,3 @@
-import { Button_Generic } from "@/components/shared/Button_Generic";
-import { SubmitProcess } from "./SubmitProcess";
 import { SubmitProcess2 } from "./StepwiseSubmission";
 
 export const Modal_Submit = ({
@@ -13,16 +11,8 @@ export const Modal_Submit = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-70 transition-opacity">
-      <div className="bg-white text-black rounded-2xl p-8 max-w-lg w-full relative animate-fade-in">
-        <h2 className="text-2xl font-bold mb-4">Ready?</h2>
-        <Button_Close onClose={onClose} />
-        <p className="mb-6">
-          {
-            "Start the camera and we'll auto-capture a screenshot after a few seconds. Good luck 🤝"
-          }
-        </p>
-        <SubmitProcess2 />
-      </div>
+      <Button_Close onClose={onClose} />
+      <SubmitProcess2 />
     </div>
   );
 };
@@ -31,7 +21,7 @@ const Button_Close = ({ onClose }: { onClose: () => void }) => {
   return (
     <button
       onClick={onClose}
-      className="absolute top-4 right-4 text-gray-500 hover:text-black cursor-pointer"
+      className="absolute top-4 right-4 text-gray-300 hover:text-gray-200 cursor-pointer"
     >
       ✕
     </button>
