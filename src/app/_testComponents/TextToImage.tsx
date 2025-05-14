@@ -22,7 +22,7 @@ export default function TextToImageSimilarity() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-6 bg-violet-50 w-full">
+    <div className="flex flex-col items-center justify-center p-6 bg-cyan-50 w-full">
       <h1 className="text-xl font-bold text-center mb-8 text-gray-800">
         {"CLIP text <> image cosine similarity"}
       </h1>

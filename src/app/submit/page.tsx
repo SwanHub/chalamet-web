@@ -279,13 +279,13 @@ export default function Submit() {
     !success;
 
   return (
-    <div className="flex flex-col items-center w-full max-w-md mx-auto p-4 bg-violet-50">
+    <div className="flex flex-col items-center w-full max-w-md mx-auto p-4 bg-cyan-50">
       <h1 className="text-xl font-bold text-center mb-6 text-gray-800">
         Chalamet Similarity Test
       </h1>
 
       {/* Video display area */}
-      <div className="w-full relative rounded-lg overflow-hidden bg-gray-100 aspect-square mb-4 border-2 border-violet-300">
+      <div className="w-full relative rounded-lg overflow-hidden bg-gray-100 aspect-square mb-4 border-2 border-cyan-300">
         <video
           ref={videoRef}
           autoPlay
@@ -340,14 +340,14 @@ export default function Submit() {
 
       {/* Similarity score display */}
       {similarityScore !== null && (
-        <div className="mt-3 p-4 bg-white border border-violet-200 rounded-lg w-full">
+        <div className="mt-3 p-4 bg-white border border-cyan-200 rounded-lg w-full">
           <h4 className="text-md font-medium mb-1">
             Similarity to Timothée Chalamet
           </h4>
           <div className="flex items-center">
             <div className="w-full bg-gray-200 rounded-full h-6">
               <div
-                className="bg-violet-600 h-6 rounded-full flex items-center justify-center text-white font-medium text-sm"
+                className="bg-cyan-600 h-6 rounded-full flex items-center justify-center text-white font-medium text-sm"
                 style={{ width: `${similarityScore * 100}%` }}
               >
                 {formatScore(similarityScore)}

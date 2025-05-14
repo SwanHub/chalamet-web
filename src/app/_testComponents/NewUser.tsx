@@ -48,7 +48,7 @@ export default function NewUser() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-6 bg-violet-50 w-full">
+    <div className="flex flex-col items-center justify-center p-6 bg-cyan-50 w-full">
       <h1 className="text-xl font-bold text-center mb-8 text-gray-800">
         {"Test - Create New User"}
       </h1>

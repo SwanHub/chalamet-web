@@ -56,3 +56,10 @@ export type SubmissionWithScore = {
     created_at: string; // or `Date`
   };
 };
+
+export type CaptureStatus =
+  | "ready"
+  | "countdown"
+  | "screenshot-taken"
+  | "processing"
+  | "complete";
