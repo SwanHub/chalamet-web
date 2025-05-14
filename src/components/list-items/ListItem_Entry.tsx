@@ -11,26 +11,34 @@ export const ListItem_LeaderboardEntry = ({
 }) => {
   return (
     <div
-      className={`${
-        isActive ? "border-cyan-400 mb-0 flex-col" : "border-gray-900 mb-4"
-      }
-        flex w-full bg-cover bg-center items-stretch text-white group
+      className={`${isActive ? "border-cyan-400 flex-col" : "border-gray-900"}
+        flex w-full bg-cover bg-center items-stretch text-white group mb-4
         bg-gradient-to-r from-gray-900/60 to-transparent border-2 
         cursor-pointer transition-all hover:scale-102 duration-300`}
       style={{
         backgroundImage: `url(${item.submissions.image_url})`,
       }}
     >
-      <div className="flex w-full justify-between bg-gradient-to-r from-gray-900/90 group-hover:from-gray-800/90 to-transparent">
-        <div className="flex">
+      {!isActive ? (
+        <div className="flex w-full justify-between bg-gradient-to-r from-gray-900/90 group-hover:from-gray-800/90 to-transparent">
           <div className="flex">
             <Ranking isActive={isActive} index={index} />
             <SubmissionDetails createdAt={item.created_at} />
           </div>
           <SimilarityScore score={item.similarity_score} />
         </div>
-        <ActiveDetails createdAt={item.created_at} isActive={isActive} />
-      </div>
+      ) : (
+        <div
+          className="flex flex-col w-full justify-between
+          bg-gradient-to-r from-gray-900/90 group-hover:from-gray-800/90 to-transparent"
+        >
+          <div className="flex justify-between items-center w-full">
+            <Ranking isActive={isActive} index={index} />
+            <SimilarityScore score={item.similarity_score} />
+          </div>
+          <ActiveDetails createdAt={item.created_at} isActive={isActive} />
+        </div>
+      )}
     </div>
   );
 };
@@ -43,13 +51,9 @@ const ActiveDetails = ({
   createdAt: string | number | Date;
 }) => {
   return (
-    <div
-      className={`w-full overflow-hidden ${
-        isActive ? "block max-h-40" : "hidden max-h-0"
-      }`}
-    >
+    <div className={`w-full overflow-hidden`}>
       <div className="p-8">
-        <h3 className="text-2xl font-semibold mb-2">Chalamet Lookalike</h3>
+        {/* <h3 className="text-2xl font-semibold mb-2">World #1 Submission</h3> */}
         <SubmissionDetails createdAt={createdAt} />
         <div className="flex mt-6 gap-2">
           <button className="bg-transparent hover:bg-white/10 cursor-pointer border border-white text-white font-medium py-2 px-6 rounded">

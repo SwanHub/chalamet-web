@@ -5,7 +5,7 @@ import { Submission } from "../types";
 import { LEADERBOARD_PAGE_SIZE } from "../constants";
 import { PostgrestError } from "@supabase/supabase-js";
 import useSWRInfinite from "swr/infinite";
-import { ListItem_LeaderboardEntry } from "./ListItem_Entry";
+import { ListItem_LeaderboardEntry } from "../../components/list-items/ListItem_Entry";
 
 const fetcher = async (
   pageIndex: number,
