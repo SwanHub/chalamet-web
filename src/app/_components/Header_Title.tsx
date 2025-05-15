@@ -23,14 +23,15 @@ const Header_Title = () => {
   }, []);
 
   return (
-    <div className="max-w-xl text-white pb-6 w-full flex flex-col flex-grow">
+    <div className="max-w-4xl text-white pb-6 w-full flex flex-col flex-grow">
       <div className="relative text-6xl flex flex-col gap-4 pb-8">
         <h1 className="font-bold">
+          {/* {" Do you look like Timothée Chalamet? Prove it"} */}
           Compete in the Internet Official Timothée Chalamet Lookalike Contest
         </h1>
       </div>
 
-      <span className="text-lg opacity-80 pb-12">
+      <span className="text-lg opacity-80 pb-2">
         Did you miss the iconic{" "}
         <Link
           href={article}
@@ -39,7 +40,9 @@ const Header_Title = () => {
         >
           Timothée Chalamet Lookalike Contest
         </Link>{" "}
-        in Washington Square Park?{" "}
+        in NYC?
+      </span>
+      <span className="text-lg pb-12">
         <strong>Here's your chance to compete.</strong>
       </span>
       {submissionCount !== null && (

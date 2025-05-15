@@ -44,7 +44,6 @@ export default function MediaToggle() {
         </button>
       </div>
 
-      {/* Active View */}
       <div className="max-w-screen-md w-full">
         {filter === "leaderboard" && <Leaderboard />}
         {filter === "gallery" && <SubmissionGallery />}

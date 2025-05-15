@@ -34,7 +34,6 @@ const FirstPlace = ({
           className="absolute top-0 left-0 w-full h-full object-cover bg-gray-900 opacity-90 group-hover:opacity-100 transition-opacity duration-300"
         />
 
-        {/* Top: Big “1st Place” tag */}
         {rank === 1 && (
           <div
             className="absolute top-4 left-4 font-serif
@@ -45,7 +44,6 @@ const FirstPlace = ({
           </div>
         )}
 
-        {/* Bottom tags: Chalamet-ness + timestamp */}
         <div className="absolute bottom-3 left-3 right-3 flex justify-between items-end">
           <div
             className={`bg-gradient-to-br ${gradient} text-white text-xs md:text-sm font-bold px-4 py-1 rounded-full shadow-md`}
