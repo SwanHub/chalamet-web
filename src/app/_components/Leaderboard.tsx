@@ -5,7 +5,7 @@ import { Submission } from "../types";
 import { LEADERBOARD_PAGE_SIZE } from "../constants";
 import { PostgrestError } from "@supabase/supabase-js";
 import useSWRInfinite from "swr/infinite";
-import { ListItem_LeaderboardEntry } from "../../components/list-items/ListItem_Entry";
+import { FirstPlace } from "../../components/list-items/ListItem_Entry";
 import GalleryItem_Image from "@/components/list-items/GalleryItem_Entry";
 
 const fetcher = async (
@@ -61,12 +61,7 @@ export const Leaderboard = () => {
   return (
     <div className="flex flex-col w-full gap-4">
       {submissions[0] && (
-        <ListItem_LeaderboardEntry
-          key={submissions[0].id}
-          item={submissions[0]}
-          index={0}
-          isActive={true}
-        />
+        <FirstPlace key={submissions[0].id} item={submissions[0]} index={0} />
       )}
 
       {submissions.length > 2 && (
