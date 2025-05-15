@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Button_GenericWithIcon } from "@/components/shared/Button_GenericWithIcon";
 import { CameraIcon } from "lucide-react";
 import {
   createSubmission,
@@ -32,9 +31,9 @@ export const SubmitProcess2 = () => {
 
   // SEQUENTIAL FUNCTIONS.
   // automatic kickoff.
-  useEffect(() => {
-    nextStep();
-  }, []);
+  // useEffect(() => {
+  //   nextStep();
+  // }, []);
   const startCamera = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -179,26 +178,18 @@ export const SubmitProcess2 = () => {
   }, []);
 
   return (
-    <div className="bg-white text-black rounded-2xl p-8 max-w-lg w-full relative animate-fade-in h-[90vh] overflow-y-scroll">
-      {step === 0 && (
-        <>
-          <h2 className="text-2xl font-bold mb-4">Ready?</h2>
-          <p className="mb-6">
-            {
-              "Start the camera and we'll auto-capture a screenshot after a few seconds. Good luck 🤝"
-            }
-          </p>
-        </>
-      )}
-
-      <div className="flex flex-col items-center w-full mx-auto gap-4">
+    <div
+      className="flex w-full aspect-square max-w-sm 
+      justify-start items-start cursor-pointer"
+    >
+      <div className="flex flex-col items-center w-full gap-4">
         {!showResults ? (
           <div
             className={`transition-opacity duration-300 ${
               fadeOut ? "opacity-0" : "opacity-100"
             } w-full`}
           >
-            <div className="w-full relative rounded-lg overflow-hidden bg-gray-100 aspect-square border-2 border-cyan-300">
+            <div className="w-full relative overflow-hidden aspect-square">
               <video
                 ref={videoRef}
                 autoPlay
@@ -247,13 +238,29 @@ interface OverlayProps {
 const Overlay = ({ step, nextStep, countdown }: OverlayProps) => {
   if (step === 0) {
     return (
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white/80">
-        <p className="text-gray-500">Camera preview will appear here</p>
-        <Button_GenericWithIcon
-          onClick={nextStep}
-          label="Start camera"
-          icon={<CameraIcon />}
-        />
+      <div
+        className="absolute inset-0 transition-all border-2 border-cyan-500
+bg-gradient-to-br from-cyan-500 via-cyan-700 to-cyan-900 flex flex-col items-center
+justify-between px-4 py-8 text-center rounded-2xl group"
+        onClick={nextStep}
+      >
+        <div className="flex flex-col items-center justify-center gap-6 h-full">
+          <h1 className="text-4xl font-extrabold text-white drop-shadow-xl">
+            Ready?
+          </h1>
+
+          <button
+            className="bg-white cursor-pointer text-pink-600 text-2xl font-bold py-5 px-10 rounded-full shadow-xl
+            group-hover:scale-110 transition-transform duration-300 ease-in-out flex items-center gap-3"
+          >
+            <CameraIcon className="w-6 h-6" />
+            Take a pic
+          </button>
+
+          <p className="text-white text-base font-medium opacity-80">
+            Good luck 🤝
+          </p>
+        </div>
       </div>
     );
   }
