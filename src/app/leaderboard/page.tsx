@@ -1,7 +1,7 @@
 "use client";
 
 import { Button_Generic } from "@/components/shared/Button_Generic";
-import { createVectorEmbOfImage } from "../_api/api";
+import { createVectorEmbOfImage, testEdgeFunction } from "../_api/api";
 import { Input_Text } from "@/components/shared/Input_Text";
 import { useState } from "react";
 import {
@@ -55,8 +55,15 @@ export default function Leaderboard() {
 
   return (
     <div className="flex flex-col max-w-screen-lg justify-center gap-12">
-      {/* part 1: create new image */}
       <div className="flex flex-col">
+        <Button_Generic
+          label="Test edge function access"
+          onClick={testEdgeFunction}
+        />
+      </div>
+
+      {/* part 1: create new image */}
+      {/* <div className="flex flex-col">
         <div className="flex w-full pb-6">
           <Input_Text
             label="Initial image url"
@@ -70,10 +77,10 @@ export default function Leaderboard() {
           label="Save image to our bucket"
           onClick={createNewImage}
         />
-      </div>
+      </div> */}
 
       {/* part 2: create vector embedding of said image */}
-      {supabaseImageUrl && (
+      {/* {supabaseImageUrl && (
         <div>
           <Button_Generic
             label="Get and save image embedding"
@@ -81,10 +88,10 @@ export default function Leaderboard() {
           />
           <p>Embedding, printed (to check): {JSON.stringify(embedding)}</p>
         </div>
-      )}
+      )} */}
 
       {/* part 3: given a vector embedding and imageUrl, insert value to our "base_comparisons" table */}
-      {embedding && (
+      {/* {embedding && (
         <div>
           <div className="flex w-full pb-6">
             <Input_Text
@@ -107,7 +114,7 @@ export default function Leaderboard() {
             onClick={saveBaseComparison}
           />
         </div>
-      )}
+      )} */}
     </div>
   );
 }

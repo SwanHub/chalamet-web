@@ -85,6 +85,7 @@ export const createVectorEmbOfImage = async (
 
   const result = await response.json();
   if (result) {
+    console.log("results of embedding via roboflow: ", result);
     return result.outputs[0].image_embedding;
   } else {
     return null;
@@ -96,6 +97,31 @@ export const testFastAPI = async (): Promise<any> => {
   const result = await response.json();
   return result;
 };
+
+export async function testEdgeFunction() {
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/create-submission`;
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: "Functions" }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log("Response:", data);
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}
 
 // ---- STARTING A NEW PROJECT
 // -- mkdir project_name

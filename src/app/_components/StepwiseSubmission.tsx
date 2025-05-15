@@ -5,6 +5,7 @@ import { CameraIcon } from "lucide-react";
 import {
   createSubmission,
   createSubmissionScore,
+  createSubmissionWithEmbedding,
   fetchSimilarityScore,
   uploadImageToSubmissions,
 } from "../_api/submit";
@@ -12,6 +13,7 @@ import { base64ToBlob } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
 import { CHALAMET_BANNER } from "../constants";
 import { GridLoader, PuffLoader } from "react-spinners";
+import { createVectorEmbOfImage } from "../_api/api";
 
 interface Props {
   screenshot: string | null;
@@ -36,12 +38,10 @@ export const SubmitProcess2 = ({
   const [step, setStep] = useState(0);
   const [gettingScore, setGettingScore] = useState<boolean>(false);
   const [creatingSubmission, setCreatingSubmission] = useState<boolean>(false);
+  const [embedding, setEmbedding] = useState<number[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [cameraActive, setCameraActive] = useState(false);
-  const [btnSubText, setBtnSubText] = useState("");
   const [countdown, setCountdown] = useState<number | null>(null);
-  const [showResults, setShowResults] = useState(false);
-  const [fadeOut, setFadeOut] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -85,6 +85,7 @@ export const SubmitProcess2 = ({
       const imageData = canvas.toDataURL("image/jpeg");
       setScreenshot(imageData);
       setStep(2);
+      console.log("screenshot taken");
     }
   };
 
@@ -104,70 +105,110 @@ export const SubmitProcess2 = ({
     setCameraActive(false);
   };
 
-  async function getScore() {
+  // the new routes- -
+  // as soon as we have screenshot, that should kick off the "uploadImageToSubmissions" function.
+
+  // 1. uploadImageToSubmissions: get back supabaseImageUrl. DONE.
+  // 2. getImageEmbedding: send supabaseImageUrl to roboflow workflow, get back a CLIP embedding. DONE.
+  // 3. take embeddings and imageUrl, create a new value in "submissions" table. DONE.
+  // -- ALL SET. Let's have a useEffect key off of this change, before we move into the new loop and create session.
+  // 4. get all active base_comparisons, loop through each and create similarityScores for each.
+
+  // -- we could do this on the frontend, as well. Let's just do that. Do it the dumb way first. Make it work.
+  // -- let's just compute cosine similarity on the frontend using 'cosine-similarity' function.
+  // -- this is super fucking annoying. hitting my head against the wall here. Need to move quicker.
+
+  async function createNewSubmission() {
     if (screenshot) {
       try {
         setGettingScore(true);
-        const score = await fetchSimilarityScore(screenshot);
-        setSimilarityScore(score);
-        setBtnSubText(score.toString());
+        // create image.
+        const blob = await base64ToBlob(screenshot);
+        const fileName = `${uuidv4()}.jpg`;
+        const uploadedImageUrl = await uploadImageToSubmissions(blob, fileName);
+
+        if (uploadedImageUrl) {
+          // compute vector embedding.
+          console.log("image url set: ", uploadedImageUrl);
+          const emb = await createVectorEmbOfImage(uploadedImageUrl);
+          if (emb) {
+            // create new submission.
+            console.log("embedding set: ", emb);
+            setEmbedding(emb);
+            const newsubID = await createSubmissionWithEmbedding(
+              uploadedImageUrl,
+              emb
+            );
+            if (newsubID) {
+              console.log("new submission id: ", newsubID);
+            }
+          }
+        }
       } catch (error) {
         console.log("error: ", error);
       } finally {
         setGettingScore(false);
-        setStep(3);
       }
     }
   }
 
-  useEffect(() => {
-    if (similarityScore && step === 3) {
-      nextStep();
-    }
-  }, [similarityScore, step]);
+  // async function getScore() {
+  //   if (screenshot) {
+  //     try {
+  //       setGettingScore(true);
+  //       const score = await fetchSimilarityScore(screenshot);
+  //       setSimilarityScore(score);
+  //     } catch (error) {
+  //       console.log("error: ", error);
+  //     } finally {
+  //       setGettingScore(false);
+  //       setStep(3);
+  //     }
+  //   }
+  // }
 
-  const submitToSupabase = async (): Promise<void> => {
-    if (!screenshot || similarityScore === null) {
-      setError("Missing screenshot or similarity score");
-      return;
-    }
-    setCreatingSubmission(true);
-    setBtnSubText("Submitting...");
-    setError(null);
+  // useEffect(() => {
+  //   if (similarityScore && step === 3) {
+  //     nextStep();
+  //   }
+  // }, [similarityScore, step]);
 
-    try {
-      const blob = await base64ToBlob(screenshot);
-      const fileName = `${uuidv4()}.jpg`;
-      const uploadedImageUrl = await uploadImageToSubmissions(blob, fileName);
-      const newSubmissionId = await createSubmission(uploadedImageUrl);
-      await createSubmissionScore(newSubmissionId, similarityScore);
-      setNewSubId(newSubmissionId);
-      if (newSubmissionId) {
-        setBtnSubText(`New submission ID: ${newSubmissionId}`);
-      }
-    } catch (err: any) {
-      console.error("Error submitting to Supabase:", err);
-      setError(err.message || "Failed to submit to database");
-    } finally {
-      setCreatingSubmission(false);
-      setStep(4);
-    }
-  };
+  // const submitToSupabase = async (): Promise<void> => {
+  //   if (!screenshot || similarityScore === null) {
+  //     setError("Missing screenshot or similarity score");
+  //     return;
+  //   }
+  //   setCreatingSubmission(true);
+  //   setError(null);
 
-  useEffect(() => {
-    if (newSubId && step === 4) {
-      nextStep();
-    }
-  }, [newSubId, step]);
+  //   try {
+  //     const blob = await base64ToBlob(screenshot);
+  //     const fileName = `${uuidv4()}.jpg`;
+  //     const uploadedImageUrl = await uploadImageToSubmissions(blob, fileName);
+  //     const newSubmissionId = await createSubmission(uploadedImageUrl);
 
-  const showResultsView = () => {
-    // setFadeOut(true);
-    // setFadeOut(false);
-    setTimeout(() => {
-      setModalOpen(true);
-      // setShowResults(true);
-    }, 1000);
-  };
+  //     await createSubmissionScore(newSubmissionId, similarityScore);
+  //     setNewSubId(newSubmissionId);
+  //   } catch (err: any) {
+  //     console.error("Error submitting to Supabase:", err);
+  //     setError(err.message || "Failed to submit to database");
+  //   } finally {
+  //     setCreatingSubmission(false);
+  //     setStep(4);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (newSubId && step === 4) {
+  //     nextStep();
+  //   }
+  // }, [newSubId, step]);
+
+  // const showResultsView = () => {
+  //   setTimeout(() => {
+  //     setModalOpen(true);
+  //   }, 1000);
+  // };
 
   function nextStep() {
     switch (step) {
@@ -176,11 +217,11 @@ export const SubmitProcess2 = ({
       case 1:
         return takeScreenshot();
       case 2:
-        return getScore();
-      case 3:
-        return submitToSupabase();
-      case 4:
-        return showResultsView();
+        return createNewSubmission();
+      // case 3:
+      //   return submitToSupabase();
+      // case 4:
+      //   return showResultsView();
     }
   }
 
@@ -196,11 +237,7 @@ export const SubmitProcess2 = ({
       justify-start items-start cursor-pointer"
     >
       <div className="flex flex-col items-center w-full gap-4">
-        <div
-          className={`transition-opacity duration-300 ${
-            fadeOut ? "opacity-0" : "opacity-100"
-          } w-full`}
-        >
+        <div className={`transition-opacity duration-300 w-full`}>
           <div className="w-full relative overflow-hidden aspect-square">
             <video
               ref={videoRef}

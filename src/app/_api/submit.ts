@@ -75,6 +75,19 @@ export async function createSubmission(imageUrl: string): Promise<string> {
   return data[0].id;
 }
 
+export async function createSubmissionWithEmbedding(
+  imageUrl: string,
+  embedding: number[]
+): Promise<string> {
+  const { data, error } = await supabase
+    .from("submissions")
+    .insert([{ image_url: imageUrl, embedding_vector: embedding }])
+    .select();
+
+  if (error) throw error;
+  return data[0].id;
+}
+
 export async function createSubmissionScore(
   submissionId: string,
   similarityScore: number
