@@ -293,10 +293,16 @@ const Overlay = ({ step, nextStep, countdown }: OverlayProps) => {
           )}
         </div>
 
-        <div className="text-white text-4xl font-bold drop-shadow-md">
-          Look straight
-          <br /> into the camera
-        </div>
+        {step < 2 ? (
+          <div className="text-white text-4xl font-bold drop-shadow-md">
+            Look straight
+            <br /> into the camera
+          </div>
+        ) : (
+          <div className="text-white text-4xl font-bold drop-shadow-md">
+            {"📸"}
+          </div>
+        )}
       </div>
     );
   }
