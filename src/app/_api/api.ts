@@ -11,7 +11,7 @@ export const fetchCLIPConfidence = async (
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        api_key: process.env.NEXT_PUBLIC_API_KEY,
+        api_key: process.env.NEXT_PUBLIC_ROBOFLOW_API_KEY,
         inputs: {
           image: {
             type: "url",
@@ -61,6 +61,34 @@ export const fetchEmbedToAvg = async (imageUrl: string): Promise<any> => {
 
   const result = await response.json();
   return result;
+};
+
+export const createVectorEmbOfImage = async (
+  imageUrl: string
+): Promise<any> => {
+  const response = await fetch(
+    "https://serverless.roboflow.com/infer/workflows/jp-roboflow-tests/single-clip-embedding",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        api_key: process.env.NEXT_PUBLIC_ROBOFLOW_API_KEY,
+        inputs: {
+          image: { type: "url", value: imageUrl },
+        },
+        version: "ViT-B-32",
+      }),
+    }
+  );
+
+  const result = await response.json();
+  if (result) {
+    return result.outputs[0].image_embedding;
+  } else {
+    return null;
+  }
 };
 
 export const testFastAPI = async (): Promise<any> => {

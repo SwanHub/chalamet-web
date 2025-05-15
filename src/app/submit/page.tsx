@@ -128,7 +128,7 @@ export default function Submit() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            api_key: process.env.NEXT_PUBLIC_API_KEY,
+            api_key: process.env.NEXT_PUBLIC_ROBOFLOW_API_KEY,
             inputs: {
               image: {
                 type: "base64",

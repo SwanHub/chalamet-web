@@ -18,7 +18,7 @@ export const fetchSimilarityScore = async (
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          api_key: process.env.NEXT_PUBLIC_API_KEY,
+          api_key: process.env.NEXT_PUBLIC_ROBOFLOW_API_KEY,
           inputs: {
             image: {
               type: "base64",
@@ -45,7 +45,7 @@ export const fetchSimilarityScore = async (
   }
 };
 
-export async function uploadImage(
+export async function uploadImageToSubmissions(
   blob: Blob,
   fileName: string
 ): Promise<string> {

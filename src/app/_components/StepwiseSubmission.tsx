@@ -6,7 +6,7 @@ import {
   createSubmission,
   createSubmissionScore,
   fetchSimilarityScore,
-  uploadImage,
+  uploadImageToSubmissions,
 } from "../_api/submit";
 import { base64ToBlob } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
@@ -138,7 +138,7 @@ export const SubmitProcess2 = ({
     try {
       const blob = await base64ToBlob(screenshot);
       const fileName = `${uuidv4()}.jpg`;
-      const uploadedImageUrl = await uploadImage(blob, fileName);
+      const uploadedImageUrl = await uploadImageToSubmissions(blob, fileName);
       const newSubmissionId = await createSubmission(uploadedImageUrl);
       await createSubmissionScore(newSubmissionId, similarityScore);
       setNewSubId(newSubmissionId);

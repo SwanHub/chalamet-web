@@ -29,6 +29,15 @@ export function formatRelativeTimestamp(
   return `${month}/${day}/${yearShort}`;
 }
 
+export async function imageUrlToBlob(imageUrl: string) {
+  const response = await fetch(imageUrl);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch image: ${response.statusText}`);
+  }
+  const blob = await response.blob();
+  return blob;
+}
+
 export const base64ToBlob = async (base64Data: string): Promise<Blob> => {
   const base64 = base64Data.includes("base64,")
     ? base64Data.split("base64,")[1]
