@@ -18,7 +18,7 @@ export const Modal_Results = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-70 transition-opacity fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-70 transition-opacity">
       <Button_Close onClose={onClose} />
       {screenshot && similarityScore && newSubId && (
         <ChalametScoreCard
