@@ -244,7 +244,7 @@ interface OverlayProps {
   nextStep: () => void;
 }
 
-const Overlay = ({ step, nextStep, countdown }: OverlayProps) => {
+const Overlay = ({ step, nextStep }: OverlayProps) => {
   if (step === 0) {
     return (
       <div
@@ -280,12 +280,22 @@ const Overlay = ({ step, nextStep, countdown }: OverlayProps) => {
             onClick={() => alert("Blur background feature coming soon!")}
             className="backdrop-blur bg-white/10 text-white border border-white/10 rounded-full px-4 py-2 text-sm font-medium shadow-md"
           >
-            {step < 2 ? <>🔍  Detecting...</> : <>🔬  Analyzing...</>}
+            {step < 2 ? (
+              <>🔍  Detecting...</>
+            ) : step === 4 ? (
+              <>✅  Success</>
+            ) : (
+              <>🔬  Analyzing...</>
+            )}
           </button>
-          {step < 2 ? (
-            <GridLoader size={8} color="cyan" />
-          ) : (
-            <PuffLoader size={32} color="cyan" />
+          {step < 4 && (
+            <>
+              {step < 2 ? (
+                <GridLoader size={8} color="cyan" />
+              ) : (
+                <PuffLoader size={32} color="cyan" />
+              )}
+            </>
           )}
         </div>
 
@@ -294,8 +304,12 @@ const Overlay = ({ step, nextStep, countdown }: OverlayProps) => {
             Look straight
             <br /> into the camera
           </div>
-        ) : (
+        ) : step === 4 ? (
           <div className="text-white text-4xl font-bold drop-shadow-md">
+            Looking good.
+          </div>
+        ) : (
+          <div className="text-white text-5xl font-bold drop-shadow-md">
             {"📸"}
           </div>
         )}
