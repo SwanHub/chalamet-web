@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Button_GenericWithIcon } from "@/components/shared/Button_GenericWithIcon";
 import { CameraIcon } from "lucide-react";
 import {
   createSubmission,
@@ -11,26 +10,34 @@ import {
 } from "../_api/submit";
 import { base64ToBlob } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
-import { ChalametScoreCard } from "./ChalametCard";
 import { CHALAMET_BANNER } from "../constants";
-import {
-  GridLoader,
-  PuffLoader,
-  RingLoader,
-  ScaleLoader,
-  SkewLoader,
-} from "react-spinners";
+import { GridLoader, PuffLoader } from "react-spinners";
 
-export const SubmitProcess2 = () => {
+interface Props {
+  screenshot: string | null;
+  similarityScore: number | null;
+  newSubId: string | null;
+  setScreenshot: (val: string | null) => void;
+  setSimilarityScore: (val: number | null) => void;
+  setNewSubId: (val: string | null) => void;
+  setModalOpen: (val: boolean) => void;
+}
+
+export const SubmitProcess2 = ({
+  screenshot,
+  similarityScore,
+  newSubId,
+  setScreenshot,
+  setSimilarityScore,
+  setNewSubId,
+  setModalOpen,
+}: Props) => {
   // STATE.
   const [step, setStep] = useState(0);
-  const [screenshot, setScreenshot] = useState<string | null>(null);
-  const [similarityScore, setSimilarityScore] = useState<number | null>(null);
   const [gettingScore, setGettingScore] = useState<boolean>(false);
   const [creatingSubmission, setCreatingSubmission] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [cameraActive, setCameraActive] = useState(false);
-  const [newSubId, setNewSubId] = useState<string | null>(null);
   const [btnSubText, setBtnSubText] = useState("");
   const [countdown, setCountdown] = useState<number | null>(null);
   const [showResults, setShowResults] = useState(false);
@@ -154,10 +161,11 @@ export const SubmitProcess2 = () => {
   }, [newSubId, step]);
 
   const showResultsView = () => {
-    setFadeOut(true);
+    // setFadeOut(true);
+    // setFadeOut(false);
     setTimeout(() => {
-      setShowResults(true);
-      setFadeOut(false);
+      setModalOpen(true);
+      // setShowResults(true);
     }, 1000);
   };
 
@@ -188,55 +196,43 @@ export const SubmitProcess2 = () => {
       justify-start items-start cursor-pointer"
     >
       <div className="flex flex-col items-center w-full gap-4">
-        {!showResults ? (
-          <div
-            className={`transition-opacity duration-300 ${
-              fadeOut ? "opacity-0" : "opacity-100"
-            } w-full`}
-          >
-            <div className="w-full relative overflow-hidden aspect-square">
-              <video
-                ref={videoRef}
-                autoPlay
-                playsInline
-                className="w-full h-full object-cover rounded-2xl border-2 border-cyan-500"
-                style={{
-                  display: step === 1 && cameraActive ? "block" : "none",
-                }}
-              />
-              {/* default to test */}
-              {/* {step === 0 && (
+        <div
+          className={`transition-opacity duration-300 ${
+            fadeOut ? "opacity-0" : "opacity-100"
+          } w-full`}
+        >
+          <div className="w-full relative overflow-hidden aspect-square">
+            <video
+              ref={videoRef}
+              autoPlay
+              playsInline
+              className="w-full h-full object-cover rounded-2xl border-2 border-cyan-500"
+              style={{
+                display: step === 1 && cameraActive ? "block" : "none",
+              }}
+            />
+            {/* default to test */}
+            {/* {step === 0 && (
                 <img
                   src={CHALAMET_BANNER}
                   alt="Screenshot"
                   className="w-full h-full object-cover rounded-2xl border-2 border-cyan-500"
                 />
               )} */}
-              {step > 1 && screenshot && (
-                <img
-                  src={screenshot}
-                  alt="Screenshot"
-                  className="w-full h-full object-cover rounded-2xl border-2 border-cyan-500"
-                />
-              )}
-              <p className="bg-black text-white">
-                {gettingScore ? "Getting score" : ""}
-              </p>
-              <Overlay step={step} nextStep={nextStep} countdown={countdown} />
-              <canvas ref={canvasRef} className="hidden" />
-            </div>
-          </div>
-        ) : (
-          <>
-            {screenshot && similarityScore && newSubId && (
-              <ChalametScoreCard
-                imageSrc={screenshot}
-                similarityScore={similarityScore}
-                submissionId={newSubId}
+            {step > 1 && screenshot && (
+              <img
+                src={screenshot}
+                alt="Screenshot"
+                className="w-full h-full object-cover rounded-2xl border-2 border-cyan-500"
               />
             )}
-          </>
-        )}
+            <p className="bg-black text-white">
+              {gettingScore ? "Getting score" : ""}
+            </p>
+            <Overlay step={step} nextStep={nextStep} countdown={countdown} />
+            <canvas ref={canvasRef} className="hidden" />
+          </div>
+        </div>
       </div>
     </div>
   );

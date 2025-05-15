@@ -12,7 +12,7 @@ export const ChalametScoreCard = ({
   submissionId,
 }: Props) => {
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center animate-fade-in">
       <div className="text-white max-w-md w-full rounded-2xl overflow-hidden">
         <div className="bg-gradient-to-r from-cyan-500 to-blue-500 text-center py-4 px-2 rounded-t-2xl">
           <p className="text-xs uppercase">Your Official Chalamet-ness</p>
