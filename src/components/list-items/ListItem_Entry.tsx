@@ -1,80 +1,64 @@
 import { formatPercent, formatRelativeTimestamp } from "@/lib/utils";
 
-export const FirstPlace = ({ item, index }: { item: any; index: number }) => {
-  return (
-    <div
-      className={`border-cyan-400 flex-col rounded-lg
-        flex w-full bg-cover bg-center items-stretch text-white group
-        bg-gradient-to-r from-gray-900/60 to-transparent border-2 
-        cursor-pointer transition-all hover:scale-102 duration-300`}
-      style={{
-        backgroundImage: `url(${item.submissions.image_url})`,
-      }}
-    >
-      <div
-        className="flex flex-col w-full justify-between rounded-lg
-          bg-gradient-to-r from-gray-900/90 group-hover:from-gray-800/90 to-transparent"
-      >
-        <div className="flex justify-between items-center w-full">
-          <Ranking index={index} />
-          <SimilarityScore score={item.similarity_score} />
-        </div>
-        <ActiveDetails createdAt={item.created_at} />
-      </div>
-    </div>
-  );
+interface FirstPlaceProps {
+  imageUrl: string;
+  similarityScore: number;
+  createdAt: number;
+  rank: number | null;
+}
+
+const getGradientForScore = () => {
+  const variants = [
+    "from-yellow-400 to-pink-500",
+    "from-blue-500 to-indigo-600",
+    "from-green-400 to-emerald-600",
+    "from-rose-400 to-fuchsia-600",
+  ];
+  return variants[Math.floor(Math.random() * variants.length)];
 };
 
-const ActiveDetails = ({
+const FirstPlace = ({
+  imageUrl,
+  similarityScore,
   createdAt,
-}: {
-  createdAt: string | number | Date;
-}) => {
+  rank,
+}: FirstPlaceProps) => {
+  const gradient = getGradientForScore();
+
   return (
-    <div className={`w-full overflow-hidden`}>
-      <div className="p-8">
-        <SubmissionDetails createdAt={createdAt} />
-        <div className="flex mt-6 gap-2">
-          <button className="bg-transparent hover:bg-white/10 cursor-pointer border border-white text-white font-medium py-2 px-6 rounded">
-            SHARE
-          </button>
+    <div className="cursor-pointer group relative">
+      <div className="relative w-full aspect-[16/10] overflow-hidden rounded-2xl shadow-xl border-2 border-cyan-500">
+        <img
+          src={imageUrl}
+          alt="First Place Submission"
+          className="absolute top-0 left-0 w-full h-full object-cover bg-gray-900 opacity-90 group-hover:opacity-100 transition-opacity duration-300"
+        />
+
+        {/* Top: Big “1st Place” tag */}
+        {rank === 1 && (
+          <div
+            className="absolute top-4 left-4 font-serif
+            text-2xl font-extrabold bg-gradient-to-r from-yellow-300 to-yellow-500 text-black 
+            px-6 py-2 rounded-full shadow-lg backdrop-blur-sm"
+          >
+            🏆 1st Place
+          </div>
+        )}
+
+        {/* Bottom tags: Chalamet-ness + timestamp */}
+        <div className="absolute bottom-3 left-3 right-3 flex justify-between items-end">
+          <div
+            className={`bg-gradient-to-br ${gradient} text-white text-xs md:text-sm font-bold px-4 py-1 rounded-full shadow-md`}
+          >
+            {formatPercent(similarityScore)} Chalamet-ness
+          </div>
+          <div className="bg-gray-800/50 text-gray-200 text-[11px] font-medium px-3 py-1 rounded-full shadow-sm backdrop-blur-sm group-hover:bg-gray-800/70 transition-colors duration-200">
+            {formatRelativeTimestamp(createdAt)}
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-const Ranking = ({ index }: { index: number }) => {
-  return (
-    <div className="p-8 flex items-center justify-center text-white/80">
-      <span
-        className={`bg-cyan-600 font-serif h-14 w-14 flex items-center justify-center text-2xl font-bold`}
-      >
-        {index + 1}
-      </span>
-    </div>
-  );
-};
-
-const SubmissionDetails = ({
-  createdAt,
-}: {
-  createdAt: string | number | Date;
-}) => {
-  return (
-    <div className="flex flex-col justify-center flex-grow">
-      <div className="text-xl font-semibold">Submission</div>
-      <div className="text-sm opacity-80">
-        {formatRelativeTimestamp(createdAt)}
-      </div>
-    </div>
-  );
-};
-
-const SimilarityScore = ({ score }: { score: string }) => {
-  return (
-    <div className="flex font-serif items-center justify-center px-6 text-5xl font-bold bg-transparent">
-      {formatPercent(score)}
-    </div>
-  );
-};
+export default FirstPlace;
