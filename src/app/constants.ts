@@ -18,3 +18,17 @@ export const ID_CHALAMET_BASE_COMPARISON_TEXT_EMB =
   "d2d2f976-f967-4f95-8fa7-db2eedff13d3";
 
 export const LEADERBOARD_PAGE_SIZE = 10;
+
+// used.
+// - https://m.media-amazon.com/images/M/MV5BYjUxNDRmOGEtMDc3OC00MjNiLWE3ZjMtN2FiOGNjYzNmYzUyXkEyXkFqcGc@._V1_QL75_UX804_.jpg
+// - https://m.media-amazon.com/images/M/MV5BZjJhYzVjNzctMjkwOC00N2Q5LWEwMDktNGE2OTRlMDQ5OGEzXkEyXkFqcGc@._V1_QL75_UX1640_.jpg
+// - https://m.media-amazon.com/images/M/MV5BNmQ2MjhhOGQtMjEwYi00Y2NiLWEyMWUtODJkZWM3MjliMTUyXkEyXkFqcGc@._V1_QL75_UX1616_.jpg
+// - https://m.media-amazon.com/images/M/MV5BNGY0ZWMzMTktYzFhMy00NWJmLWIwYTYtYWIyOGY2OWNlZDdjXkEyXkFqcGc@._V1_QL75_UX1616_.jpg
+// - https://m.media-amazon.com/images/M/MV5BODU5MmFiODgtMGVmYy00OWIyLTgyOGMtNjQwYzliNWRiNDFjXkEyXkFqcGc@._V1_QL75_UX412_.jpg
+// - https://m.media-amazon.com/images/M/MV5BMmFiMjdmNzctMWZmNi00YmIwLThkYTQtZjU2NzcwZmJhYTgxXkEyXkFqcGc@._V1_QL75_UX654_.jpg
+
+// not used.
+// https://m.media-amazon.com/images/M/MV5BMzc5NTE3YTYtZjhlMy00NTljLWJkZDQtNGJhZThlZGYyYmFmXkEyXkFqcGc@._V1_QL75_UX1616_.jpg
+// https://m.media-amazon.com/images/M/MV5BZWZhZmIzZjQtZjg4MS00Y2Y4LWI5ODUtYmE4M2Q2OGRjMDA5XkEyXkFqcGc@._V1_QL75_UX1640_.jpg
+// https://m.media-amazon.com/images/M/MV5BOGQ3NTNmOWMtM2NkYy00NzJhLWI4YTgtNWU1MGMyZWExNjMzXkEyXkFqcGc@._V1_QL75_UX1640_.jpg
+// https://m.media-amazon.com/images/M/MV5BMWE1MjU2MTQtOWYyMy00Yzg3LWI4ZGEtODdmNTJlMTViNmIyXkEyXkFqcGc@._V1_QL75_UX290_.jpg

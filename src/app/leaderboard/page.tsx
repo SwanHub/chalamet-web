@@ -65,6 +65,7 @@ export default function Leaderboard() {
             placeholder="img url"
           />
         </div>
+        <img src={inputImageUrl} className="aspect-video w-128 object-cover" />
         <Button_Generic
           label="Save image to our bucket"
           onClick={createNewImage}
