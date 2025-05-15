@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { Button_GenericWithIcon } from "@/components/shared/Button_GenericWithIcon";
 import { CameraIcon } from "lucide-react";
 import {
   createSubmission,
@@ -11,6 +12,14 @@ import {
 import { base64ToBlob } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
 import { ChalametScoreCard } from "./ChalametCard";
+import { CHALAMET_BANNER } from "../constants";
+import {
+  GridLoader,
+  PuffLoader,
+  RingLoader,
+  ScaleLoader,
+  SkewLoader,
+} from "react-spinners";
 
 export const SubmitProcess2 = () => {
   // STATE.
@@ -30,10 +39,6 @@ export const SubmitProcess2 = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   // SEQUENTIAL FUNCTIONS.
-  // automatic kickoff.
-  // useEffect(() => {
-  //   nextStep();
-  // }, []);
   const startCamera = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -194,16 +199,24 @@ export const SubmitProcess2 = () => {
                 ref={videoRef}
                 autoPlay
                 playsInline
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover rounded-2xl border-2 border-cyan-500"
                 style={{
                   display: step === 1 && cameraActive ? "block" : "none",
                 }}
               />
+              {/* default to test */}
+              {/* {step === 0 && (
+                <img
+                  src={CHALAMET_BANNER}
+                  alt="Screenshot"
+                  className="w-full h-full object-cover rounded-2xl border-2 border-cyan-500"
+                />
+              )} */}
               {step > 1 && screenshot && (
                 <img
                   src={screenshot}
                   alt="Screenshot"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover rounded-2xl border-2 border-cyan-500"
                 />
               )}
               <p className="bg-black text-white">
@@ -240,8 +253,8 @@ const Overlay = ({ step, nextStep, countdown }: OverlayProps) => {
     return (
       <div
         className="absolute inset-0 transition-all border-2 border-cyan-500
-bg-gradient-to-br from-cyan-500 via-cyan-700 to-cyan-900 flex flex-col items-center
-justify-between px-4 py-8 text-center rounded-2xl group"
+  bg-gradient-to-br from-cyan-500 via-cyan-700 to-cyan-900 flex flex-col items-center
+  justify-between px-4 py-8 text-center rounded-2xl group"
         onClick={nextStep}
       >
         <div className="flex flex-col items-center justify-center gap-6 h-full">
@@ -251,7 +264,7 @@ justify-between px-4 py-8 text-center rounded-2xl group"
 
           <button
             className="bg-white cursor-pointer text-pink-600 text-2xl font-bold py-5 px-10 rounded-full shadow-xl
-            group-hover:scale-110 transition-transform duration-300 ease-in-out flex items-center gap-3"
+              group-hover:scale-110 transition-transform duration-300 ease-in-out flex items-center gap-3"
           >
             <CameraIcon className="w-6 h-6" />
             Take a pic
@@ -263,11 +276,28 @@ justify-between px-4 py-8 text-center rounded-2xl group"
         </div>
       </div>
     );
-  }
+  } else {
+    return (
+      <div className="absolute inset-0 flex flex-col justify-between p-4 pointer-events-none">
+        <div className="flex justify-between w-full items-center pointer-events-auto">
+          <button
+            onClick={() => alert("Blur background feature coming soon!")}
+            className="backdrop-blur bg-white/10 text-white border border-white/10 rounded-full px-4 py-2 text-sm font-medium shadow-md"
+          >
+            {step < 2 ? <>🔍  Detecting...</> : <>🔬  Analyzing...</>}
+          </button>
+          {step < 2 ? (
+            <GridLoader size={8} color="cyan" />
+          ) : (
+            <PuffLoader size={32} color="cyan" />
+          )}
+        </div>
 
-  return (
-    <div className="absolute top-2 left-2">
-      {step === 1 && countdown !== null && <p>{countdown}</p>}
-    </div>
-  );
+        <div className="text-white text-4xl font-bold drop-shadow-md">
+          Look straight
+          <br /> into the camera
+        </div>
+      </div>
+    );
+  }
 };
