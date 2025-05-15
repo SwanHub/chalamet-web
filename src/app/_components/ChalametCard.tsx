@@ -56,13 +56,7 @@ export const ChalametScoreCard = ({
         </div>
 
         <div className="flex flex-col gap-2 mt-4">
-          <Button_2
-            className="bg-cyan-500 text-white"
-            label="Find my doppelganger"
-          />
-          <Button_2 className="bg-cyan-500 text-white" label="Leaderboard" />
-          <Button_2 className="bg-cyan-500 text-white" label="Gallery" />
-          <Button_2 className="bg-cyan-500 text-white" label="How it works" />
+          <Button_2 className="bg-cyan-500 text-white" label="Done" />
         </div>
       </div>
     </div>
