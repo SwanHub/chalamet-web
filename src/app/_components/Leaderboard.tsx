@@ -6,6 +6,7 @@ import { LEADERBOARD_PAGE_SIZE } from "../constants";
 import { PostgrestError } from "@supabase/supabase-js";
 import useSWRInfinite from "swr/infinite";
 import { ListItem_LeaderboardEntry } from "../../components/list-items/ListItem_Entry";
+import GalleryItem_Image from "@/components/list-items/GalleryItem_Entry";
 
 const fetcher = async (
   pageIndex: number,
@@ -58,15 +59,43 @@ export const Leaderboard = () => {
   if (!data) return <p>Loading...</p>;
 
   return (
-    <div className="flex flex-col w-full">
-      {submissions.map((item, index) => (
+    <div className="flex flex-col w-full gap-4">
+      {submissions[0] && (
         <ListItem_LeaderboardEntry
-          key={item.id}
-          item={item}
-          index={index}
-          isActive={index === 0}
+          key={submissions[0].id}
+          item={submissions[0]}
+          index={0}
+          isActive={true}
         />
-      ))}
+      )}
+
+      {submissions.length > 2 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {submissions.slice(1, 3).map((item, index) => (
+            <GalleryItem_Image
+              key={item.id}
+              imageUrl={item.submissions.image_url}
+              similarityScore={item.similarity_score}
+              createdAt={item.created_at}
+              rank={index + 2}
+            />
+          ))}
+        </div>
+      )}
+
+      {submissions.length > 3 && (
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          {submissions.slice(3).map((item, index) => (
+            <GalleryItem_Image
+              key={item.id}
+              imageUrl={item.submissions.image_url}
+              similarityScore={item.similarity_score}
+              createdAt={item.created_at}
+              rank={index + 4}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

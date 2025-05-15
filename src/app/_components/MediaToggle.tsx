@@ -20,8 +20,7 @@ export default function MediaToggle() {
     }`;
 
   return (
-    <div className="">
-      {/* Toggle Buttons */}
+    <div className="w-full flex flex-col items-center">
       <div className="flex justify-center gap-4 mb-6">
         <button
           onClick={() => setFilter("leaderboard")}
@@ -46,9 +45,11 @@ export default function MediaToggle() {
       </div>
 
       {/* Active View */}
-      {filter === "leaderboard" && <Leaderboard />}
-      {filter === "gallery" && <SubmissionGallery />}
-      {filter === "how" && <HowItWorks />}
+      <div className="max-w-screen-md w-full">
+        {filter === "leaderboard" && <Leaderboard />}
+        {filter === "gallery" && <SubmissionGallery />}
+        {filter === "how" && <HowItWorks />}
+      </div>
     </div>
   );
 }

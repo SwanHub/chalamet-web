@@ -5,12 +5,13 @@ import { useState } from "react";
 import { Modal_Submit } from "./Modal_Submit";
 import { Button_GenericWithIcon } from "@/components/shared/Button_GenericWithIcon";
 import { CameraIcon } from "lucide-react";
+import Header_Title from "./Header_Title";
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="py-16 flex justify-between h-full">
-      <Title />
+      <Header_Title />
       <Button_Submit setIsOpen={setIsOpen} />
       <Modal_Submit isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </div>

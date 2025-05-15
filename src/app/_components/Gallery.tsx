@@ -65,6 +65,7 @@ export const SubmissionGallery = () => {
           imageUrl={item.submissions.image_url}
           similarityScore={item.similarity_score}
           createdAt={item.created_at}
+          rank={null}
         />
       ))}
     </div>
