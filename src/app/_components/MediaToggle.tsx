@@ -7,7 +7,11 @@ import { HowItWorks } from "./HowItWorks";
 
 type View = "leaderboard" | "gallery" | "how";
 
-export default function MediaToggle() {
+interface Props {
+  onClickItem: (id: string) => void;
+}
+
+export default function MediaToggle({ onClickItem }: Props) {
   const [filter, setFilter] = useState<View>("leaderboard");
 
   const buttonStyle = (active: boolean) =>
@@ -46,7 +50,9 @@ export default function MediaToggle() {
 
       <div className="max-w-screen-md w-full">
         {filter === "leaderboard" && <Leaderboard />}
-        {filter === "gallery" && <SubmissionGallery />}
+        {filter === "gallery" && (
+          <SubmissionGallery onClickItem={onClickItem} />
+        )}
         {filter === "how" && <HowItWorks />}
       </div>
     </div>

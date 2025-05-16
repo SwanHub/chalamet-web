@@ -21,7 +21,7 @@ export const Header = () => {
         <Modal_Results
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
-          newSubId={newSubId}
+          activeSubmissionId={newSubId}
         />
       )}
     </div>

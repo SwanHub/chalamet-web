@@ -1,12 +1,24 @@
 import { Button_2 } from "@/components/shared/Button_2";
 import { SubmissionResults } from "../types";
 import { formatPercent } from "@/lib/utils";
+import { fetchSubmissionResults } from "../_api/api";
+import useSWR from "swr";
 
-interface Props {
-  data: SubmissionResults;
-}
+export const ChalametScoreResults = ({ id }: { id: string }) => {
+  const hydrate = () => fetchSubmissionResults(id);
+  const { data, error } = useSWR<SubmissionResults>(
+    `submission-results-${id}`,
+    hydrate,
+    {
+      revalidateOnFocus: true,
+      revalidateOnReconnect: true,
+      revalidateIfStale: true,
+    }
+  );
 
-export const ChalametScoreResults = ({ data }: Props) => {
+  if (error) return <p className="text-white">Error</p>;
+  if (!data) return <p className="text-white">No data error</p>;
+
   // Get the top score for the main display
   const topScore = data.scores.length > 0 ? data.scores[0].similarity_score : 0;
 

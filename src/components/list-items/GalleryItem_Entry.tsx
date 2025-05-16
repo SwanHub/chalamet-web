@@ -1,10 +1,12 @@
 import { formatPercent, formatRelativeTimestamp } from "@/lib/utils";
 
 interface ImageCardProps {
+  id: string;
   imageUrl: string;
   similarityScore: number;
   createdAt: number;
   rank: number | null;
+  onClick: (id: string) => void;
 }
 
 const gradientVariants = [
@@ -31,16 +33,21 @@ const getRankStyle = (rank: number | null) => {
 };
 
 const GalleryItem_Image = ({
+  id,
   imageUrl,
   similarityScore,
   createdAt,
   rank,
+  onClick,
 }: ImageCardProps) => {
   const gradient = getGradientForScore();
   const rankStyle = getRankStyle(rank);
+  function clickItem() {
+    onClick(id);
+  }
 
   return (
-    <div className="cursor-pointer group relative">
+    <div className="cursor-pointer group relative" onClick={clickItem}>
       <div className="relative w-full aspect-square overflow-hidden rounded-xl shadow-lg">
         <img
           src={imageUrl}

@@ -1,36 +1,23 @@
-import useSWR from "swr";
-import { fetchSubmissionResults } from "../_api/api";
-import { SubmissionResults } from "../types";
 import { ChalametScoreResults } from "./ChalametCard";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  newSubId: string;
+  activeSubmissionId: string | null;
 }
 
-export const Modal_Results = ({ isOpen, onClose, newSubId }: Props) => {
-  if (!isOpen) return null;
-
-  const hydrate = () => fetchSubmissionResults(newSubId);
-  const { data, error } = useSWR<SubmissionResults>(
-    `submission-results-${newSubId}`,
-    hydrate,
-    {
-      revalidateOnFocus: true,
-      revalidateOnReconnect: true,
-      revalidateIfStale: true,
-    }
-  );
-
-  if (error) return <p>Error</p>;
-  if (!data) return <p>No data error</p>;
+export const Modal_Results = ({
+  isOpen,
+  onClose,
+  activeSubmissionId,
+}: Props) => {
+  if (!isOpen || !activeSubmissionId) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-70 transition-opacity overflow-y-auto p-4">
       <div className="max-h-screen overflow-y-auto">
         <Button_Close onClose={onClose} />
-        {data && <ChalametScoreResults data={data} />}
+        <ChalametScoreResults id={activeSubmissionId} />
       </div>
     </div>
   );

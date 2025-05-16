@@ -7,6 +7,10 @@ import { PostgrestError } from "@supabase/supabase-js";
 import useSWRInfinite from "swr/infinite";
 import GalleryItem_Image from "@/components/list-items/GalleryItem_Entry";
 
+interface Props {
+  onClickItem: (id: string) => void;
+}
+
 const fetcher = async (
   pageIndex: number,
   pageSize: number = LEADERBOARD_PAGE_SIZE
@@ -41,7 +45,7 @@ const getKey = (
   return `gallery-${pageIndex}`;
 };
 
-export const SubmissionGallery = () => {
+export const SubmissionGallery = ({ onClickItem }: Props) => {
   const { data, error, size, setSize } = useSWRInfinite<Submission[]>(
     getKey,
     fetcher
@@ -62,6 +66,8 @@ export const SubmissionGallery = () => {
       {submissions.map((item, index) => (
         <GalleryItem_Image
           key={item.id}
+          onClick={onClickItem}
+          id={item.id}
           imageUrl={item.submissions.image_url}
           similarityScore={item.similarity_score}
           createdAt={item.created_at}
