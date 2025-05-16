@@ -1,5 +1,5 @@
 import { Button_2 } from "@/components/shared/Button_2";
-import { SubmissionResults, SubmissionScore, SubmitScore } from "../types";
+import { SubmissionResults, SubmissionScore } from "../types";
 import { formatPercent } from "@/lib/utils";
 import { fetchSubmissionResults } from "../_api/api";
 import useSWR from "swr";
@@ -17,7 +17,7 @@ export const ChalametScoreResults = ({ id }: { id: string }) => {
     }
   );
 
-  if (isLoading) return <GridLoader color="cyan" size={12} />;
+  if (isLoading) return <Skeleton />;
   if (error) return <p className="text-white">Error</p>;
   if (!data) return <p className="text-white">No data error</p>;
 
@@ -54,7 +54,7 @@ export const ChalametScoreResults = ({ id }: { id: string }) => {
           </div>
         </div>
 
-        <div className="bg-[#0F172A] p-4 rounded-b-2xl space-y-3">
+        <div className="gap-2">
           <div className="flex justify-between gap-3">
             <Button_2 className="bg-cyan-500 text-white flex-1" label="Share" />
             <Button_2
@@ -94,7 +94,7 @@ const ImageComponent = ({
 
 const ComparisonItem = ({ score }: { score: SubmissionScore }) => {
   return (
-    <div className="flex bg-gray-800 overflow-hidden h-24">
+    <div className="flex bg-gray-800 overflow-hidden h-24 rounded-xl">
       <div className="w-24 h-24 flex-shrink-0">
         <img
           src={score.base_comparisons.image_url}
@@ -115,6 +115,14 @@ const ComparisonItem = ({ score }: { score: SubmissionScore }) => {
           </span>
         </div>
       </div>
+    </div>
+  );
+};
+
+const Skeleton = () => {
+  return (
+    <div className="flex items-center justify-center w-full">
+      <GridLoader color="cyan" size={12} />
     </div>
   );
 };
