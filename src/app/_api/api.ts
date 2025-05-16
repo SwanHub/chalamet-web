@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { ClipResponse } from "../types";
+import { ClipResponse, SubmissionResults } from "../types";
 import { PostgrestError } from "@supabase/supabase-js";
 
 export const fetchCLIPConfidence = async (

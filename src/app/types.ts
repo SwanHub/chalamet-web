@@ -69,3 +69,22 @@ export type SubmitScore = {
   submission_id: string;
   base_comparison_id: string;
 };
+
+export type Comparison = {
+  id: string;
+  image_url: string;
+};
+
+export type SubmissionScore = {
+  id: number;
+  created_at: string;
+  similarity_score: number;
+  submission_id: string;
+  base_comparison_id: number;
+  base_comparisons: Comparison;
+};
+
+export type SubmissionResults = {
+  submission: Comparison;
+  scores: SubmissionScore[];
+};

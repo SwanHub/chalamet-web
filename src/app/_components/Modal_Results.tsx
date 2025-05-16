@@ -1,6 +1,7 @@
 import useSWR from "swr";
-import { ChalametScoreCard } from "./ChalametCard";
 import { fetchSubmissionResults } from "../_api/api";
+import { SubmissionResults } from "../types";
+import { ChalametScoreResults } from "./ChalametCard";
 
 interface Props {
   isOpen: boolean;
@@ -12,22 +13,25 @@ export const Modal_Results = ({ isOpen, onClose, newSubId }: Props) => {
   if (!isOpen) return null;
 
   const hydrate = () => fetchSubmissionResults(newSubId);
-  const { data, error } = useSWR(`submission-results-${newSubId}`, hydrate, {
-    revalidateOnFocus: true,
-    revalidateOnReconnect: true,
-    revalidateIfStale: true,
-  });
+  const { data, error } = useSWR<SubmissionResults>(
+    `submission-results-${newSubId}`,
+    hydrate,
+    {
+      revalidateOnFocus: true,
+      revalidateOnReconnect: true,
+      revalidateIfStale: true,
+    }
+  );
+
+  if (error) return <p>Error</p>;
+  if (!data) return <p>No data error</p>;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-70 transition-opacity">
-      <Button_Close onClose={onClose} />
-      {/* {screenshot && similarityScore && newSubId && (
-        <ChalametScoreCard
-          imageSrc={screenshot}
-          similarityScore={similarityScore}
-          submissionId={newSubId}
-        />
-      )} */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-70 transition-opacity overflow-y-auto p-4">
+      <div className="max-h-screen overflow-y-auto">
+        <Button_Close onClose={onClose} />
+        {data && <ChalametScoreResults data={data} />}
+      </div>
     </div>
   );
 };
