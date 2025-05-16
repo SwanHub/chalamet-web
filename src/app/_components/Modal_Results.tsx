@@ -34,7 +34,7 @@ export const Modal_Results = ({
     >
       <div className="max-h-screen h-full overflow-y-auto w-full pt-12 p-4">
         <Button_Close onClose={onClose} />
-        <ChalametScoreResults id={activeSubmissionId} onClose={onClose} />
+        <ChalametScoreResults id={activeSubmissionId} />
       </div>
     </div>
   );

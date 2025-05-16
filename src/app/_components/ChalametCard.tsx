@@ -6,11 +6,10 @@ import useSWR from "swr";
 import { GridLoader } from "react-spinners";
 
 interface Props {
-  onClose: () => void;
   id: string;
 }
 
-export const ChalametScoreResults = ({ id, onClose }: Props) => {
+export const ChalametScoreResults = ({ id }: Props) => {
   const hydrate = () => fetchSubmissionResults(id);
   const { data, error, isLoading } = useSWR<SubmissionResults>(
     `submission-results-${id}`,
