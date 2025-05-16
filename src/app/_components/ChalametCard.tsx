@@ -5,7 +5,12 @@ import { fetchSubmissionResults } from "../_api/api";
 import useSWR from "swr";
 import { GridLoader } from "react-spinners";
 
-export const ChalametScoreResults = ({ id }: { id: string }) => {
+interface Props {
+  onClose: () => void;
+  id: string;
+}
+
+export const ChalametScoreResults = ({ id, onClose }: Props) => {
   const hydrate = () => fetchSubmissionResults(id);
   const { data, error, isLoading } = useSWR<SubmissionResults>(
     `submission-results-${id}`,
@@ -33,8 +38,8 @@ export const ChalametScoreResults = ({ id }: { id: string }) => {
             imageUrl={data.scores[0].base_comparisons.image_url}
           />
           <div className="absolute z-20 bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <div className="bg-white text-center px-6 py-3 rounded-full shadow-lg border-2 border-gray-100">
-              <span className="text-4xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
+            <div className="bg-white text-center px-3 sm:px-6 py-1 sm:py-3 rounded-full shadow-lg border-2 border-gray-100">
+              <span className="text-2xl sm:text-4xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
                 {formatPercent(topScore)}
               </span>
               <span className="text-lg text-cyan-700 font-medium ml-1">
@@ -59,7 +64,7 @@ export const ChalametScoreResults = ({ id }: { id: string }) => {
             <Button_2 className="bg-cyan-500 text-white flex-1" label="Share" />
             <Button_2
               className="bg-cyan-500 text-white flex-1"
-              label="Try Again"
+              label="Share 2"
             />
           </div>
         </div>

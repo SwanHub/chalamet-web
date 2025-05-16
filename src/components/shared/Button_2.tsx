@@ -24,7 +24,7 @@ export const Button_2: React.FC<ButtonProps> = ({
   }
 
   const baseClasses = `
-    rounded-lg font-medium text-center px-4 py-3 transition-all duration-200
+    rounded-lg font-medium text-center px-4 py-3 transition-all duration-200 cursor-pointer
     ${variantClasses}
     ${fullWidth ? "w-full" : ""}
     ${className}
