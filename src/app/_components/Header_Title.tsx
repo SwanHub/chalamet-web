@@ -24,15 +24,20 @@ const Header_Title = () => {
 
   return (
     <div className="text-white pb-6 w-full flex flex-col flex-grow">
-      <div className="relative text-6xl flex flex-col gap-4 pb-8">
+      <div className="relative flex flex-col gap-4 pb-8">
+        {submissionCount !== null && (
+          <span className="absolute top-0 md:right-36 hidden md:block text-sm text-cyan-300 bg-gray-800/50 border border-cyan-500 px-3 py-1 rounded-full w-fit shadow-md">
+            <span className="font-mono text-sm font-semibold">
+              {submissionCount.toLocaleString()}
+            </span>{" "}
+            submissions so far
+          </span>
+        )}
         <h1 className="font-thin text-gray-400 text-base uppercase">
           Compete in the Internet Official
-          {/* <br /> */}
         </h1>
-        <h1 className="font-bold">
-          Timothée Chalamet
-          <br />
-          Lookalike Contest
+        <h1 className="font-bold sm:text-6xl text-5xl">
+          Timothée Chalamet Lookalike Contest
         </h1>
       </div>
 
@@ -47,15 +52,7 @@ const Header_Title = () => {
         </Link>{" "}
         in NYC?
       </span>
-      <span className="text-lg">Here's your chance{" →"}</span>
-      {/* {submissionCount !== null && (
-        <span className="text-base text-cyan-300 bg-gray-800/50 border border-cyan-500 px-4 py-2 rounded-full w-fit shadow-md">
-          <span className="font-mono text-lg font-semibold">
-            {submissionCount.toLocaleString()}
-          </span>{" "}
-          submissions so far
-        </span>
-      )} */}
+      <span className="text-lg">Here's your chance to compete{" 👇"}</span>
     </div>
   );
 };
