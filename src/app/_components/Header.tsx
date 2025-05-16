@@ -19,8 +19,8 @@ export const Header = ({
       <Header_Title />
       <div className="justify-center items-center flex">
         <SubmitProcess2
-          newSubId={activeSubmissionId}
-          setNewSubId={setActiveSubmissionId}
+          activeSubmissionId={activeSubmissionId}
+          setActiveSubmissionId={setActiveSubmissionId}
           setModalOpen={setModalOpen}
         />
       </div>

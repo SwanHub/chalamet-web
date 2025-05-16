@@ -16,14 +16,14 @@ import similarity from "compute-cosine-similarity";
 import { SubmitScore } from "../types";
 
 interface Props {
-  newSubId: string | null;
-  setNewSubId: (val: string | null) => void;
+  activeSubmissionId: string | null;
+  setActiveSubmissionId: (val: string | null) => void;
   setModalOpen: (val: boolean) => void;
 }
 
 export const SubmitProcess2 = ({
-  newSubId,
-  setNewSubId,
+  activeSubmissionId,
+  setActiveSubmissionId,
   setModalOpen,
 }: Props) => {
   // STATE.
@@ -117,6 +117,7 @@ export const SubmitProcess2 = ({
 
         if (uploadedImageUrl) {
           const emb = await createVectorEmbOfImage(uploadedImageUrl);
+
           if (emb) {
             setEmbedding(emb);
             const newsubID = await createSubmissionWithEmbedding(
@@ -157,22 +158,21 @@ export const SubmitProcess2 = ({
             base_comparison_id: item.id,
           });
         });
-        const scoreCreationResult = await batchInsertSimilarityScores(scores);
-        console.log("score create result: ", scoreCreationResult);
+        await batchInsertSimilarityScores(scores);
       } catch (error) {
         console.log("error: ", error);
       } finally {
         setStep(4);
-        setNewSubId(localNewSubId);
+        setActiveSubmissionId(localNewSubId);
       }
     }
   }
 
   useEffect(() => {
-    if (newSubId && step === 4) {
+    if (activeSubmissionId && step === 4) {
       nextStep();
     }
-  }, [newSubId, step]);
+  }, [activeSubmissionId, step]);
 
   const showResultsView = () => {
     setTimeout(() => {
@@ -228,7 +228,14 @@ export const SubmitProcess2 = ({
             <p className="bg-black text-white">
               {error ? `Error: ${error}` : ""}
             </p>
-            <Overlay step={step} nextStep={nextStep} countdown={countdown} />
+            <Overlay
+              step={step}
+              nextStep={nextStep}
+              countdown={countdown}
+              localNewSubId={localNewSubId}
+              setModalOpen={setModalOpen}
+              setActiveSubmissionId={setActiveSubmissionId}
+            />
             <canvas ref={canvasRef} className="hidden" />
           </div>
         </div>
@@ -240,10 +247,28 @@ export const SubmitProcess2 = ({
 interface OverlayProps {
   step: number;
   countdown: number | null;
+  localNewSubId: string | null;
   nextStep: () => void;
+  setActiveSubmissionId: (val: string | null) => void;
+  setModalOpen: (val: boolean) => void;
 }
 
-const Overlay = ({ step, nextStep, countdown }: OverlayProps) => {
+const Overlay = ({
+  step,
+  nextStep,
+  localNewSubId,
+  countdown,
+  setActiveSubmissionId,
+  setModalOpen,
+}: OverlayProps) => {
+  function handleClickSeeResults() {
+    console.log("clicked");
+    if (step === 4 && localNewSubId) {
+      setActiveSubmissionId(localNewSubId);
+      setModalOpen(true);
+      console.log("show me the money");
+    }
+  }
   if (step === 0) {
     return (
       <div
@@ -273,13 +298,16 @@ const Overlay = ({ step, nextStep, countdown }: OverlayProps) => {
     );
   } else {
     return (
-      <div className="absolute inset-0 flex flex-col justify-between p-4 pointer-events-none">
+      <div className="absolute inset-0 flex flex-col justify-between p-4 pointer-events-none z-10">
         <div className="flex justify-between w-full items-center pointer-events-auto">
-          <button className="backdrop-blur bg-white/10 text-white border border-white/10 rounded-full px-4 py-2 text-sm font-medium shadow-md">
+          <button
+            onClick={handleClickSeeResults}
+            className="backdrop-blur cursor-pointer bg-white/10 text-white border border-white/10 rounded-full px-4 py-2 text-sm font-medium shadow-md"
+          >
             {step < 2 ? (
               <>🔍  Detecting...</>
             ) : step === 4 ? (
-              <>✅  Success</>
+              <>✅  See results</>
             ) : (
               <>🔬  Analyzing...</>
             )}
@@ -307,7 +335,10 @@ const Overlay = ({ step, nextStep, countdown }: OverlayProps) => {
             <br /> into the camera
           </div>
         ) : step === 4 ? (
-          <div className="text-white text-4xl font-bold drop-shadow-md">
+          <div
+            className="text-white text-4xl font-bold drop-shadow-md"
+            onClick={handleClickSeeResults}
+          >
             {""}
           </div>
         ) : (

@@ -62,8 +62,8 @@ export const HowItWorks = () => {
             cosine similarity
           </Link>{" "}
           to determine which Chalamet image most closely resembles your
-          submitted screenshot. You can see all image comparisons by clicking{" "}
-          {"'See results'"} on an image.
+          submitted screenshot. You can see all Chalamet image comparisons by
+          clicking {"'See results'"} on an image.
         </li>
       </ol>
 
