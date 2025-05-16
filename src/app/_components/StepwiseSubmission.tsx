@@ -30,7 +30,6 @@ export const SubmitProcess2 = ({
   const [localNewSubId, setLocalNewId] = useState<string | null>(null);
   const [step, setStep] = useState(0);
   const [screenshot, setScreenshot] = useState<string | null>(null);
-  const [gettingScores, setGettingScores] = useState<boolean>(false);
   const [embedding, setEmbedding] = useState<number[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [cameraActive, setCameraActive] = useState(false);
@@ -100,7 +99,6 @@ export const SubmitProcess2 = ({
   async function createNewSubmission() {
     if (screenshot) {
       try {
-        setGettingScores(true);
         const blob = await base64ToBlob(screenshot);
         const fileName = `${uuidv4()}.jpg`;
         const uploadedImageUrl = await uploadImageToSubmissions(blob, fileName);
@@ -121,8 +119,6 @@ export const SubmitProcess2 = ({
         }
       } catch (error) {
         console.log("error: ", error);
-      } finally {
-        setGettingScores(false);
       }
     }
   }
@@ -136,7 +132,6 @@ export const SubmitProcess2 = ({
   async function computeSimiarityScores() {
     if (embedding && localNewSubId) {
       try {
-        setGettingScores(true);
         const baseComparisons = await getAllBaseComparisons();
         const scores: SubmitScore[] = [];
         baseComparisons.forEach((item) => {
@@ -155,7 +150,6 @@ export const SubmitProcess2 = ({
       } catch (error) {
         console.log("error: ", error);
       } finally {
-        setGettingScores(false);
         setStep(4);
         setNewSubId(localNewSubId);
       }
