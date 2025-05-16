@@ -3,10 +3,11 @@ import { SubmissionResults } from "../types";
 import { formatPercent } from "@/lib/utils";
 import { fetchSubmissionResults } from "../_api/api";
 import useSWR from "swr";
+import { GridLoader } from "react-spinners";
 
 export const ChalametScoreResults = ({ id }: { id: string }) => {
   const hydrate = () => fetchSubmissionResults(id);
-  const { data, error } = useSWR<SubmissionResults>(
+  const { data, error, isLoading } = useSWR<SubmissionResults>(
     `submission-results-${id}`,
     hydrate,
     {
@@ -16,10 +17,10 @@ export const ChalametScoreResults = ({ id }: { id: string }) => {
     }
   );
 
+  if (isLoading) return <GridLoader color="cyan" size={12} />;
   if (error) return <p className="text-white">Error</p>;
   if (!data) return <p className="text-white">No data error</p>;
 
-  // Get the top score for the main display
   const topScore = data.scores.length > 0 ? data.scores[0].similarity_score : 0;
 
   return (

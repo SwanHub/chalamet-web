@@ -15,13 +15,15 @@ export const Header = ({
   setModalOpen,
 }: Props) => {
   return (
-    <div className="py-16 flex justify-between h-full">
+    <div className="py-16 flex flex-col h-full w-full max-w-screen-md">
       <Header_Title />
-      <SubmitProcess2
-        newSubId={activeSubmissionId}
-        setNewSubId={setActiveSubmissionId}
-        setModalOpen={setModalOpen}
-      />
+      <div className="justify-center items-center flex">
+        <SubmitProcess2
+          newSubId={activeSubmissionId}
+          setNewSubId={setActiveSubmissionId}
+          setModalOpen={setModalOpen}
+        />
+      </div>
     </div>
   );
 };

@@ -51,7 +51,7 @@ export default function MediaToggle({ onClickItem }: Props) {
         </button>
       </div>
 
-      <div className="max-w-screen-md w-full">
+      <div className="max-w-screen-sm w-full">
         {filter === "leaderboard" && <Leaderboard onClickItem={onClickItem} />}
         {filter === "gallery" && (
           <SubmissionGallery onClickItem={onClickItem} />

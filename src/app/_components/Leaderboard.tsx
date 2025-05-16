@@ -6,7 +6,6 @@ import { LEADERBOARD_PAGE_SIZE } from "../constants";
 import { PostgrestError } from "@supabase/supabase-js";
 import useSWRInfinite from "swr/infinite";
 import GalleryItem_Image from "@/components/list-items/GalleryItem_Entry";
-import FirstPlace from "@/components/list-items/ListItem_Entry";
 
 interface Props {
   onClickItem: (id: string) => void;
@@ -99,12 +98,14 @@ export const Leaderboard = ({ onClickItem }: Props) => {
   return (
     <div className="flex flex-col w-full gap-4">
       {submissions[0] && (
-        <FirstPlace
+        <GalleryItem_Image
           key={submissions[0].id}
+          id={submissions[0].id}
           imageUrl={submissions[0].image_url}
           similarityScore={submissions[0].highest_score}
           createdAt={submissions[0].created_at}
           rank={1}
+          onClick={onClickItem}
         />
       )}
 
