@@ -63,3 +63,9 @@ export type CaptureStatus =
   | "screenshot-taken"
   | "processing"
   | "complete";
+
+export type SubmitScore = {
+  similarity_score: number;
+  submission_id: string;
+  base_comparison_id: string;
+};

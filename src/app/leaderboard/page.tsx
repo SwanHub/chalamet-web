@@ -10,6 +10,7 @@ import {
 } from "../_api/baseComparison";
 import { v4 as uuidv4 } from "uuid";
 import { imageUrlToBlob } from "@/lib/utils";
+import { getAllBaseComparisons } from "../_api/submit";
 
 export default function Leaderboard() {
   // part 1
@@ -58,7 +59,7 @@ export default function Leaderboard() {
       <div className="flex flex-col">
         <Button_Generic
           label="Test edge function access"
-          onClick={testEdgeFunction}
+          onClick={getAllBaseComparisons}
         />
       </div>
 
