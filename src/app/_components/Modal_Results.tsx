@@ -14,8 +14,11 @@ export const Modal_Results = ({
   if (!isOpen || !activeSubmissionId) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-70 transition-opacity overflow-y-auto p-4">
-      <div className="max-h-screen overflow-y-auto">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900
+    bg-opacity-70 transition-opacity overflow-y-auto p-4"
+    >
+      <div className="max-h-screen overflow-y-auto max-w-screen-sm w-full">
         <Button_Close onClose={onClose} />
         <ChalametScoreResults id={activeSubmissionId} />
       </div>

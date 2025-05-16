@@ -71,6 +71,7 @@ export type SubmitScore = {
 export type Comparison = {
   id: string;
   image_url: string;
+  name: string;
 };
 
 export type SubmissionScore = {

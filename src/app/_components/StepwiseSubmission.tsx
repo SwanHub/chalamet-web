@@ -31,6 +31,7 @@ export const SubmitProcess2 = ({
   setModalOpen,
 }: Props) => {
   // STATE.
+  const [localNewSubId, setLocalNewId] = useState<string | null>(null);
   const [step, setStep] = useState(0);
   const [screenshot, setScreenshot] = useState<string | null>(null);
   const [gettingScores, setGettingScores] = useState<boolean>(false);
@@ -131,7 +132,7 @@ export const SubmitProcess2 = ({
               emb
             );
             if (newsubID) {
-              setNewSubId(newsubID);
+              setLocalNewId(newsubID);
               setStep(3);
               console.log("new submission id: ", newsubID);
             }
@@ -146,13 +147,13 @@ export const SubmitProcess2 = ({
   }
 
   useEffect(() => {
-    if (newSubId && (step === 3 || step === 4)) {
+    if (localNewSubId && step === 3) {
       nextStep();
     }
-  }, [newSubId, step]);
+  }, [localNewSubId, step]);
 
   async function computeSimiarityScores() {
-    if (embedding && newSubId) {
+    if (embedding && localNewSubId) {
       try {
         setGettingScores(true);
         const baseComparisons = await getAllBaseComparisons();
@@ -164,7 +165,7 @@ export const SubmitProcess2 = ({
           );
           scores.push({
             similarity_score: cosine_similarity ? cosine_similarity : 0,
-            submission_id: newSubId,
+            submission_id: localNewSubId,
             base_comparison_id: item.id,
           });
         });
@@ -175,49 +176,16 @@ export const SubmitProcess2 = ({
       } finally {
         setGettingScores(false);
         setStep(4);
+        setNewSubId(localNewSubId);
       }
     }
   }
 
-  // async function getScore() {
-  //   if (screenshot) {
-  //     try {
-  //       setGettingScores(true);
-  //       const score = await fetchSimilarityScore(screenshot);
-  //       setSimilarityScore(score);
-  //     } catch (error) {
-  //       console.log("error: ", error);
-  //     } finally {
-  //       setGettingScores(false);
-  //       setStep(3);
-  //     }
-  //   }
-  // }
-
-  // const submitToSupabase = async (): Promise<void> => {
-  //   if (!screenshot || similarityScore === null) {
-  //     setError("Missing screenshot or similarity score");
-  //     return;
-  //   }
-  //   setCreatingSubmission(true);
-  //   setError(null);
-
-  //   try {
-  //     const blob = await base64ToBlob(screenshot);
-  //     const fileName = `${uuidv4()}.jpg`;
-  //     const uploadedImageUrl = await uploadImageToSubmissions(blob, fileName);
-  //     const newSubmissionId = await createSubmission(uploadedImageUrl);
-
-  //     await createSubmissionScore(newSubmissionId, similarityScore);
-  //     setNewSubId(newSubmissionId);
-  //   } catch (err: any) {
-  //     console.error("Error submitting to Supabase:", err);
-  //     setError(err.message || "Failed to submit to database");
-  //   } finally {
-  //     setCreatingSubmission(false);
-  //     setStep(4);
-  //   }
-  // };
+  useEffect(() => {
+    if (newSubId && step === 4) {
+      nextStep();
+    }
+  }, [newSubId, step]);
 
   const showResultsView = () => {
     setTimeout(() => {
@@ -263,14 +231,6 @@ export const SubmitProcess2 = ({
                 display: step === 1 && cameraActive ? "block" : "none",
               }}
             />
-            {/* default to test */}
-            {/* {step === 0 && (
-                <img
-                  src={CHALAMET_BANNER}
-                  alt="Screenshot"
-                  className="w-full h-full object-cover rounded-2xl border-2 border-cyan-500"
-                />
-              )} */}
             {step > 1 && screenshot && (
               <img
                 src={screenshot}
