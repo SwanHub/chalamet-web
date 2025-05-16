@@ -31,7 +31,10 @@ export const ChalametScoreResults = ({ id }: Props) => {
     <div className="flex w-full items-center justify-center animate-fade-in overflow-auto py-12">
       <div className="flex flex-col text-white max-w-screen-md w-full rounded-2xl overflow-hidden gap-6">
         <div className="relative grid grid-cols-2 gap-4">
-          <ImageComponent title="You" imageUrl={data.submission.image_url} />
+          <ImageComponent
+            title="Contestant"
+            imageUrl={data.submission.image_url}
+          />
           <ImageComponent
             title="Chalamet"
             imageUrl={data.scores[0].base_comparisons.image_url}
