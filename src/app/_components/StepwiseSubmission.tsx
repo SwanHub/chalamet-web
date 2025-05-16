@@ -27,6 +27,7 @@ export const SubmitProcess2 = ({
   setModalOpen,
 }: Props) => {
   // STATE.
+  const [isResetting, setIsResetting] = useState<boolean>(false);
   const [localNewSubId, setLocalNewId] = useState<string | null>(null);
   const [step, setStep] = useState(0);
   const [screenshot, setScreenshot] = useState<string | null>(null);
@@ -36,6 +37,30 @@ export const SubmitProcess2 = ({
   const [countdown, setCountdown] = useState<number | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    if (isResetting) {
+      try {
+        // local.
+        setLocalNewId(null);
+        setStep(0);
+        setScreenshot(null);
+        setEmbedding(null);
+        setError(null);
+        setCameraActive(false);
+        setCountdown(null);
+        // props.
+        setActiveSubmissionId(null);
+        setModalOpen(false);
+        // clear vid.
+        stopCamera();
+      } catch (error) {
+        console.error("Error during reset:", error);
+      } finally {
+        setIsResetting(false);
+      }
+    }
+  }, [isResetting]);
 
   // SEQUENTIAL FUNCTIONS.
   const startCamera = async () => {
@@ -239,6 +264,14 @@ export const SubmitProcess2 = ({
             <canvas ref={canvasRef} className="hidden" />
           </div>
         </div>
+        {step === 4 && (
+          <button
+            onClick={() => setIsResetting(true)}
+            className="backdrop-blur cursor-pointer bg-white/10 text-white border border-white/10 rounded-full px-4 py-2 text-sm font-medium shadow-md"
+          >
+            {"🔄 Play again"}
+          </button>
+        )}
       </div>
     </div>
   );
@@ -333,10 +366,7 @@ const Overlay = ({
             <br /> into the camera
           </div>
         ) : step === 4 ? (
-          <div
-            className="text-white text-4xl font-bold drop-shadow-md"
-            onClick={handleClickSeeResults}
-          >
+          <div className="text-white text-4xl font-bold drop-shadow-md">
             {""}
           </div>
         ) : (
