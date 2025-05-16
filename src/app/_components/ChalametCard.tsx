@@ -1,4 +1,4 @@
-import { Button_2 } from "@/components/shared/Button_2";
+import { SocialShareButton } from "@/components/shared/SocialShareButton";
 import { SubmissionResults, SubmissionScore } from "../types";
 import { formatPercent } from "@/lib/utils";
 import { fetchSubmissionResults } from "../_api/api";
@@ -29,7 +29,7 @@ export const ChalametScoreResults = ({ id }: Props) => {
 
   return (
     <div className="flex w-full items-center justify-center animate-fade-in overflow-auto py-12">
-      <div className="text-white max-w-screen-md w-full rounded-2xl overflow-hidden">
+      <div className="flex flex-col text-white max-w-screen-md w-full rounded-2xl overflow-hidden gap-6">
         <div className="relative grid grid-cols-2 gap-4">
           <ImageComponent title="You" imageUrl={data.submission.image_url} />
           <ImageComponent
@@ -47,24 +47,20 @@ export const ChalametScoreResults = ({ id }: Props) => {
             </div>
           </div>
         </div>
+        <div className="gap-2">
+          <div className="flex justify-between gap-3">
+            <SocialShareButton platform="twitter" url="https://twitter.com" />
+            <SocialShareButton platform="linkedin" url="https://linkedin.com" />
+          </div>
+        </div>
 
-        <div className="py-6">
+        <div className="pb-6">
           <h2 className="font-bold mb-3 text-lg">Chalamet Comparisons</h2>
 
           <div className="space-y-4">
             {data.scores.map((score, index) => (
               <ComparisonItem key={index} score={score} />
             ))}
-          </div>
-        </div>
-
-        <div className="gap-2">
-          <div className="flex justify-between gap-3">
-            <Button_2 className="bg-cyan-500 text-white flex-1" label="Share" />
-            <Button_2
-              className="bg-cyan-500 text-white flex-1"
-              label="Share 2"
-            />
           </div>
         </div>
       </div>

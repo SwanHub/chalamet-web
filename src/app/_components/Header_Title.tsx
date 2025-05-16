@@ -33,6 +33,7 @@ const Header_Title = () => {
             submissions so far
           </span>
         )}
+        {/* add small chalamet images here */}
         <h1 className="font-thin text-gray-400 text-base uppercase">
           Compete in the Internet Official
         </h1>
