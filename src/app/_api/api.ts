@@ -1,4 +1,6 @@
+import { supabase } from "@/lib/supabase";
 import { ClipResponse } from "../types";
+import { PostgrestError } from "@supabase/supabase-js";
 
 export const fetchCLIPConfidence = async (
   imageUrl: string
@@ -122,6 +124,45 @@ export async function testEdgeFunction() {
     throw error;
   }
 }
+
+export const fetchSubmissionResults = async (
+  submissionId: string
+): Promise<any> => {
+  // First, get the submission details to get the image
+  const { data: submissionData, error: submissionError } = await supabase
+    .from("submissions")
+    .select("id, image_url")
+    .eq("id", submissionId)
+    .single();
+
+  if (submissionError) throw submissionError;
+
+  // Then get all scores with related base comparison images
+  const { data: scoresData, error: scoresError } = await supabase
+    .from("submission_scores")
+    .select(
+      `
+      id,
+      created_at,
+      similarity_score,
+      submission_id,
+      base_comparison_id,
+      base_comparisons(id, image_url)
+    `
+    )
+    .eq("submission_id", submissionId)
+    .order("similarity_score", { ascending: false });
+
+  if (scoresError) throw scoresError;
+
+  // Return both the submission data and scores data
+  const returnObj = {
+    submission: submissionData,
+    scores: scoresData,
+  };
+  console.log(returnObj);
+  return returnObj;
+};
 
 // ---- STARTING A NEW PROJECT
 // -- mkdir project_name

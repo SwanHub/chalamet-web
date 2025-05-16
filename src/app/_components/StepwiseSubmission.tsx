@@ -20,26 +20,19 @@ import similarity from "compute-cosine-similarity";
 import { SubmitScore } from "../types";
 
 interface Props {
-  screenshot: string | null;
-  similarityScore: number | null;
   newSubId: string | null;
-  setScreenshot: (val: string | null) => void;
-  setSimilarityScore: (val: number | null) => void;
   setNewSubId: (val: string | null) => void;
   setModalOpen: (val: boolean) => void;
 }
 
 export const SubmitProcess2 = ({
-  screenshot,
-  similarityScore,
   newSubId,
-  setScreenshot,
-  setSimilarityScore,
   setNewSubId,
   setModalOpen,
 }: Props) => {
   // STATE.
   const [step, setStep] = useState(0);
+  const [screenshot, setScreenshot] = useState<string | null>(null);
   const [gettingScores, setGettingScores] = useState<boolean>(false);
   const [creatingSubmission, setCreatingSubmission] = useState<boolean>(false);
   const [embedding, setEmbedding] = useState<number[] | null>(null);
@@ -153,7 +146,7 @@ export const SubmitProcess2 = ({
   }
 
   useEffect(() => {
-    if (newSubId && step === 3) {
+    if (newSubId && (step === 3 || step === 4)) {
       nextStep();
     }
   }, [newSubId, step]);
@@ -181,7 +174,7 @@ export const SubmitProcess2 = ({
         console.log("error: ", error);
       } finally {
         setGettingScores(false);
-        // setStep(4);
+        setStep(4);
       }
     }
   }
@@ -200,12 +193,6 @@ export const SubmitProcess2 = ({
   //     }
   //   }
   // }
-
-  // useEffect(() => {
-  //   if (similarityScore && step === 3) {
-  //     nextStep();
-  //   }
-  // }, [similarityScore, step]);
 
   // const submitToSupabase = async (): Promise<void> => {
   //   if (!screenshot || similarityScore === null) {
@@ -232,11 +219,11 @@ export const SubmitProcess2 = ({
   //   }
   // };
 
-  // const showResultsView = () => {
-  //   setTimeout(() => {
-  //     setModalOpen(true);
-  //   }, 1000);
-  // };
+  const showResultsView = () => {
+    setTimeout(() => {
+      setModalOpen(true);
+    }, 1000);
+  };
 
   function nextStep() {
     switch (step) {
@@ -248,8 +235,8 @@ export const SubmitProcess2 = ({
         return createNewSubmission();
       case 3:
         return computeSimiarityScores();
-      // case 4:
-      //   return showResultsView();
+      case 4:
+        return showResultsView();
     }
   }
 
