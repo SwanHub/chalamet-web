@@ -262,11 +262,9 @@ const Overlay = ({
   setModalOpen,
 }: OverlayProps) => {
   function handleClickSeeResults() {
-    console.log("clicked");
     if (step === 4 && localNewSubId) {
       setActiveSubmissionId(localNewSubId);
       setModalOpen(true);
-      console.log("show me the money");
     }
   }
   if (step === 0) {
