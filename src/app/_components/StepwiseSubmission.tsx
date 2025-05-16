@@ -33,7 +33,7 @@ export const SubmitProcess2 = ({
   const [embedding, setEmbedding] = useState<number[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [cameraActive, setCameraActive] = useState(false);
-  // const [countdown, setCountdown] = useState<number | null>(null);
+  const [countdown, setCountdown] = useState<number | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -60,9 +60,21 @@ export const SubmitProcess2 = ({
   }, [cameraActive]);
 
   const startScreenshotTimer = () => {
+    setCountdown(5);
+
+    const interval = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev === null || prev <= 1) {
+          clearInterval(interval);
+          return null;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
     setTimeout(() => {
       nextStep();
-    }, 4000);
+    }, 5000);
   };
 
   const takeScreenshot = () => {
@@ -216,7 +228,7 @@ export const SubmitProcess2 = ({
             <p className="bg-black text-white">
               {error ? `Error: ${error}` : ""}
             </p>
-            <Overlay step={step} nextStep={nextStep} countdown={4} />
+            <Overlay step={step} nextStep={nextStep} countdown={countdown} />
             <canvas ref={canvasRef} className="hidden" />
           </div>
         </div>
@@ -231,7 +243,7 @@ interface OverlayProps {
   nextStep: () => void;
 }
 
-const Overlay = ({ step, nextStep }: OverlayProps) => {
+const Overlay = ({ step, nextStep, countdown }: OverlayProps) => {
   if (step === 0) {
     return (
       <div
@@ -263,10 +275,7 @@ const Overlay = ({ step, nextStep }: OverlayProps) => {
     return (
       <div className="absolute inset-0 flex flex-col justify-between p-4 pointer-events-none">
         <div className="flex justify-between w-full items-center pointer-events-auto">
-          <button
-            onClick={() => alert("Blur background feature coming soon!")}
-            className="backdrop-blur bg-white/10 text-white border border-white/10 rounded-full px-4 py-2 text-sm font-medium shadow-md"
-          >
+          <button className="backdrop-blur bg-white/10 text-white border border-white/10 rounded-full px-4 py-2 text-sm font-medium shadow-md">
             {step < 2 ? (
               <>🔍  Detecting...</>
             ) : step === 4 ? (
@@ -288,12 +297,18 @@ const Overlay = ({ step, nextStep }: OverlayProps) => {
 
         {step < 2 ? (
           <div className="text-white text-4xl font-bold drop-shadow-md">
+            <div className="text-white text-xs font-medium drop-shadow-md uppercase pb-1">
+              screenshot in...{" "}
+              <strong className="text-cyan-500 text-2xl font-bold">
+                {countdown?.toString()}
+              </strong>
+            </div>
             Look straight
             <br /> into the camera
           </div>
         ) : step === 4 ? (
           <div className="text-white text-4xl font-bold drop-shadow-md">
-            Looking good.
+            {""}
           </div>
         ) : (
           <div className="text-white text-5xl font-bold drop-shadow-md">
