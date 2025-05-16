@@ -15,7 +15,8 @@ const fetcher = async (
   pageIndex: number,
   pageSize: number = LEADERBOARD_PAGE_SIZE
 ): Promise<any> => {
-  const offset: number = pageIndex * pageSize;
+  // const offset: number = pageIndex * pageSize;
+  console.log(pageIndex, pageSize);
 
   const { data: submissions, error: submissionsError } = await supabase
     .from("submissions")
@@ -55,7 +56,7 @@ const fetcher = async (
     });
   }
 
-  let submissionsWithScores = submissions.map((submission) => ({
+  const submissionsWithScores = submissions.map((submission) => ({
     ...submission,
     highest_score: highestScores[submission.id] || 0,
   }));
@@ -74,10 +75,7 @@ const getKey = (
 };
 
 export const Leaderboard = ({ onClickItem }: Props) => {
-  const { data, error, size, setSize } = useSWRInfinite<Submission[]>(
-    getKey,
-    fetcher
-  );
+  const { data, error } = useSWRInfinite<Submission[]>(getKey, fetcher);
 
   const submissions: Submission[] = data
     ? ([] as Submission[]).concat(...data)

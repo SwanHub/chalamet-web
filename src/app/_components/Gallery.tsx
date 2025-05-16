@@ -16,6 +16,7 @@ const fetcher = async (
   pageSize: number = LEADERBOARD_PAGE_SIZE
 ): Promise<any> => {
   // const offset: number = pageIndex * pageSize;
+  console.log(pageIndex, pageSize);
 
   // First, get submissions with proper pagination
   const { data: submissions, error: submissionsError } = await supabase
@@ -75,10 +76,7 @@ const getKey = (
 };
 
 export const SubmissionGallery = ({ onClickItem }: Props) => {
-  const { data, error, size, setSize } = useSWRInfinite<Submission[]>(
-    getKey,
-    fetcher
-  );
+  const { data, error } = useSWRInfinite<Submission[]>(getKey, fetcher);
 
   const submissions: Submission[] = data
     ? ([] as Submission[]).concat(...data)
@@ -92,7 +90,7 @@ export const SubmissionGallery = ({ onClickItem }: Props) => {
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 w-full gap-4">
-      {submissions.map((item, index) => (
+      {submissions.map((item) => (
         <GalleryItem_Image
           key={item.id}
           onClick={onClickItem}

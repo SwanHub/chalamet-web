@@ -30,7 +30,7 @@ export default function Home() {
       return () => clearTimeout(timeout);
     }, 5000);
     return () => clearInterval(intervalId);
-  }, []);
+  }, [backgroundImages.length]);
 
   function onClickGalleryItem(id: string) {
     setActiveSubmissionId(id);

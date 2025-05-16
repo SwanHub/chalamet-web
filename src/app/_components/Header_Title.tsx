@@ -52,7 +52,7 @@ const Header_Title = () => {
         </Link>{" "}
         in NYC?
       </span>
-      <span className="text-lg">Here's your chance to compete{" 👇"}</span>
+      <span className="text-lg">Here&apos;s your chance to compete{" 👇"}</span>
     </div>
   );
 };

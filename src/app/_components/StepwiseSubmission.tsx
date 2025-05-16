@@ -34,7 +34,7 @@ export const SubmitProcess2 = ({
   const [embedding, setEmbedding] = useState<number[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [cameraActive, setCameraActive] = useState(false);
-  const [countdown, setCountdown] = useState<number | null>(null);
+  // const [countdown, setCountdown] = useState<number | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -220,9 +220,9 @@ export const SubmitProcess2 = ({
               />
             )}
             <p className="bg-black text-white">
-              {gettingScores ? "Getting score" : ""}
+              {error ? `Error: ${error}` : ""}
             </p>
-            <Overlay step={step} nextStep={nextStep} countdown={countdown} />
+            <Overlay step={step} nextStep={nextStep} countdown={4} />
             <canvas ref={canvasRef} className="hidden" />
           </div>
         </div>
