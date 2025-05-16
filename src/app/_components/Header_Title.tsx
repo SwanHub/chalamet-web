@@ -36,23 +36,30 @@ const Header_Title = () => {
         <h1 className="font-thin text-gray-400 text-base uppercase">
           Compete in the Internet Official
         </h1>
-        <h1 className="font-bold sm:text-6xl text-5xl">
+        <h1 className="font-bold sm:text-6xl text-4xl">
           Timothée Chalamet Lookalike Contest
         </h1>
       </div>
 
-      <span className="text-lg pb-2">
-        Did you miss the iconic{" "}
-        <Link
-          href={article}
-          target="_blank"
-          className="font-medium text-cyan-500 underline underline-offset-2"
-        >
-          Timothée Chalamet Lookalike Contest
-        </Link>{" "}
-        in NYC?
-      </span>
-      <span className="text-lg">Here&apos;s your chance to compete{" 👇"}</span>
+      <div className="text-lg">
+        <span className="inline sm:block pb-2">
+          Did you miss the iconic{" "}
+          <Link
+            href={article}
+            target="_blank"
+            className="font-medium text-cyan-500 underline underline-offset-2"
+          >
+            Timothée Chalamet Lookalike Contest
+          </Link>{" "}
+          in NYC?{" "}
+          <span className="sm:hidden">
+            Here&apos;s your chance to compete{" 👇"}
+          </span>
+        </span>
+        <span className="hidden sm:block">
+          Here&apos;s your chance to compete{" 👇"}
+        </span>
+      </div>
     </div>
   );
 };
