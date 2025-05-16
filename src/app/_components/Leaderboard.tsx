@@ -17,7 +17,6 @@ const fetcher = async (
 ): Promise<any> => {
   const offset: number = pageIndex * pageSize;
 
-  // First, get submissions without pagination (we'll paginate after sorting)
   const { data: submissions, error: submissionsError } = await supabase
     .from("submissions")
     .select(
@@ -31,9 +30,7 @@ const fetcher = async (
   if (submissionsError) throw submissionsError as PostgrestError;
 
   const submissionIds = submissions.map((sub) => sub.id);
-  console.log("ids: ", submissionIds);
 
-  // For each submission, find its highest similarity score
   const { data: scoreData, error: scoreError } = await supabase
     .from("submission_scores")
     .select(
@@ -46,7 +43,6 @@ const fetcher = async (
 
   if (scoreError) throw scoreError as PostgrestError;
 
-  // Calculate highest scores for each submission
   const highestScores: Record<string, number> = {};
   if (scoreData) {
     scoreData.forEach((score) => {
@@ -59,13 +55,11 @@ const fetcher = async (
     });
   }
 
-  // Add highest score to each submission
   let submissionsWithScores = submissions.map((submission) => ({
     ...submission,
     highest_score: highestScores[submission.id] || 0,
   }));
 
-  // Sort by highest_score in descending order
   submissionsWithScores.sort((a, b) => b.highest_score - a.highest_score);
 
   return submissionsWithScores;

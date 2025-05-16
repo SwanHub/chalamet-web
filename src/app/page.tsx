@@ -27,10 +27,8 @@ export default function Home() {
         );
         setIsTransitioning(false);
       }, 1000);
-
       return () => clearTimeout(timeout);
     }, 5000);
-
     return () => clearInterval(intervalId);
   }, []);
 

@@ -4,16 +4,12 @@ import { useState, useRef, useEffect } from "react";
 import { CameraIcon } from "lucide-react";
 import {
   batchInsertSimilarityScores,
-  createSubmission,
-  createSubmissionScore,
   createSubmissionWithEmbedding,
-  fetchSimilarityScore,
   getAllBaseComparisons,
   uploadImageToSubmissions,
 } from "../_api/submit";
 import { base64ToBlob } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
-import { CHALAMET_BANNER } from "../constants";
 import { GridLoader, PuffLoader } from "react-spinners";
 import { createVectorEmbOfImage } from "../_api/api";
 import similarity from "compute-cosine-similarity";
@@ -35,7 +31,6 @@ export const SubmitProcess2 = ({
   const [step, setStep] = useState(0);
   const [screenshot, setScreenshot] = useState<string | null>(null);
   const [gettingScores, setGettingScores] = useState<boolean>(false);
-  const [creatingSubmission, setCreatingSubmission] = useState<boolean>(false);
   const [embedding, setEmbedding] = useState<number[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [cameraActive, setCameraActive] = useState(false);
@@ -83,7 +78,6 @@ export const SubmitProcess2 = ({
       const imageData = canvas.toDataURL("image/jpeg");
       setScreenshot(imageData);
       setStep(2);
-      console.log("screenshot taken");
     }
   };
 
@@ -103,29 +97,17 @@ export const SubmitProcess2 = ({
     setCameraActive(false);
   };
 
-  // the new routes- -
-  // 1. uploadImageToSubmissions: get back supabaseImageUrl. DONE.
-  // 2. getImageEmbedding: send supabaseImageUrl to roboflow workflow, get back a CLIP embedding. DONE.
-  // 3. take embeddings and imageUrl, create a new value in "submissions" table. DONE.
-  // -- ALL SET.
-  // 4. get all active base_comparisons, loop through each and create similarityScores for each.
-
   async function createNewSubmission() {
     if (screenshot) {
       try {
         setGettingScores(true);
-        // create image.
         const blob = await base64ToBlob(screenshot);
         const fileName = `${uuidv4()}.jpg`;
         const uploadedImageUrl = await uploadImageToSubmissions(blob, fileName);
 
         if (uploadedImageUrl) {
-          // compute vector embedding.
-          console.log("image url set: ", uploadedImageUrl);
           const emb = await createVectorEmbOfImage(uploadedImageUrl);
           if (emb) {
-            // create new submission.
-            console.log("embedding set: ", emb);
             setEmbedding(emb);
             const newsubID = await createSubmissionWithEmbedding(
               uploadedImageUrl,
@@ -134,7 +116,6 @@ export const SubmitProcess2 = ({
             if (newsubID) {
               setLocalNewId(newsubID);
               setStep(3);
-              console.log("new submission id: ", newsubID);
             }
           }
         }
