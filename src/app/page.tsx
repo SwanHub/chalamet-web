@@ -12,9 +12,7 @@ export default function Home() {
   );
 
   function onClickGalleryItem(id: string) {
-    console.log("id: ", id);
     setActiveSubmissionId(id);
-    // setModalIsOpen(true);
   }
 
   useEffect(() => {
@@ -33,16 +31,23 @@ export default function Home() {
       }}
     >
       <div className="flex flex-col w-full justify-between bg-gray-900/90 px-8 h-full">
-        {/* <Header /> */}
-        <MediaToggle onClickItem={onClickGalleryItem} />
+        <Header
+          setModalOpen={setModalIsOpen}
+          setActiveSubmissionId={setActiveSubmissionId}
+          activeSubmissionId={activeSubmissionId}
+        />
+        <MediaToggle
+          onClickItem={onClickGalleryItem}
+          setModalOpen={setModalIsOpen}
+          setActiveSubmissionId={setActiveSubmissionId}
+          activeSubmissionId={activeSubmissionId}
+        />
         <Modal_Results
-          isOpen={true}
-          onClose={() => setModalIsOpen(false)}
+          isOpen={modalIsOpen}
+          onClose={() => setActiveSubmissionId(null)}
           activeSubmissionId={activeSubmissionId}
         />
       </div>
-      {/* {activeSubmissionId && (
-      )} */}
     </div>
   );
 }

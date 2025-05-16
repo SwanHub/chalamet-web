@@ -8,30 +8,68 @@ import useSWRInfinite from "swr/infinite";
 import GalleryItem_Image from "@/components/list-items/GalleryItem_Entry";
 import FirstPlace from "@/components/list-items/ListItem_Entry";
 
+interface Props {
+  onClickItem: (id: string) => void;
+}
+
 const fetcher = async (
   pageIndex: number,
   pageSize: number = LEADERBOARD_PAGE_SIZE
 ): Promise<any> => {
   const offset: number = pageIndex * pageSize;
-  const { data, error } = await supabase
-    .from("submission_scores")
+
+  // First, get submissions without pagination (we'll paginate after sorting)
+  const { data: submissions, error: submissionsError } = await supabase
+    .from("submissions")
     .select(
       `
-    id,
-    created_at,
-    similarity_score,
-    submission_id,
-    submissions (
       id,
       image_url,
       created_at
-    )
-  `
-    )
-    .order("similarity_score", { ascending: false });
+    `
+    );
 
-  if (error) throw error as PostgrestError;
-  return data;
+  if (submissionsError) throw submissionsError as PostgrestError;
+
+  const submissionIds = submissions.map((sub) => sub.id);
+  console.log("ids: ", submissionIds);
+
+  // For each submission, find its highest similarity score
+  const { data: scoreData, error: scoreError } = await supabase
+    .from("submission_scores")
+    .select(
+      `
+        submission_id,
+        similarity_score
+      `
+    )
+    .in("submission_id", submissionIds);
+
+  if (scoreError) throw scoreError as PostgrestError;
+
+  // Calculate highest scores for each submission
+  const highestScores: Record<string, number> = {};
+  if (scoreData) {
+    scoreData.forEach((score) => {
+      if (
+        !highestScores[score.submission_id] ||
+        score.similarity_score > highestScores[score.submission_id]
+      ) {
+        highestScores[score.submission_id] = score.similarity_score;
+      }
+    });
+  }
+
+  // Add highest score to each submission
+  let submissionsWithScores = submissions.map((submission) => ({
+    ...submission,
+    highest_score: highestScores[submission.id] || 0,
+  }));
+
+  // Sort by highest_score in descending order
+  submissionsWithScores.sort((a, b) => b.highest_score - a.highest_score);
+
+  return submissionsWithScores;
 };
 
 const getKey = (
@@ -42,7 +80,7 @@ const getKey = (
   return `leaderboard-${pageIndex}`;
 };
 
-export const Leaderboard = () => {
+export const Leaderboard = ({ onClickItem }: Props) => {
   const { data, error, size, setSize } = useSWRInfinite<Submission[]>(
     getKey,
     fetcher
@@ -63,8 +101,8 @@ export const Leaderboard = () => {
       {submissions[0] && (
         <FirstPlace
           key={submissions[0].id}
-          imageUrl={submissions[0].submissions.image_url}
-          similarityScore={submissions[0].similarity_score}
+          imageUrl={submissions[0].image_url}
+          similarityScore={submissions[0].highest_score}
           createdAt={submissions[0].created_at}
           rank={1}
         />
@@ -75,10 +113,12 @@ export const Leaderboard = () => {
           {submissions.slice(1, 3).map((item, index) => (
             <GalleryItem_Image
               key={item.id}
-              imageUrl={item.submissions.image_url}
-              similarityScore={item.similarity_score}
+              id={item.id}
+              imageUrl={item.image_url}
+              similarityScore={item.highest_score}
               createdAt={item.created_at}
               rank={index + 2}
+              onClick={onClickItem}
             />
           ))}
         </div>
@@ -89,10 +129,12 @@ export const Leaderboard = () => {
           {submissions.slice(3).map((item, index) => (
             <GalleryItem_Image
               key={item.id}
-              imageUrl={item.submissions.image_url}
-              similarityScore={item.similarity_score}
+              id={item.id}
+              imageUrl={item.image_url}
+              similarityScore={item.highest_score}
               createdAt={item.created_at}
               rank={index + 4}
+              onClick={onClickItem}
             />
           ))}
         </div>

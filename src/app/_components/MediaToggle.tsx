@@ -9,6 +9,9 @@ type View = "leaderboard" | "gallery" | "how";
 
 interface Props {
   onClickItem: (id: string) => void;
+  setModalOpen: (val: boolean) => void;
+  setActiveSubmissionId: (id: string | null) => void;
+  activeSubmissionId: string | null;
 }
 
 export default function MediaToggle({ onClickItem }: Props) {
@@ -49,7 +52,7 @@ export default function MediaToggle({ onClickItem }: Props) {
       </div>
 
       <div className="max-w-screen-md w-full">
-        {filter === "leaderboard" && <Leaderboard />}
+        {filter === "leaderboard" && <Leaderboard onClickItem={onClickItem} />}
         {filter === "gallery" && (
           <SubmissionGallery onClickItem={onClickItem} />
         )}

@@ -9,16 +9,17 @@ interface ImageCardProps {
   onClick: (id: string) => void;
 }
 
-const gradientVariants = [
-  "from-yellow-400 to-pink-500",
-  "from-blue-500 to-indigo-600",
-  "from-green-400 to-emerald-600",
-  "from-rose-400 to-fuchsia-600",
-];
-
-const getGradientForScore = () => {
-  const index = Math.floor(Math.random() * gradientVariants.length);
-  return gradientVariants[index];
+const getGradientForScore = (score: number): string => {
+  const percentage = score * 100;
+  if (percentage >= 75) {
+    return "bg-gradient-to-r from-purple-600 to-pink-500";
+  } else if (percentage >= 50) {
+    return "bg-gradient-to-r from-cyan-500 to-blue-500";
+  } else if (percentage >= 25) {
+    return "bg-gradient-to-r from-yellow-400 to-orange-500";
+  } else {
+    return "bg-gradient-to-r from-gray-400 to-gray-600";
+  }
 };
 
 const getRankStyle = (rank: number | null) => {
@@ -40,7 +41,7 @@ const GalleryItem_Image = ({
   rank,
   onClick,
 }: ImageCardProps) => {
-  const gradient = getGradientForScore();
+  const gradient = getGradientForScore(similarityScore);
   const rankStyle = getRankStyle(rank);
   function clickItem() {
     onClick(id);
@@ -55,19 +56,9 @@ const GalleryItem_Image = ({
           className="absolute top-0 left-0 w-full h-full object-cover bg-gray-900 opacity-90 group-hover:opacity-100 transition-opacity duration-300"
         />
 
-        <div
-          className={`absolute top-2 left-2 bg-gradient-to-br ${gradient} text-white text-xs font-bold px-3 py-1 rounded-full shadow-md`}
-        >
-          {formatPercent(similarityScore)} Chalamet-ness
-        </div>
-
-        <div className="absolute top-2 right-2 bg-gray-800/40 text-gray-200 text-[11px] font-medium px-3 py-1 rounded-full shadow-sm backdrop-blur-sm group-hover:bg-gray-800/60 transition-colors duration-200">
-          {formatRelativeTimestamp(createdAt)}
-        </div>
-
         {rank && (
           <div
-            className={`absolute bottom-2 left-2 bg-gradient-to-br ${rankStyle} text-xs font-extrabold px-3 py-1 rounded-full shadow-md`}
+            className={`absolute top-2 left-2 bg-gradient-to-br ${rankStyle} text-xs font-extrabold px-3 py-1 rounded-full shadow-md`}
           >
             {rank === 1
               ? "1st Place"
@@ -78,6 +69,16 @@ const GalleryItem_Image = ({
               : `Rank #${rank}`}
           </div>
         )}
+
+        <div
+          className={`absolute bottom-2 left-2 bg-gradient-to-br ${gradient} text-white text-xs font-bold px-3 py-1 rounded-full shadow-md`}
+        >
+          {formatPercent(similarityScore)} similar
+        </div>
+
+        <div className="absolute bottom-2 right-2 bg-gray-800/40 text-gray-200 text-[11px] font-medium px-3 py-1 rounded-full shadow-sm backdrop-blur-sm group-hover:bg-gray-800/60 transition-colors duration-200">
+          {formatRelativeTimestamp(createdAt)}
+        </div>
       </div>
     </div>
   );

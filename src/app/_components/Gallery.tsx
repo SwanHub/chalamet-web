@@ -15,26 +15,55 @@ const fetcher = async (
   pageIndex: number,
   pageSize: number = LEADERBOARD_PAGE_SIZE
 ): Promise<any> => {
-  const offset: number = pageIndex * pageSize;
-  const { data, error } = await supabase
-    .from("submission_scores")
+  // const offset: number = pageIndex * pageSize;
+
+  // First, get submissions with proper pagination
+  const { data: submissions, error: submissionsError } = await supabase
+    .from("submissions")
     .select(
       `
-    id,
-    created_at,
-    similarity_score,
-    submission_id,
-    submissions (
       id,
       image_url,
       created_at
-    )
-  `
+    `
     )
     .order("created_at", { ascending: false });
 
-  if (error) throw error as PostgrestError;
-  return data;
+  if (submissionsError) throw submissionsError as PostgrestError;
+
+  const submissionIds = submissions.map((sub) => sub.id);
+
+  // For each submission, find its highest similarity score
+  const { data: scoreData, error: scoreError } = await supabase
+    .from("submission_scores")
+    .select(
+      `
+        submission_id,
+        similarity_score
+      `
+    )
+    .in("submission_id", submissionIds)
+    .order("similarity_score", { ascending: false });
+
+  if (scoreError) throw scoreError as PostgrestError;
+
+  // get scores.
+  const highestScores: Record<string, number> = {};
+  if (scoreData) {
+    scoreData.forEach((score) => {
+      if (
+        !highestScores[score.submission_id] ||
+        score.similarity_score > highestScores[score.submission_id]
+      ) {
+        highestScores[score.submission_id] = score.similarity_score;
+      }
+    });
+  }
+  const submissionsWithScores = submissions.map((submission) => ({
+    ...submission,
+    highest_score: highestScores[submission.id] || 0,
+  }));
+  return submissionsWithScores;
 };
 
 const getKey = (
@@ -68,8 +97,8 @@ export const SubmissionGallery = ({ onClickItem }: Props) => {
           key={item.id}
           onClick={onClickItem}
           id={item.id}
-          imageUrl={item.submissions.image_url}
-          similarityScore={item.similarity_score}
+          imageUrl={item.image_url}
+          similarityScore={item.highest_score}
           createdAt={item.created_at}
           rank={null}
         />

@@ -39,10 +39,8 @@ export type ClipComparisonResponseArray = ClipComparisonResponse[];
 export type Submission = {
   id: string;
   created_at: number;
-  similarity_score: number;
-  submissions: {
-    image_url: string;
-  };
+  image_url: string;
+  highest_score: number;
 };
 
 export type SubmissionWithScore = {
