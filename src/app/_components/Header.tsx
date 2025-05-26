@@ -3,9 +3,7 @@
 import Link from "next/link";
 import Header_Title from "./Header_Title";
 import { SubmitProcess2 } from "./StepwiseSubmission";
-import { BG_IMAGES, NYT_ARTICLE } from "../constants";
-import { Button_Generic } from "@/components/shared/Button_Generic";
-import { createVectorEmbOfImage } from "@/lib/api/embed";
+import { NYT_ARTICLE } from "../constants";
 
 interface Props {
   setModalOpen: (val: boolean) => void;
@@ -18,15 +16,9 @@ export const Header = ({
   setActiveSubmissionId,
   setModalOpen,
 }: Props) => {
-  const handleClick = async () => {
-    const res = await createVectorEmbOfImage(BG_IMAGES[1]);
-    console.log("final in-component response: ", res);
-  };
-
   return (
     <div className="py-16 flex flex-col h-full w-full max-w-screen-sm">
       <Header_Title />
-      <Button_Generic label="Hit embed endpoint" onClick={handleClick} />
       <div className="justify-center items-center flex pb-6">
         <SubmitProcess2
           activeSubmissionId={activeSubmissionId}
