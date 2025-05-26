@@ -30,7 +30,7 @@ export const ChalametScoreResults = ({ id }: Props) => {
       const fileName = data.submission.image_url.split("/").pop();
       const { error: storageError } = await supabase.storage
         .from("submissions")
-        .remove([`submissions/${fileName}`]);
+        .remove([`${fileName}`]);
       if (storageError) throw storageError;
 
       const { error: submissionError } = await supabase
