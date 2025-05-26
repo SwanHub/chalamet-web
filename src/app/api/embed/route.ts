@@ -34,7 +34,6 @@ export async function POST(request: Request) {
       });
     }
   } catch (error) {
-    console.error("Server-side error:", error);
     return new NextResponse(
       JSON.stringify({ error: "Failed to process request" }),
       {
