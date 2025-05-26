@@ -4,6 +4,8 @@ import { formatPercent } from "@/lib/utils";
 import { fetchSubmissionResults } from "../../lib/api/submit";
 import useSWR from "swr";
 import { GridLoader } from "react-spinners";
+import { Button_Generic } from "@/components/shared/Button_Generic";
+import { supabase } from "@/lib/supabase";
 
 interface Props {
   id: string;
@@ -20,6 +22,34 @@ export const ChalametScoreResults = ({ id }: Props) => {
       revalidateIfStale: true,
     }
   );
+
+  async function handleDelete() {
+    if (!data) return;
+
+    try {
+      const fileName = data.submission.image_url.split("/").pop();
+      const { error: storageError } = await supabase.storage
+        .from("submissions")
+        .remove([`submissions/${fileName}`]);
+      if (storageError) throw storageError;
+
+      const { error: submissionError } = await supabase
+        .from("submissions")
+        .delete()
+        .eq("id", data.submission.id);
+      if (submissionError) throw submissionError;
+
+      const { error: scoresError } = await supabase
+        .from("submission_scores")
+        .delete()
+        .eq("submission_id", data.submission.id);
+      if (scoresError) throw scoresError;
+
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Error deleting submission:", error);
+    }
+  }
 
   if (isLoading) return <Skeleton />;
   if (error) return <p className="text-white">Error</p>;
@@ -50,6 +80,7 @@ export const ChalametScoreResults = ({ id }: Props) => {
             </div>
           </div>
         </div>
+        <p>ID: {data.submission.id}</p>
         <div className="gap-2">
           <div className="flex justify-between gap-3">
             <SocialShareButton platform="twitter" url="https://twitter.com" />
@@ -66,6 +97,7 @@ export const ChalametScoreResults = ({ id }: Props) => {
             ))}
           </div>
         </div>
+        <Button_Generic label="Delete" onClick={handleDelete} />
       </div>
     </div>
   );
