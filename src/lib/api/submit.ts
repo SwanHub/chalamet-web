@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/supabase";
-import { ID_CHALAMET_BASE_COMPARISON_TEXT_EMB } from "../constants";
-import { ClipResponse, SubmitScore } from "../types";
+import { ID_CHALAMET_BASE_COMPARISON_TEXT_EMB } from "../../app/constants";
+import { ClipResponse, SubmitScore } from "../../app/types";
 
 export async function uploadImageToSubmissions(
   blob: Blob,

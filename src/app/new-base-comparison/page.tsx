@@ -1,16 +1,16 @@
 "use client";
 
 import { Button_Generic } from "@/components/shared/Button_Generic";
-import { createVectorEmbOfImage } from "../_api/api";
+import { createVectorEmbOfImage } from "../../lib/api/api";
 import { Input_Text } from "@/components/shared/Input_Text";
 import { useState } from "react";
 import {
   createBaseComparison,
   uploadImageToBaseComparisons,
-} from "../_api/baseComparison";
+} from "../../lib/api/baseComparison";
 import { v4 as uuidv4 } from "uuid";
 import { imageUrlToBlob } from "@/lib/utils";
-import { getAllBaseComparisons } from "../_api/submit";
+import { getAllBaseComparisons } from "../../lib/api/submit";
 
 export default function NewBaseComparison() {
   // part 1
