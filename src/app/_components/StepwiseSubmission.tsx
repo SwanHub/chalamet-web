@@ -11,7 +11,7 @@ import {
 import { base64ToBlob } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
 import { GridLoader, PuffLoader } from "react-spinners";
-import { createVectorEmbOfImage } from "../../lib/api/api";
+import { createVectorEmbOfImage } from "../../lib/api/embed";
 import similarity from "compute-cosine-similarity";
 import { SubmitScore } from "../types";
 

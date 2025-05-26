@@ -1,7 +1,7 @@
 import { SocialShareButton } from "@/components/shared/SocialShareButton";
 import { SubmissionResults, SubmissionScore } from "../types";
 import { formatPercent } from "@/lib/utils";
-import { fetchSubmissionResults } from "../../lib/api/api";
+import { fetchSubmissionResults } from "../../lib/api/embed";
 import useSWR from "swr";
 import { GridLoader } from "react-spinners";
 

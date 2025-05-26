@@ -2,53 +2,6 @@ import { supabase } from "@/lib/supabase";
 import { ID_CHALAMET_BASE_COMPARISON_TEXT_EMB } from "../../app/constants";
 import { ClipResponse, SubmitScore } from "../../app/types";
 
-export async function uploadImageToSubmissions(
-  blob: Blob,
-  fileName: string
-): Promise<string> {
-  const { error: storageError } = await supabase.storage
-    .from("submissions")
-    .upload(fileName, blob, {
-      contentType: "image/jpeg",
-      cacheControl: "3600",
-    });
-
-  if (storageError) throw storageError;
-
-  const {
-    data: { publicUrl },
-  } = supabase.storage.from("submissions").getPublicUrl(fileName);
-
-  return publicUrl;
-}
-
-export async function createSubmissionWithEmbedding(
-  imageUrl: string,
-  embedding: number[]
-): Promise<string> {
-  const { data, error } = await supabase
-    .from("submissions")
-    .insert([{ image_url: imageUrl, embedding_vector: embedding }])
-    .select();
-
-  if (error) throw error;
-  return data[0].id;
-}
-
-export const getAllBaseComparisons = async () => {
-  const { data, error } = await supabase
-    .from("base_comparisons")
-    .select("id, embedding_vector")
-    .eq("is_active", true);
-
-  if (error) throw error;
-
-  return data.map((item) => ({
-    id: item.id,
-    embedding_vector: JSON.parse(item.embedding_vector),
-  }));
-};
-
 export const batchInsertSimilarityScores = async (
   scores: SubmitScore[]
 ): Promise<{ success: boolean; count: number }> => {
@@ -80,6 +33,88 @@ export const batchInsertSimilarityScores = async (
     };
   }
 };
+
+export async function createSubmissionWithEmbedding(
+  imageUrl: string,
+  embedding: number[]
+): Promise<string> {
+  const { data, error } = await supabase
+    .from("submissions")
+    .insert([{ image_url: imageUrl, embedding_vector: embedding }])
+    .select();
+
+  if (error) throw error;
+  return data[0].id;
+}
+
+export const fetchSubmissionResults = async (
+  submissionId: string
+): Promise<any> => {
+  const { data: submissionData, error: submissionError } = await supabase
+    .from("submissions")
+    .select("id, image_url")
+    .eq("id", submissionId)
+    .single();
+
+  if (submissionError) throw submissionError;
+
+  const { data: scoresData, error: scoresError } = await supabase
+    .from("submission_scores")
+    .select(
+      `
+      id,
+      created_at,
+      similarity_score,
+      submission_id,
+      base_comparison_id,
+      base_comparisons(id, image_url, name)
+    `
+    )
+    .eq("submission_id", submissionId)
+    .order("similarity_score", { ascending: false });
+
+  if (scoresError) throw scoresError;
+
+  const returnObj = {
+    submission: submissionData,
+    scores: scoresData,
+  };
+  return returnObj;
+};
+
+export const getAllBaseComparisons = async () => {
+  const { data, error } = await supabase
+    .from("base_comparisons")
+    .select("id, embedding_vector")
+    .eq("is_active", true);
+
+  if (error) throw error;
+
+  return data.map((item) => ({
+    id: item.id,
+    embedding_vector: JSON.parse(item.embedding_vector),
+  }));
+};
+
+export async function uploadImageToSubmissions(
+  blob: Blob,
+  fileName: string
+): Promise<string> {
+  const { error: storageError } = await supabase.storage
+    .from("submissions")
+    .upload(fileName, blob, {
+      contentType: "image/jpeg",
+      cacheControl: "3600",
+    });
+
+  if (storageError) throw storageError;
+
+  const {
+    data: { publicUrl },
+  } = supabase.storage.from("submissions").getPublicUrl(fileName);
+
+  return publicUrl;
+}
 
 // ------- OLD -------------------------------------------------
 

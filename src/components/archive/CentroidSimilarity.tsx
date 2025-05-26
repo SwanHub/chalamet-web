@@ -1,18 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { fetchEmbedToAvg } from "../../lib/api/api";
+import { compareToCentroid } from "../../lib/api/centroid";
 import { Button_Generic } from "@/components/shared/Button_Generic";
 import { Input_Text } from "@/components/shared/Input_Text";
 
-export default function AvgToImageSimilarity() {
+export default function CentroidSimilarity() {
   const [loading, setLoading] = useState(false);
   const [text, setText] = useState("");
   const [confidence, setConfidence] = useState<number | null>(null);
   const doIt = async () => {
     setLoading(true);
     try {
-      const response: any = await fetchEmbedToAvg(text);
+      const response: any = await compareToCentroid(text);
       setConfidence(response.similarity);
     } catch (error) {
       console.log("error: ", error);
