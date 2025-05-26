@@ -1,5 +1,4 @@
 import { supabase } from "@/lib/supabase";
-import { ID_CHALAMET_BASE_COMPARISON_TEXT_EMB } from "../../app/constants";
 import { ClipResponse, SubmitScore } from "../../app/types";
 
 export const batchInsertSimilarityScores = async (
@@ -169,18 +168,4 @@ export async function createSubmission(imageUrl: string): Promise<string> {
 
   if (error) throw error;
   return data[0].id;
-}
-
-export async function createSubmissionScore(
-  submissionId: string,
-  similarityScore: number
-) {
-  const { error } = await supabase.from("submission_scores").insert([
-    {
-      submission_id: submissionId,
-      base_comparison_id: ID_CHALAMET_BASE_COMPARISON_TEXT_EMB,
-      similarity_score: similarityScore,
-    },
-  ]);
-  if (error) throw error;
 }
