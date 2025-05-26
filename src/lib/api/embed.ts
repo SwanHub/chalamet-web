@@ -1,5 +1,3 @@
-import { supabase } from "@/lib/supabase";
-
 export async function createVectorEmbOfImage(
   imageUrl: string
 ): Promise<number[] | null> {
