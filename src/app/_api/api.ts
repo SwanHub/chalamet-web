@@ -16,33 +16,29 @@ export const fetchEmbedToAvg = async (imageUrl: string): Promise<any> => {
   return result;
 };
 
-export const createVectorEmbOfImage = async (
+export async function createVectorEmbOfImage(
   imageUrl: string
-): Promise<any> => {
-  const response = await fetch(
-    "https://serverless.roboflow.com/infer/workflows/jp-roboflow-tests/single-clip-embedding",
-    {
+): Promise<number[] | null> {
+  try {
+    const response = await fetch("/api/embed", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        api_key: process.env.NEXT_PUBLIC_ROBOFLOW_API_KEY,
-        inputs: {
-          image: { type: "url", value: imageUrl },
-        },
-        version: "ViT-B-32",
-      }),
-    }
-  );
+      body: JSON.stringify({ imageUrl }),
+    });
 
-  const result = await response.json();
-  if (result) {
-    return result.outputs[0].image_embedding;
-  } else {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result.embedding;
+  } catch (error) {
+    console.error("Error generating embedding:", error);
     return null;
   }
-};
+}
 
 export const testFastAPI = async (): Promise<any> => {
   const response = await fetch("http://127.0.0.1:8000/", { method: "GET" });

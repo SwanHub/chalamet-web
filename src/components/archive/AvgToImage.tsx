@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { fetchEmbedToAvg } from "../_api/api";
+import { fetchEmbedToAvg } from "../../app/_api/api";
 import { Button_Generic } from "@/components/shared/Button_Generic";
 import { Input_Text } from "@/components/shared/Input_Text";
 

@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from "uuid";
 import { imageUrlToBlob } from "@/lib/utils";
 import { getAllBaseComparisons } from "../_api/submit";
 
-export default function Leaderboard() {
+export default function NewBaseComparison() {
   // part 1
   const [inputImageUrl, setInputImageUrl] = useState<string>("");
   const [supabaseImageUrl, setSupabaseImageUrl] = useState<string | null>(null);
