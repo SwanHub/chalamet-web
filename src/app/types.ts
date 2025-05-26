@@ -87,3 +87,15 @@ export type SubmissionResults = {
   submission: Comparison;
   scores: SubmissionScore[];
 };
+
+export type EmbedItem = {
+  imageUrl: string;
+};
+
+export type EmbedResponseRaw = {
+  outputs: EmbedResponse[];
+};
+
+export type EmbedResponse = {
+  image_embedding: number[];
+};

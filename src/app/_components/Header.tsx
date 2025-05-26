@@ -19,7 +19,8 @@ export const Header = ({
   setModalOpen,
 }: Props) => {
   const handleClick = async () => {
-    await createVectorEmbOfImage(BG_IMAGES[1]);
+    const res = await createVectorEmbOfImage(BG_IMAGES[1]);
+    console.log("final in-component response: ", res);
   };
 
   return (
