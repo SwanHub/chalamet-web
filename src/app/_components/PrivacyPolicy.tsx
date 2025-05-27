@@ -2,9 +2,7 @@ export const PrivacyPolicy = () => {
   return (
     <div className="py-8 px-6 max-w-3xl mx-auto text-white bg-gray-900 rounded-2xl mb-36">
       <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
-      <p className="mb-6">
-        my friend suggested I add a privacy policy... here that is:
-      </p>
+      <p className="mb-6">May 27th 2025</p>
 
       <ol className="list-decimal list-inside space-y-4 text-left pb-8">
         <li>
