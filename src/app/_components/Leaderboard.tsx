@@ -5,7 +5,6 @@ import { Submission } from "../types";
 import { PostgrestError } from "@supabase/supabase-js";
 import useSWR from "swr";
 import GalleryItem_Image from "@/components/list-items/GalleryItem_Entry";
-import { GridLoader } from "react-spinners";
 
 interface Props {
   onClickItem: (id: string) => void;
@@ -36,11 +35,10 @@ export const Leaderboard = ({ onClickItem }: Props) => {
         submission.normalized_score || submission.highest_score || 0,
     }));
   };
-  const {
-    data: submissions,
-    error,
-    isLoading,
-  } = useSWR<Submission[]>("leaderboard", fetcher);
+  const { data: submissions, error } = useSWR<Submission[]>(
+    "leaderboard",
+    fetcher
+  );
 
   if (error) {
     return <p>Error loading leaderboard data</p>;

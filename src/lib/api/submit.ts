@@ -9,9 +9,7 @@ export const batchInsertSimilarityScores = async (
       return { success: true, count: 0 };
     }
 
-    const { data, error } = await supabase
-      .from("submission_scores")
-      .insert(scores);
+    const { error } = await supabase.from("submission_scores").insert(scores);
 
     if (error) {
       console.error("Error inserting similarity scores:", error);
