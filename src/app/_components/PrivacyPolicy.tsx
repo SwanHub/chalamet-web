@@ -4,46 +4,30 @@ export const PrivacyPolicy = () => {
   return (
     <div className="py-8 px-6 max-w-3xl mx-auto text-white bg-gray-900 rounded-2xl mb-36">
       <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
-      <p className="text-gray-300 mb-6">
-        my friend&apos;s brother is a lawyer and suggests I add a privacy
-        policy... here it is very simply:
+      <p className="mb-6">
+        my friend suggested I add a privacy policy... here that is:
       </p>
 
       <ol className="list-decimal list-inside space-y-4 text-left pb-8">
-        <li>This project </li>
         <li>
-          We compare that screenshot to a list of Timothée Chalamet images using{" "}
-          <Link
-            href="https://roboflow.com/?ref=chalamet"
-            className="text-cyan-500 underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Roboflow
-          </Link>
-          ,{" "}
-          <Link
-            href="https://openai.com/index/clip/"
-            className="text-cyan-500 underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            CLIP
-          </Link>{" "}
-          and{" "}
-          <Link
-            href="https://en.wikipedia.org/wiki/Cosine_similarity"
-            className="text-cyan-500 underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            cosine similarity
-          </Link>{" "}
-          .
+          I created this project 100% just for fun, experimenting with a few new
+          tools: OpenAI&apos;s CLIP model, Roboflow for inference and model
+          hosting, Vercel for site deployment, and Supabase as a database with
+          native vector embedding support.
+        </li>
+        <li>This project is non-commercial - for the love of the game.</li>
+        <li>
+          I have absolutely nothing to do with Anthony Po (organizer of the
+          original lookalike contest in NYC) or Knicks superfan Timothée
+          Chalamet.
         </li>
         <li>
-          We assign your screenshot a score based on which Timothée Chalamet
-          image it most closely resembles.
+          All the data is anonymous. The only stuff I'm storing are the things
+          you see - images, vector embeddings, comparison scores and
+          up/downvotes.
+        </li>
+        <li>
+          If you are in Illinois or Texas, do not play this game. Seriously.
         </li>
       </ol>
       <div className="flex flex-col items-center gap-6">

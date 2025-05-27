@@ -109,21 +109,7 @@ export const FAQ = () => {
         </div>
         <div>
           <h3 className="font-bold text-lg">Are there prizes?</h3>
-          <span>Internet glory.</span>
-        </div>
-        <div>
-          <h3 className="font-bold text-lg">What is the privacy policy?</h3>
-          <p>
-            <Link
-              href={"https://www.elastic.co/what-is/vector-embedding"}
-              target="_blank"
-              className="text-cyan-500 underline"
-              rel="noopener noreferrer"
-            >
-              Check it out
-            </Link>{" "}
-            (especially if you are from Illinois or Texas).
-          </p>
+          <span>No, just for fun.</span>
         </div>
       </div>
     </div>
