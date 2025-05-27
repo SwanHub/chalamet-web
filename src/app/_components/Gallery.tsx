@@ -15,17 +15,17 @@ const fetcher = async (
   pageIndex: number,
   pageSize: number = LEADERBOARD_PAGE_SIZE
 ): Promise<any> => {
-  // const offset: number = pageIndex * pageSize;
   console.log(pageIndex, pageSize);
 
-  // First, get submissions with proper pagination
   const { data: submissions, error: submissionsError } = await supabase
     .from("submissions")
     .select(
       `
       id,
       image_url,
-      created_at
+      created_at,
+      highest_score,
+      normalized_score
     `
     )
     .order("created_at", { ascending: false });
@@ -34,7 +34,6 @@ const fetcher = async (
 
   const submissionIds = submissions.map((sub) => sub.id);
 
-  // For each submission, find its highest similarity score
   const { data: scoreData, error: scoreError } = await supabase
     .from("submission_scores")
     .select(
@@ -48,7 +47,6 @@ const fetcher = async (
 
   if (scoreError) throw scoreError as PostgrestError;
 
-  // get scores.
   const highestScores: Record<string, number> = {};
   if (scoreData) {
     scoreData.forEach((score) => {
@@ -96,7 +94,7 @@ export const SubmissionGallery = ({ onClickItem }: Props) => {
           onClick={onClickItem}
           id={item.id}
           imageUrl={item.image_url}
-          similarityScore={item.highest_score}
+          similarityScore={item.normalized_score}
           createdAt={item.created_at}
           rank={null}
         />
