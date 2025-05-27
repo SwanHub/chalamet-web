@@ -50,7 +50,7 @@ export default function Home() {
       />
 
       <div className="relative min-h-screen">
-        <div className="flex flex-col w-full bg-gray-900/90 px-4 sm:px-8 h-full min-h-screen items-center">
+        <div className="flex flex-col w-full bg-gray-900/80 px-4 sm:px-8 h-full min-h-screen items-center">
           <Header
             setModalOpen={setModalIsOpen}
             setActiveSubmissionId={setActiveSubmissionId}
