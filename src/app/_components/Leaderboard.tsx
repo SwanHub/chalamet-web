@@ -43,20 +43,17 @@ export const Leaderboard = ({ onClickItem }: Props) => {
   } = useSWR<Submission[]>("leaderboard", fetcher);
 
   if (error) {
-    console.error(error);
     return <p>Error loading leaderboard data</p>;
   }
-  if (!submissions)
-    return (
-      <div className="flex justify-center items-center h-full">
-        <GridLoader size={8} color="cyan" />
-      </div>
-    );
-  // if (!submissions) return <p></p>;
 
   return (
     <div className="flex flex-col w-full gap-4 pb-36">
-      {submissions[0] && (
+      {!submissions && (
+        <div className="flex justify-center items-center h-full">
+          <p className="text-white italic text-sm">Loading...</p>
+        </div>
+      )}
+      {submissions && submissions[0] && (
         <GalleryItem_Image
           key={submissions[0].id}
           id={submissions[0].id}
@@ -68,7 +65,7 @@ export const Leaderboard = ({ onClickItem }: Props) => {
         />
       )}
 
-      {submissions.length > 2 && (
+      {submissions && submissions.length > 2 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {submissions.slice(1, 3).map((item, index) => (
             <GalleryItem_Image
@@ -84,7 +81,7 @@ export const Leaderboard = ({ onClickItem }: Props) => {
         </div>
       )}
 
-      {submissions.length > 3 && (
+      {submissions && submissions.length > 3 && (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {submissions.slice(3).map((item, index) => (
             <GalleryItem_Image
