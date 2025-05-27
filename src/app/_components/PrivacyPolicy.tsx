@@ -22,8 +22,8 @@ export const PrivacyPolicy = () => {
           Chalamet.
         </li>
         <li>
-          All the data is anonymous. The only stuff I'm storing are the things
-          you see - images, vector embeddings, comparison scores and
+          All the data is anonymous. The only stuff I&apos;m storing are the
+          things you see - images, vector embeddings, comparison scores and
           up/downvotes.
         </li>
         <li>
