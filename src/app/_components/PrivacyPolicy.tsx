@@ -24,9 +24,7 @@ export const PrivacyPolicy = () => {
           things you see - images, vector embeddings, comparison scores and
           up/downvotes.
         </li>
-        <li>
-          If you are in Illinois or Texas, do not play this game. Seriously.
-        </li>
+        <li>If you are in Illinois or Texas, do not play this game.</li>
       </ol>
     </div>
   );

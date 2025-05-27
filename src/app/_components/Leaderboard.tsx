@@ -11,33 +11,31 @@ interface Props {
   onClickItem: (id: string) => void;
 }
 
-const fetcher = async (): Promise<Submission[]> => {
-  const { data: submissions, error: submissionsError } = await supabase
-    .from("submissions")
-    .select(
-      `
-      id,
-      image_url,
-      created_at,
-      highest_score,
-      normalized_score
-    `
-    )
-    .order("highest_score", { ascending: false })
-    .limit(25);
-  console.log("submissions fetched: ", submissions);
-
-  if (submissionsError) throw submissionsError as PostgrestError;
-
-  return submissions.map((submission) => ({
-    ...submission,
-    highest_score: submission.highest_score || 0,
-    normalized_score:
-      submission.normalized_score || submission.highest_score || 0,
-  }));
-};
-
 export const Leaderboard = ({ onClickItem }: Props) => {
+  const fetcher = async (): Promise<Submission[]> => {
+    const { data: submissions, error: submissionsError } = await supabase
+      .from("submissions")
+      .select(
+        `
+        id,
+        image_url,
+        created_at,
+        highest_score,
+        normalized_score
+      `
+      )
+      .order("highest_score", { ascending: false })
+      .limit(25);
+
+    if (submissionsError) throw submissionsError as PostgrestError;
+
+    return submissions.map((submission) => ({
+      ...submission,
+      highest_score: submission.highest_score || 0,
+      normalized_score:
+        submission.normalized_score || submission.highest_score || 0,
+    }));
+  };
   const {
     data: submissions,
     error,
@@ -48,8 +46,13 @@ export const Leaderboard = ({ onClickItem }: Props) => {
     console.error(error);
     return <p>Error loading leaderboard data</p>;
   }
-  if (isLoading) return <GridLoader size={8} color="cyan" />;
-  if (!submissions) return <p>Loading...</p>;
+  if (!submissions)
+    return (
+      <div className="flex justify-center items-center h-full">
+        <GridLoader size={8} color="cyan" />
+      </div>
+    );
+  // if (!submissions) return <p></p>;
 
   return (
     <div className="flex flex-col w-full gap-4 pb-36">
