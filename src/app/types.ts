@@ -41,6 +41,7 @@ export type Submission = {
   created_at: number;
   image_url: string;
   highest_score: number;
+  normalized_score: number;
 };
 
 export type SubmissionWithScore = {

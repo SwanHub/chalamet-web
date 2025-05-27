@@ -1,4 +1,4 @@
-import { formatPercent, formatRelativeTimestamp } from "@/lib/utils";
+import { formatRelativeTimestamp, formatTwoDecimals } from "@/lib/utils";
 
 interface ImageCardProps {
   id: string;
@@ -10,12 +10,11 @@ interface ImageCardProps {
 }
 
 const getGradientForScore = (score: number): string => {
-  const percentage = score * 100;
-  if (percentage >= 75) {
+  if (score >= 75) {
     return "bg-gradient-to-r from-purple-600 to-pink-500";
-  } else if (percentage >= 50) {
+  } else if (score >= 50) {
     return "bg-gradient-to-r from-yellow-400 to-orange-500";
-  } else if (percentage >= 25) {
+  } else if (score >= 25) {
     return "bg-gradient-to-r from-cyan-500 to-blue-500";
   } else {
     return "bg-gradient-to-r from-gray-400 to-gray-600";
@@ -95,7 +94,7 @@ const GalleryItem_Image = ({
         <div
           className={`absolute bottom-2 left-2 bg-gradient-to-br ${gradient} text-white text-xs font-bold px-2 py-1 rounded-full shadow-md`}
         >
-          {formatPercent(similarityScore)}
+          {formatTwoDecimals(similarityScore)}
         </div>
 
         <div className="absolute bottom-2 right-2 bg-gray-800/40 text-gray-200 text-[11px] font-medium px-3 py-1 rounded-full shadow-sm backdrop-blur-sm group-hover:bg-gray-800/60 transition-colors duration-200">

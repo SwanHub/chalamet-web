@@ -62,3 +62,9 @@ export function formatPercent(score: number | string): string {
   if (isNaN(value)) return "0.0%";
   return `${(value * 100).toFixed(1)}%`;
 }
+
+export function formatTwoDecimals(score: number | string): string {
+  const value = typeof score === "string" ? parseFloat(score) : score;
+  if (isNaN(value)) return "0.0%";
+  return `${value.toFixed(1)}%`;
+}
