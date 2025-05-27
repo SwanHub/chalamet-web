@@ -41,23 +41,40 @@ export const FAQ = () => {
         </div>
         <div>
           <h3 className="font-bold">How does the comparison part work?</h3>
-          <p>
-            Super simple - we create a list of vector embeddings of a bunch of
-            different Timothée Chalamet images using OpenAI's CLIP model. We
-            then use cosine similarity to compare the vector embedding of your
-            screenshot to the vector embeddings of all the Timothée Chalamet
-            images. You see the results of that comparison in the results page
-            for each image, and your final score is the highest cosine
-            similarity.
-          </p>
+          <span className="text-left flex flex-col gap-4">
+            <p>
+              Just a few simple steps - we create a list of vector embeddings of
+              a bunch of different Timothée Chalamet images using OpenAI's CLIP
+              model. We then use cosine similarity to compare the vector
+              embedding of your screenshot to the vector embeddings of all the
+              Timothée Chalamet images. You see each of those comparisons in the
+              results page. Your final score is the highest{" "}
+              {"Chalamet+screenshot"} comparison number, which represents the
+              two most-similar images.
+            </p>
+            <p>
+              You can read more about the project in this short{"  "}
+              <Link
+                href={"https://www.elastic.co/what-is/vector-embedding"}
+                target="_blank"
+                className="text-cyan-500 underline"
+                rel="noopener noreferrer"
+              >
+                blog post
+              </Link>{" "}
+              I wrote.
+            </p>
+          </span>
         </div>
         <div>
-          <h3 className="font-bold">Is it accurate?</h3>
+          <h3 className="font-bold">Is it 100% accurate?</h3>
           <p>
-            Nope - there are a bunch of factors that make it not completely
-            accurate. CLIP's API generates vector embeddings based on the full
-            image, so background, lighting, and pixelation all make a
-            significant difference.
+            Definitely not. CLIP considers the full image, so background,
+            lighting, and pixelation all make a significant difference in your
+            score. For example, you're more likely to do well if you have the
+            exact same background and take up the exact same amount of the
+            image. I haven&apos;t done any extra processing to crop your face or
+            homogenize backgrounds.
           </p>
         </div>
         <div>
@@ -65,7 +82,7 @@ export const FAQ = () => {
             Does Timothée Chalamet have anything to do with this?
           </h3>
           <p>
-            Nope! Just a fun project inspired by the lookalike contest that
+            Nope. Just a fun project inspired by the lookalike contest that
             happened in NYC in October 2024.
           </p>
         </div>
