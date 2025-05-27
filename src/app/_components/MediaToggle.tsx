@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { SubmissionGallery } from "./Gallery";
 import { Leaderboard } from "./Leaderboard";
-import { HowItWorks } from "./HowItWorks";
+import { PrivacyPolicy } from "./PrivacyPolicy";
 import { FAQ } from "./FAQ";
 
-type View = "leaderboard" | "gallery" | "how" | "faq";
+type View = "leaderboard" | "gallery" | "privacy" | "faq";
 
 interface Props {
   onClickItem: (id: string) => void;
@@ -45,16 +45,16 @@ export default function MediaToggle({ onClickItem }: Props) {
         </button>
 
         <button
-          onClick={() => setFilter("how")}
-          className={buttonStyle(filter === "how")}
-        >
-          How it works
-        </button>
-        <button
           onClick={() => setFilter("faq")}
           className={buttonStyle(filter === "faq")}
         >
           FAQ
+        </button>
+        <button
+          onClick={() => setFilter("privacy")}
+          className={buttonStyle(filter === "privacy")}
+        >
+          Privacy
         </button>
       </div>
 
@@ -63,8 +63,8 @@ export default function MediaToggle({ onClickItem }: Props) {
         {filter === "gallery" && (
           <SubmissionGallery onClickItem={onClickItem} />
         )}
-        {filter === "how" && <HowItWorks />}
         {filter === "faq" && <FAQ />}
+        {filter === "privacy" && <PrivacyPolicy />}
       </div>
     </div>
   );

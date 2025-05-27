@@ -1,12 +1,16 @@
 import Link from "next/link";
 
-export const HowItWorks = () => {
+export const PrivacyPolicy = () => {
   return (
     <div className="py-8 px-6 max-w-3xl mx-auto text-white bg-gray-900 rounded-2xl mb-36">
-      <h1 className="text-3xl font-bold mb-6">How it works</h1>
+      <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
+      <p className="text-gray-300 mb-6">
+        my friend&apos;s brother is a lawyer and suggests I add a privacy
+        policy... here it is very simply:
+      </p>
 
       <ol className="list-decimal list-inside space-y-4 text-left pb-8">
-        <li>Take a screenshot.</li>
+        <li>This project </li>
         <li>
           We compare that screenshot to a list of Timothée Chalamet images using{" "}
           <Link

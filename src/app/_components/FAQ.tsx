@@ -4,12 +4,7 @@ export const FAQ = () => {
   return (
     <div className="py-8 px-6 max-w-3xl mx-auto text-white bg-gray-900 rounded-2xl mb-36">
       <h1 className="text-3xl font-bold mb-6">FAQ</h1>
-
       <div className="space-y-4 text-left pb-8">
-        <div>
-          <h3 className="font-bold text-lg">Why make this?</h3>
-          <span>Fun.</span>
-        </div>
         <div>
           <h3 className="font-bold text-lg">Who made this?</h3>
           <span>
@@ -111,6 +106,10 @@ export const FAQ = () => {
             involved?
           </h3>
           <p>Nope!</p>
+        </div>
+        <div>
+          <h3 className="font-bold text-lg">Are there prizes?</h3>
+          <span>Internet glory.</span>
         </div>
         <div>
           <h3 className="font-bold text-lg">What is the privacy policy?</h3>
