@@ -4,8 +4,9 @@ import { useState } from "react";
 import { SubmissionGallery } from "./Gallery";
 import { Leaderboard } from "./Leaderboard";
 import { HowItWorks } from "./HowItWorks";
+import { FAQ } from "./FAQ";
 
-type View = "leaderboard" | "gallery" | "how";
+type View = "leaderboard" | "gallery" | "how" | "faq";
 
 interface Props {
   onClickItem: (id: string) => void;
@@ -49,6 +50,12 @@ export default function MediaToggle({ onClickItem }: Props) {
         >
           How it works
         </button>
+        <button
+          onClick={() => setFilter("faq")}
+          className={buttonStyle(filter === "faq")}
+        >
+          FAQ
+        </button>
       </div>
 
       <div className="max-w-screen-sm w-full">
@@ -57,6 +64,7 @@ export default function MediaToggle({ onClickItem }: Props) {
           <SubmissionGallery onClickItem={onClickItem} />
         )}
         {filter === "how" && <HowItWorks />}
+        {filter === "faq" && <FAQ />}
       </div>
     </div>
   );
