@@ -18,8 +18,6 @@ export const batchInsertSimilarityScores = async (
       throw error;
     }
 
-    console.log("data returned: ", data);
-
     return {
       success: true,
       count: scores.length,
