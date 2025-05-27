@@ -34,7 +34,7 @@ export default function MediaToggle({ onClickItem }: Props) {
           onClick={() => setFilter("leaderboard")}
           className={buttonStyle(filter === "leaderboard")}
         >
-          Global Leaderboard
+          Leaderboard
         </button>
 
         <button

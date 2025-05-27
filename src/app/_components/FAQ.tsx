@@ -7,11 +7,11 @@ export const FAQ = () => {
 
       <div className="space-y-4 text-left pb-8">
         <div>
-          <h3 className="font-bold">Why make this?</h3>
-          <span>For fun.</span>
+          <h3 className="font-bold text-lg">Why make this?</h3>
+          <span>Fun.</span>
         </div>
         <div>
-          <h3 className="font-bold">Who made this?</h3>
+          <h3 className="font-bold text-lg">Who made this?</h3>
           <span>
             <Link
               href={"https://www.linkedin.com/in/jackson-prince/"}
@@ -25,7 +25,7 @@ export const FAQ = () => {
           </span>
         </div>
         <div>
-          <h3 className="font-bold">Is it open source?</h3>
+          <h3 className="font-bold text-lg">Is it open source?</h3>
           <span>
             Yes! Code is{" "}
             <Link
@@ -40,18 +40,37 @@ export const FAQ = () => {
           </span>
         </div>
         <div>
-          <h3 className="font-bold">How does the comparison part work?</h3>
+          <h3 className="font-bold text-lg">How does it work?</h3>
           <span className="text-left flex flex-col gap-4">
-            <p>
-              Just a few simple steps - we create a list of vector embeddings of
-              a bunch of different Timothée Chalamet images using OpenAI's CLIP
-              model. We then use cosine similarity to compare the vector
-              embedding of your screenshot to the vector embeddings of all the
-              Timothée Chalamet images. You see each of those comparisons in the
-              results page. Your final score is the highest{" "}
-              {"Chalamet+screenshot"} comparison number, which represents the
-              two most-similar images.
-            </p>
+            <ul className="list-disc pl-6">
+              <li>Take a screenshot.</li>
+              <li>
+                We compare that screenshot to a list of Timothée Chalamet images
+                using{" "}
+                <Link
+                  href="https://roboflow.com/?ref=chalamet"
+                  className="text-cyan-500 underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Roboflow
+                </Link>
+                ,{" "}
+                <Link
+                  href="https://openai.com/index/clip/"
+                  className="text-cyan-500 underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  CLIP
+                </Link>{" "}
+                and cosine similarity.
+              </li>
+              <li>
+                We assign your screenshot a score based on which Timothée
+                Chalamet image it most closely resembles.
+              </li>
+            </ul>
             <p>
               You can read more about the project in this short{"  "}
               <Link
@@ -61,13 +80,13 @@ export const FAQ = () => {
                 rel="noopener noreferrer"
               >
                 blog post
-              </Link>{" "}
-              I wrote.
+              </Link>
+              .
             </p>
           </span>
         </div>
         <div>
-          <h3 className="font-bold">Is it 100% accurate?</h3>
+          <h3 className="font-bold text-lg">Is it 100% accurate?</h3>
           <p>
             Definitely not. CLIP considers the full image, so background,
             lighting, and pixelation all make a significant difference in your
@@ -78,7 +97,7 @@ export const FAQ = () => {
           </p>
         </div>
         <div>
-          <h3 className="font-bold">
+          <h3 className="font-bold text-lg">
             Does Timothée Chalamet have anything to do with this?
           </h3>
           <p>
@@ -87,14 +106,14 @@ export const FAQ = () => {
           </p>
         </div>
         <div>
-          <h3 className="font-bold">
+          <h3 className="font-bold text-lg">
             Is Anthony Po (organizer of the original lookalike contest)
             involved?
           </h3>
           <p>Nope!</p>
         </div>
         <div>
-          <h3 className="font-bold">What is the privacy policy?</h3>
+          <h3 className="font-bold text-lg">What is the privacy policy?</h3>
           <p>
             <Link
               href={"https://www.elastic.co/what-is/vector-embedding"}
