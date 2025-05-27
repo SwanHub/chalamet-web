@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 export const PrivacyPolicy = () => {
   return (
     <div className="py-8 px-6 max-w-3xl mx-auto text-white bg-gray-900 rounded-2xl mb-36">
