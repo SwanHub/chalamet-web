@@ -5,6 +5,7 @@ import { Header } from "./_components/Header";
 import MediaToggle from "./_components/MediaToggle";
 import { Modal_Results } from "./_components/Modal_Results";
 import { BG_IMAGES } from "./constants";
+import { PoweredBy } from "./_components/PoweredBy";
 
 export default function Home() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -61,6 +62,7 @@ export default function Home() {
             setActiveSubmissionId={setActiveSubmissionId}
             activeSubmissionId={activeSubmissionId}
           />
+          <PoweredBy />
           <Modal_Results
             isOpen={modalIsOpen}
             onClose={() => setActiveSubmissionId(null)}
