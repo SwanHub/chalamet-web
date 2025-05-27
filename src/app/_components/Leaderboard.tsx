@@ -88,7 +88,7 @@ export const Leaderboard = ({ onClickItem }: Props) => {
   if (!data) return <p>Loading...</p>;
 
   return (
-    <div className="flex flex-col w-full gap-4">
+    <div className="flex flex-col w-full gap-4 pb-36">
       {submissions[0] && (
         <GalleryItem_Image
           key={submissions[0].id}

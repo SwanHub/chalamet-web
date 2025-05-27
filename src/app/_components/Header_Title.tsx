@@ -22,11 +22,17 @@ const Header_Title = () => {
     <div className="text-white w-full flex flex-col flex-grow justify-center items-center text-center">
       <div className="relative flex flex-col gap-4 pb-6 justify-center items-center">
         <h1 className="font-thin text-gray-300 text-base uppercase">
-          Compete in the Internet Official
+          compete in the internet official
         </h1>
         <h1 className="font-bold sm:text-5xl text-4xl">
           Timothée Chalamet Lookalike Contest
         </h1>
+        {/* <h1 className="font-thin text-gray-300 text-base uppercase">
+          Open Internet Competition
+        </h1>
+        <h1 className="font-bold sm:text-5xl text-4xl">
+          But who actually looks like Timothée Chalamet?
+        </h1> */}
         {submissionCount !== null && (
           <span className="text-sm text-cyan-300 bg-gray-800/50 border border-cyan-500 px-3 py-1 rounded-full w-fit shadow-md">
             <span className="font-mono text-sm font-semibold">
