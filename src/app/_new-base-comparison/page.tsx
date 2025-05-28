@@ -10,7 +10,6 @@ import {
 } from "../../lib/api/baseComparison";
 import { v4 as uuidv4 } from "uuid";
 import { imageUrlToBlob } from "@/lib/utils";
-import { supabase } from "@/lib/supabase";
 
 export default function NewBaseComparison() {
   // part 1
@@ -69,11 +68,9 @@ export default function NewBaseComparison() {
   //   setIsRecalculating(false);
   // };
 
-  const normalizeSubmissionScores = async () => {
-    const { data, error } = await supabase.rpc(
-      "correct_all_highest_normalized_scores"
-    );
-  };
+  // const normalizeSubmissionScores = async () => {
+  //   await supabase.rpc("correct_all_highest_normalized_scores");
+  // };
 
   return (
     <div className="flex flex-col max-w-screen-sm justify-center gap-12 w-full bg-amber-200 self-center">
@@ -89,11 +86,11 @@ export default function NewBaseComparison() {
           onClick={recalculateAllSubmissionScores}
           inverted
         /> */}
-        <Button_Generic
+        {/* <Button_Generic
           label={"Correct submission scores"}
           onClick={normalizeSubmissionScores}
           inverted
-        />
+        /> */}
       </div>
 
       <div className="flex flex-col w-full gap-12 justify-center">
