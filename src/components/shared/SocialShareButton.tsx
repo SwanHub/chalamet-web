@@ -27,8 +27,8 @@ export const SocialShareButton: React.FC<SocialShareButtonProps> = ({
     twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(
       fullUrl
     )}&text=${encodeURIComponent(defaultShareText)}`,
-    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-      fullUrl
+    linkedin: `https://www.linkedin.com/feed/?shareActive&mini=true&text=${encodeURIComponent(
+      defaultShareText + " " + fullUrl
     )}`,
   };
 
