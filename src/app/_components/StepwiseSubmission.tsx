@@ -303,7 +303,7 @@ export const SubmitProcess2 = ({
 
   return (
     <div
-      className="flex w-full aspect-square max-w-sm 
+      className="flex w-full max-w-sm 
       justify-start items-start cursor-pointer"
     >
       <div className="flex flex-col items-center w-full gap-4">
@@ -335,7 +335,6 @@ export const SubmitProcess2 = ({
             />
             <canvas ref={canvasRef} className="hidden" />
           </div>
-          <ErrorMessage />
           {step === 4 && (
             <span className="flex justify-center w-full mt-6">
               <button
@@ -346,6 +345,7 @@ export const SubmitProcess2 = ({
               </button>
             </span>
           )}
+          <ErrorMessage />
         </div>
       </div>
     </div>
