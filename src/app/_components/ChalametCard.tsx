@@ -83,7 +83,7 @@ export const ChalametScoreResults = ({ id }: Props) => {
         <div className="flex flex-col items-center gap-2 pt-8">
           <h1 className="text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
             The results are in... you ranked:{" "}
-            <span className="text-xl font-bold text-white px-3 rounded-full bg-gray-800 border border-gray-600">
+            <span className="text-xl font-bold text-white px-4 py-1 rounded-full bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-500 border border-yellow-400 shadow-lg">
               #{data.rank} out of {data.totalSubmissions}
             </span>
           </h1>

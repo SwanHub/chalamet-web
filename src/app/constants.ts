@@ -17,7 +17,7 @@ interface RankMessage {
 
 export const RESULT_MESSAGES: RankMessage[] = [
   {
-    message: "BUT ARE YOU HIM IS MY QUESTION?!?",
+    message: "👑👑👑",
     condition: (rank) => rank === 1,
   },
   {

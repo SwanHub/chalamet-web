@@ -31,8 +31,7 @@ export const Leaderboard = ({ onClickItem }: Props) => {
     return submissions.map((submission) => ({
       ...submission,
       highest_score: submission.highest_score || 0,
-      normalized_score:
-        submission.normalized_score || submission.highest_score || 0,
+      normalized_score: submission.normalized_score || 0,
     }));
   };
   const { data: submissions, error } = useSWR<Submission[]>(
