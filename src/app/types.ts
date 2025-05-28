@@ -85,7 +85,7 @@ export type SubmissionScore = {
 };
 
 export type SubmissionResults = {
-  submission: Comparison;
+  submission: Submission;
   scores: SubmissionScore[];
 };
 

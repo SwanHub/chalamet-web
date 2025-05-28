@@ -1,6 +1,6 @@
 import { SocialShareButton } from "@/components/shared/SocialShareButton";
 import { SubmissionResults, SubmissionScore } from "../types";
-import { formatPercent } from "@/lib/utils";
+import { formatPercent, formatTwoDecimals } from "@/lib/utils";
 import { fetchSubmissionResults } from "../../lib/api/submit";
 import useSWR from "swr";
 import { GridLoader } from "react-spinners";
@@ -55,7 +55,7 @@ export const ChalametScoreResults = ({ id }: Props) => {
   if (error) return <p className="text-white">Error</p>;
   if (!data) return <p className="text-white">No data error</p>;
 
-  const topScore = data.scores.length > 0 ? data.scores[0].similarity_score : 0;
+  // const topScore = data.scores.length > 0 ? data.scores[0].similarity_score : 0;
 
   return (
     <div className="flex w-full items-center justify-center animate-fade-in overflow-auto py-12">
@@ -72,7 +72,7 @@ export const ChalametScoreResults = ({ id }: Props) => {
           <div className="absolute z-20 bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <div className="bg-white text-center px-3 sm:px-6 py-1 sm:py-3 rounded-full shadow-lg border-2 border-gray-100">
               <span className="text-2xl sm:text-4xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
-                {formatPercent(topScore)}
+                {formatTwoDecimals(data.submission.normalized_score)}
               </span>
               <span className="text-lg text-cyan-700 font-medium ml-1">
                 similar
@@ -128,15 +128,30 @@ const ImageComponent = ({
 };
 
 const ComparisonItem = ({ score }: { score: SubmissionScore }) => {
+  console.log("comparison item: ", score);
   return (
     <div className="flex bg-gray-800 overflow-hidden h-24 rounded-xl">
-      <div className="w-24 h-24 flex-shrink-0">
+      <div className="flex items-center w-24 h-24 flex-shrink-0">
         <img
           src={score.base_comparisons.image_url}
           alt="Chalamet comparison"
           className="w-full h-full object-cover"
         />
       </div>
+
+      <div className="flex-grow relative">
+        <div className="absolute inset-0 flex items-center px-4 z-10">
+          <p className="text-white text-sm">{score.base_comparisons.name}</p>
+        </div>
+      </div>
+      {/* <div className="w-24 h-24 flex-shrink-0">
+        <img
+          src={score.base_comparisons.image_url}
+          alt="Chalamet comparison"
+          className="w-full h-full object-cover"
+        />
+      </div> */}
+      {/* <p className="text-white text-sm">{score.base_comparisons.name}</p> */}
 
       <div className="flex-grow relative">
         <div
