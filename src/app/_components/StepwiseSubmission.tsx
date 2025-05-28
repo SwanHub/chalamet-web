@@ -66,7 +66,6 @@ export const SubmitProcess2 = ({
   // SEQUENTIAL FUNCTIONS.
   const startCamera = async () => {
     try {
-      // First check if getUserMedia is supported
       if (!navigator.mediaDevices?.getUserMedia) {
         throw new Error(
           "Camera access is not supported in your browser. Try using Chrome or Safari."
@@ -337,15 +336,17 @@ export const SubmitProcess2 = ({
             <canvas ref={canvasRef} className="hidden" />
           </div>
           <ErrorMessage />
+          {step === 4 && (
+            <span className="flex justify-center w-full mt-6">
+              <button
+                onClick={() => setIsResetting(true)}
+                className="backdrop-blur cursor-pointer bg-white/10 text-white border border-white/10 rounded-full px-4 py-2 text-sm font-medium shadow-md self-center"
+              >
+                {"🔄 Play again"}
+              </button>
+            </span>
+          )}
         </div>
-        {step === 4 && (
-          <button
-            onClick={() => setIsResetting(true)}
-            className="backdrop-blur cursor-pointer bg-white/10 text-white border border-white/10 rounded-full px-4 py-2 text-sm font-medium shadow-md"
-          >
-            {"🔄 Play again"}
-          </button>
-        )}
       </div>
     </div>
   );

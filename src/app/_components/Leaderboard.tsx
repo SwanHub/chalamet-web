@@ -44,7 +44,7 @@ export const Leaderboard = ({ onClickItem }: Props) => {
   }
 
   return (
-    <div className="flex flex-col w-full gap-4 pb-36">
+    <div className="flex flex-col w-full gap-4">
       {!submissions && (
         <div className="flex justify-center items-center h-full">
           <p className="text-white italic text-sm">Loading...</p>

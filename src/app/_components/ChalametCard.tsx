@@ -80,14 +80,16 @@ export const ChalametScoreResults = ({ id }: Props) => {
   return (
     <div className="flex w-full items-center justify-center animate-fade-in overflow-auto pb-12">
       <div className="flex flex-col text-white max-w-screen-md w-full rounded-2xl overflow-hidden gap-6">
-        <div className="flex flex-col items-center gap-2 pt-8">
-          <h1 className="text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
-            The results are in... you ranked:{" "}
-            <span className="text-xl font-bold text-white px-4 py-1 rounded-full bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-500 border border-yellow-400 shadow-lg">
+        <div className="flex flex-col items-center gap-4 sm:gap-4 pt-4 sm:pt-8">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-0 text-center">
+            <h1 className="text-xl sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 px-4">
+              The results are in... you ranked:
+            </h1>
+            <span className="text-lg sm:text-xl font-bold text-white px-3 py-1 rounded-full bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-500 border border-yellow-400 shadow-lg">
               #{data.rank} out of {data.totalSubmissions}
             </span>
-          </h1>
-          <h1 className="text-2xl font-bold text-center text-white">
+          </div>
+          <h1 className="text-xl sm:text-2xl font-bold text-center text-white px-4">
             {getResultMessage(data.rank, data.totalSubmissions)}
           </h1>
         </div>
