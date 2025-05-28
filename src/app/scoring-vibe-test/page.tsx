@@ -11,10 +11,12 @@ type ScoreType =
   | "z_highest_normalized_score"
   | "z_avg_similarity_score"
   | "z_text_similarity_score"
+  | "highest_normalized_score"
   | "z_centroid_similarity_score";
 
 const SCORE_LABELS: Record<ScoreType, string> = {
-  z_highest_normalized_score: "Highest normalized",
+  highest_normalized_score: "Highest normalized",
+  z_highest_normalized_score: "Highest normalized z-score",
   z_avg_similarity_score: "Average similarity",
   z_text_similarity_score: "Text similarity",
   z_centroid_similarity_score: "Centroid similarity",
@@ -76,13 +78,13 @@ export default function ScoringTest() {
         Scoring Vibe Test
       </h1>
 
-      <div className="flex gap-2 justify-center pb-6">
+      <div className="flex gap-2 justify-center pb-6 flex-wrap">
         {(Object.entries(SCORE_LABELS) as [ScoreType, string][]).map(
           ([scoreType, label]) => (
             <button
               key={scoreType}
               onClick={() => setSelectedScore(scoreType)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap ${
                 selectedScore === scoreType
                   ? "bg-cyan-500 text-white"
                   : "bg-gray-800 text-gray-300 hover:bg-gray-700"
