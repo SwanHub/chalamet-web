@@ -22,6 +22,7 @@ export const Leaderboard = ({ onClickItem }: Props) => {
         highest_normalized_score
       `
       )
+      .not("highest_normalized_score", "is", null)
       .order("highest_normalized_score", { ascending: false })
       .limit(25);
 
@@ -32,6 +33,7 @@ export const Leaderboard = ({ onClickItem }: Props) => {
       highest_normalized_score: submission.highest_normalized_score || 0,
     }));
   };
+
   const { data: submissions, error } = useSWR<Submission[]>(
     "leaderboard",
     fetcher
