@@ -106,11 +106,30 @@ export const SubmitProcess2 = ({
     if (!videoRef.current || !canvasRef.current) return;
     const video = videoRef.current;
     const canvas = canvasRef.current;
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+
+    // Calculate the square size (use the smaller dimension)
+    const size = Math.min(video.videoWidth, video.videoHeight);
+    canvas.width = size;
+    canvas.height = size;
+
     const ctx = canvas.getContext("2d");
     if (ctx) {
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      // Calculate offset to center the crop
+      const xOffset = (video.videoWidth - size) / 2;
+      const yOffset = (video.videoHeight - size) / 2;
+
+      // Draw the centered square portion of the video
+      ctx.drawImage(
+        video,
+        xOffset,
+        yOffset,
+        size,
+        size, // Source rectangle
+        0,
+        0,
+        size,
+        size // Destination rectangle
+      );
       const imageData = canvas.toDataURL("image/jpeg");
       setScreenshot(imageData);
       setStep(2);
