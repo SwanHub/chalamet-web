@@ -44,8 +44,7 @@ export default function ScoringTest() {
       `
       )
       .not(selectedScore, "is", null)
-      .order(selectedScore, { ascending: false })
-      .limit(25);
+      .order(selectedScore, { ascending: false });
 
     if (submissionsError) throw submissionsError as PostgrestError;
 
