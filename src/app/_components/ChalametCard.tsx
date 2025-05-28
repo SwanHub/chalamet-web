@@ -23,39 +23,55 @@ export const ChalametScoreResults = ({ id }: Props) => {
     }
   );
 
-  async function handleDelete() {
+  const handleReport = async () => {
     if (!data) return;
 
     try {
-      const fileName = data.submission.image_url.split("/").pop();
-      const { error: storageError } = await supabase.storage
+      const { error } = await supabase
         .from("submissions")
-        .remove([`${fileName}`]);
-      if (storageError) throw storageError;
-
-      const { error: submissionError } = await supabase
-        .from("submissions")
-        .delete()
+        .update({ report_status: "reported" })
         .eq("id", data.submission.id);
-      if (submissionError) throw submissionError;
 
-      const { error: scoresError } = await supabase
-        .from("submission_scores")
-        .delete()
-        .eq("submission_id", data.submission.id);
-      if (scoresError) throw scoresError;
+      if (error) throw error;
 
-      window.location.href = "/";
+      alert("Successfully reported submission");
     } catch (error) {
-      console.error("Error deleting submission:", error);
+      console.error("Error reporting submission:", error);
+      alert("Failed to report submission");
     }
-  }
+  };
+
+  // async function handleDelete() {
+  //   if (!data) return;
+
+  //   try {
+  //     const fileName = data.submission.image_url.split("/").pop();
+  //     const { error: storageError } = await supabase.storage
+  //       .from("submissions")
+  //       .remove([`${fileName}`]);
+  //     if (storageError) throw storageError;
+
+  //     const { error: submissionError } = await supabase
+  //       .from("submissions")
+  //       .delete()
+  //       .eq("id", data.submission.id);
+  //     if (submissionError) throw submissionError;
+
+  //     const { error: scoresError } = await supabase
+  //       .from("submission_scores")
+  //       .delete()
+  //       .eq("submission_id", data.submission.id);
+  //     if (scoresError) throw scoresError;
+
+  //     window.location.href = "/";
+  //   } catch (error) {
+  //     console.error("Error deleting submission:", error);
+  //   }
+  // }
 
   if (isLoading) return <Skeleton />;
   if (error) return <p className="text-white">Error</p>;
   if (!data) return <p className="text-white">No data error</p>;
-
-  // const topScore = data.scores.length > 0 ? data.scores[0].similarity_score : 0;
 
   return (
     <div className="flex w-full items-center justify-center animate-fade-in overflow-auto py-12">
@@ -66,7 +82,7 @@ export const ChalametScoreResults = ({ id }: Props) => {
             imageUrl={data.submission.image_url}
           />
           <ImageComponent
-            title="Chalamet"
+            title={"Chalamet " + data.scores[0].base_comparisons.name}
             imageUrl={data.scores[0].base_comparisons.image_url}
           />
           <div className="absolute z-20 bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -97,7 +113,7 @@ export const ChalametScoreResults = ({ id }: Props) => {
             ))}
           </div>
         </div>
-        <Button_Generic label="Delete" onClick={handleDelete} />
+        <Button_Generic label="Report" onClick={handleReport} />
       </div>
     </div>
   );

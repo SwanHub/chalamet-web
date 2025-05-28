@@ -85,7 +85,7 @@ export const SubmitProcess2 = ({
   }, [cameraActive]);
 
   const startScreenshotTimer = () => {
-    setCountdown(5);
+    setCountdown(3);
 
     const interval = setInterval(() => {
       setCountdown((prev) => {
