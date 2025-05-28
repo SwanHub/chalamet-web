@@ -75,9 +75,7 @@ export const SubmitProcess2 = ({
 
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
-          facingMode: "user", // Prefer front camera
-          width: { ideal: 1280 },
-          height: { ideal: 720 },
+          facingMode: "user",
         },
       });
 
@@ -287,18 +285,17 @@ export const SubmitProcess2 = ({
     };
   }, []);
 
-  // Update the error display component to be more visible and helpful
   const ErrorMessage = () => {
     if (!error) return null;
     return (
-      <div className="absolute bottom-0 left-0 right-0 bg-red-500/90 p-4 rounded-b-2xl">
+      <div className="bg-amber-500/20 p-4 rounded-2xl mt-2">
         <p className="text-white text-sm text-center">{error}</p>
         <div className="flex justify-center mt-2">
           <button
             onClick={() => window.location.reload()}
-            className="bg-white text-red-500 px-3 py-1 text-sm rounded-full hover:bg-red-50 transition-colors"
+            className="bg-white text-red-500 px-3 py-1 text-sm rounded-full hover:bg-red-50 transition-colors cursor-pointer"
           >
-            Try Again
+            Reload page
           </button>
         </div>
       </div>
@@ -329,7 +326,6 @@ export const SubmitProcess2 = ({
                 className="w-full h-full object-cover rounded-2xl border-2 border-cyan-500"
               />
             )}
-            <ErrorMessage />
             <Overlay
               step={step}
               nextStep={nextStep}
@@ -340,6 +336,7 @@ export const SubmitProcess2 = ({
             />
             <canvas ref={canvasRef} className="hidden" />
           </div>
+          <ErrorMessage />
         </div>
         {step === 4 && (
           <button
