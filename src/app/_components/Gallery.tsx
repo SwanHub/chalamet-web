@@ -24,8 +24,7 @@ const fetcher = async (
       id,
       image_url,
       created_at,
-      highest_score,
-      normalized_score
+      highest_normalized_score
     `
     )
     .order("created_at", { ascending: false });
@@ -94,7 +93,7 @@ export const SubmissionGallery = ({ onClickItem }: Props) => {
           onClick={onClickItem}
           id={item.id}
           imageUrl={item.image_url}
-          similarityScore={item.normalized_score}
+          similarityScore={item.highest_normalized_score}
           createdAt={item.created_at}
           rank={null}
         />

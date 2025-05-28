@@ -40,28 +40,8 @@ export type Submission = {
   id: string;
   created_at: number;
   image_url: string;
-  highest_score: number;
-  normalized_score: number;
+  highest_normalized_score: number;
 };
-
-export type SubmissionWithScore = {
-  id: string;
-  created_at: string; // or `Date` if you're converting it
-  similarity_score: number;
-  submission_id: string;
-  submissions: {
-    id: string;
-    image_url: string;
-    created_at: string; // or `Date`
-  };
-};
-
-export type CaptureStatus =
-  | "ready"
-  | "countdown"
-  | "screenshot-taken"
-  | "processing"
-  | "complete";
 
 export type SubmitScore = {
   similarity_score: number;

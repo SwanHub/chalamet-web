@@ -48,7 +48,7 @@ export const fetchSubmissionResults = async (
 ): Promise<any> => {
   const { data: submissionData, error: submissionError } = await supabase
     .from("submissions")
-    .select("id, image_url, highest_score, normalized_score")
+    .select("id, image_url, highest_normalized_score")
     .eq("id", submissionId)
     .single();
 
@@ -57,7 +57,7 @@ export const fetchSubmissionResults = async (
   const { count: rank, error: rankError } = await supabase
     .from("submissions")
     .select("*", { count: "exact", head: true })
-    .gt("normalized_score", submissionData.normalized_score)
+    .gt("highest_normalized_score", submissionData.highest_normalized_score)
     .neq("id", submissionData.id);
 
   if (rankError) throw rankError;
@@ -127,67 +127,13 @@ export async function uploadImageToSubmissions(
   return publicUrl;
 }
 
-// ------- OLD -------------------------------------------------
-
-export const fetchSimilarityScore = async (
-  base64Image: string
-): Promise<number> => {
-  try {
-    const base64Data = base64Image.includes("base64,")
-      ? base64Image.split("base64,")[1]
-      : base64Image;
-
-    const response = await fetch(
-      "https://serverless.roboflow.com/infer/workflows/jp-roboflow-tests/detect-and-classify",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          api_key: process.env.ROBOFLOW_API_KEY,
-          inputs: {
-            image: {
-              type: "base64",
-              value: base64Data,
-            },
-            text_classes: ["timothée chalamet"],
-            version: "ViT-B-16",
-          },
-        }),
-      }
-    );
-    if (!response.ok) {
-      throw new Error(`API request failed with status ${response.status}`);
-    }
-    const result: ClipResponse = await response.json();
-    if (result.outputs) {
-      return result.outputs[0].clip_comparison.similarities[0];
-    } else {
-      throw new Error("No similarity score returned");
-    }
-  } catch (err: any) {
-    console.error("Error fetching similarity score:", err);
-    throw err;
-  }
-};
-
-export async function createSubmission(imageUrl: string): Promise<string> {
-  const { data, error } = await supabase
-    .from("submissions")
-    .insert([{ image_url: imageUrl }])
-    .select();
-
-  if (error) throw error;
-  return data[0].id;
-}
-
 export async function recomputeSimilarityScores(): Promise<{
   success: boolean;
   total: number;
   updated: number;
   errors: string[];
 }> {
+  // ensure submission_scores table is empty
   const result = {
     success: false,
     total: 0,
@@ -262,3 +208,48 @@ export async function recomputeSimilarityScores(): Promise<{
 
   return result;
 }
+
+// ------- OLD -------------------------------------------------
+
+export const fetchSimilarityScore = async (
+  base64Image: string
+): Promise<number> => {
+  try {
+    const base64Data = base64Image.includes("base64,")
+      ? base64Image.split("base64,")[1]
+      : base64Image;
+
+    const response = await fetch(
+      "https://serverless.roboflow.com/infer/workflows/jp-roboflow-tests/detect-and-classify",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          api_key: process.env.ROBOFLOW_API_KEY,
+          inputs: {
+            image: {
+              type: "base64",
+              value: base64Data,
+            },
+            text_classes: ["timothée chalamet"],
+            version: "ViT-B-16",
+          },
+        }),
+      }
+    );
+    if (!response.ok) {
+      throw new Error(`API request failed with status ${response.status}`);
+    }
+    const result: ClipResponse = await response.json();
+    if (result.outputs) {
+      return result.outputs[0].clip_comparison.similarities[0];
+    } else {
+      throw new Error("No similarity score returned");
+    }
+  } catch (err: any) {
+    console.error("Error fetching similarity score:", err);
+    throw err;
+  }
+};

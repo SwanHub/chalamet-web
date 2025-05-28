@@ -100,7 +100,7 @@ export const ChalametScoreResults = ({ id }: Props) => {
           <div className="absolute z-20 bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2">
             <div className="bg-white text-center px-3 sm:px-6 py-1 sm:py-3 rounded-full shadow-lg border-2 border-gray-100">
               <span className="text-2xl sm:text-4xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
-                {formatTwoDecimals(data.submission.normalized_score)}
+                {formatTwoDecimals(data.submission.highest_normalized_score)}
               </span>
               <span className="text-lg text-cyan-700 font-medium ml-1">
                 similar

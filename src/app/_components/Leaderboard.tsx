@@ -19,19 +19,17 @@ export const Leaderboard = ({ onClickItem }: Props) => {
         id,
         image_url,
         created_at,
-        highest_score,
-        normalized_score
+        highest_normalized_score
       `
       )
-      .order("normalized_score", { ascending: false })
+      .order("highest_normalized_score", { ascending: false })
       .limit(25);
 
     if (submissionsError) throw submissionsError as PostgrestError;
 
     return submissions.map((submission) => ({
       ...submission,
-      highest_score: submission.highest_score || 0,
-      normalized_score: submission.normalized_score || 0,
+      highest_normalized_score: submission.highest_normalized_score || 0,
     }));
   };
   const { data: submissions, error } = useSWR<Submission[]>(
@@ -55,7 +53,7 @@ export const Leaderboard = ({ onClickItem }: Props) => {
           key={submissions[0].id}
           id={submissions[0].id}
           imageUrl={submissions[0].image_url}
-          similarityScore={submissions[0].normalized_score}
+          similarityScore={submissions[0].highest_normalized_score}
           createdAt={submissions[0].created_at}
           rank={1}
           onClick={onClickItem}
@@ -69,7 +67,7 @@ export const Leaderboard = ({ onClickItem }: Props) => {
               key={item.id}
               id={item.id}
               imageUrl={item.image_url}
-              similarityScore={item.normalized_score}
+              similarityScore={item.highest_normalized_score}
               createdAt={item.created_at}
               rank={index + 2}
               onClick={onClickItem}
@@ -85,7 +83,7 @@ export const Leaderboard = ({ onClickItem }: Props) => {
               key={item.id}
               id={item.id}
               imageUrl={item.image_url}
-              similarityScore={item.normalized_score}
+              similarityScore={item.highest_normalized_score}
               createdAt={item.created_at}
               rank={index + 4}
               onClick={onClickItem}
