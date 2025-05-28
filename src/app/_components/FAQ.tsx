@@ -66,7 +66,7 @@ export const FAQ = () => {
                 Chalamet image it most closely resembles.
               </li>
             </ul>
-            <p>
+            {/* <p>
               You can read more about the project in this short{"  "}
               <Link
                 href={"https://www.elastic.co/what-is/vector-embedding"}
@@ -77,7 +77,7 @@ export const FAQ = () => {
                 blog post
               </Link>
               .
-            </p>
+            </p> */}
           </span>
         </div>
         <div>
