@@ -157,7 +157,7 @@ export const ChalametScoreResults = ({ id }: Props) => {
                 </>
               ) : (
                 <>
-                  See our calculations <ChevronDown className="w-4 h-4" />
+                  See the calculations <ChevronDown className="w-4 h-4" />
                 </>
               )}
             </button>
