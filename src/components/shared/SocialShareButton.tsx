@@ -19,8 +19,8 @@ export const SocialShareButton: React.FC<SocialShareButtonProps> = ({
 
   const defaultShareText =
     platform === "twitter"
-      ? "My @chalametwtf lookalike results:"
-      : "My chalamet.wtf lookalike results:";
+      ? "Check out my Timothée Chalamet lookalike results @chalametwtf:"
+      : "Check out my Timothée Chalamet lookalike results:";
   const fullUrl = `https://chalamet.wtf/submission/${submissionId}`;
 
   const shareUrls = {
