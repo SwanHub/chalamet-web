@@ -53,6 +53,17 @@ export const fetchSubmissionResults = async (
 
   if (submissionError) throw submissionError;
 
+  const { count: rank, error: rankError } = await supabase
+    .from("submissions")
+    .select("*", { count: "exact", head: true })
+    .gt("highest_score", submissionData.highest_score);
+
+  if (rankError) throw rankError;
+
+  const { count: totalSubmissions } = await supabase
+    .from("submissions")
+    .select("*", { count: "exact", head: true });
+
   const { data: scoresData, error: scoresError } = await supabase
     .from("submission_scores")
     .select(
@@ -73,6 +84,8 @@ export const fetchSubmissionResults = async (
 
   const returnObj = {
     submission: submissionData,
+    rank: (rank || 0) + 1,
+    totalSubmissions: totalSubmissions,
     scores: scoresData,
   };
   return returnObj;

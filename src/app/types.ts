@@ -88,6 +88,8 @@ export type SubmissionScore = {
 export type SubmissionResults = {
   submission: Submission;
   scores: SubmissionScore[];
+  rank: number;
+  totalSubmissions: number;
 };
 
 export type EmbedItem = {

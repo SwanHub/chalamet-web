@@ -4,15 +4,18 @@ import { formatTwoDecimals } from "@/lib/utils";
 import { fetchSubmissionResults } from "../../lib/api/submit";
 import useSWR from "swr";
 import { GridLoader } from "react-spinners";
-import { Button_Generic } from "@/components/shared/Button_Generic";
 import { supabase } from "@/lib/supabase";
-import { Flag } from "lucide-react";
+import { Flag, ChevronDown, ChevronUp } from "lucide-react";
+import { useState } from "react";
+import Link from "next/link";
+import { getResultMessage } from "../constants";
 
 interface Props {
   id: string;
 }
 
 export const ChalametScoreResults = ({ id }: Props) => {
+  const [showAllComparisons, setShowAllComparisons] = useState(false);
   const hydrate = () => fetchSubmissionResults(id);
   const { data, error, isLoading } = useSWR<SubmissionResults>(
     `submission-results-${id}`,
@@ -77,16 +80,22 @@ export const ChalametScoreResults = ({ id }: Props) => {
   return (
     <div className="flex w-full items-center justify-center animate-fade-in overflow-auto py-12">
       <div className="flex flex-col text-white max-w-screen-md w-full rounded-2xl overflow-hidden gap-6">
+        <h1 className="text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
+          The results are in... you are ranked{" "}
+          <span className="text-white underline">
+            #{data.rank} out of {data.totalSubmissions}
+          </span>{" "}
+          total submissions.
+          <br />
+          {getResultMessage(data.rank, data.totalSubmissions)}
+        </h1>
         <div className="relative grid grid-cols-2 gap-4">
+          <ImageComponent title="You" imageUrl={data.submission.image_url} />
           <ImageComponent
-            title="Contestant"
-            imageUrl={data.submission.image_url}
-          />
-          <ImageComponent
-            title={"Chalamet " + data.scores[0].base_comparisons.name}
+            title={"Chalamet"}
             imageUrl={data.scores[0].base_comparisons.image_url}
           />
-          <div className="absolute z-20 bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <div className="absolute z-20 bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2">
             <div className="bg-white text-center px-3 sm:px-6 py-1 sm:py-3 rounded-full shadow-lg border-2 border-gray-100">
               <span className="text-2xl sm:text-4xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
                 {formatTwoDecimals(data.submission.normalized_score)}
@@ -97,31 +106,62 @@ export const ChalametScoreResults = ({ id }: Props) => {
             </div>
           </div>
         </div>
-        <p>ID: {data.submission.id}</p>
+
         <div className="gap-2">
           <div className="flex justify-between gap-3">
             <SocialShareButton platform="twitter" url="https://twitter.com" />
             <SocialShareButton platform="linkedin" url="https://linkedin.com" />
           </div>
         </div>
+        <Link
+          href={`/submission/${data.submission.id}`}
+          className="text-center px-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl font-medium text-white hover:opacity-90 transition-opacity cursor-pointer"
+        >
+          Want to see who you look like? Try find my match feature.
+        </Link>
 
         <div className="pb-6">
-          <h2 className="font-bold mb-3 text-lg">Chalamet Comparisons</h2>
-
           <div className="space-y-4">
-            {data.scores.map((score, index) => (
-              <ComparisonItem key={index} score={score} />
-            ))}
+            {showAllComparisons && (
+              <>
+                <p>
+                  We compared your screenshot to 10 different Chalamet looks.
+                </p>
+                <div className="space-y-4 animate-fadeDown">
+                  {data.scores.map((score, index) => (
+                    <ComparisonItem key={index + 1} score={score} />
+                  ))}
+                </div>
+                <p>
+                  Then averaged the scores and compared{" "}
+                  <strong>that average</strong> to all other submissions.
+                </p>
+              </>
+            )}
+
+            <button
+              onClick={() => setShowAllComparisons(!showAllComparisons)}
+              className="w-full cursor-pointer mt-2 py-2 px-4 text-sm text-gray-400 hover:text-gray-300 transition-colors flex items-center justify-center gap-1 rounded-lg hover:bg-gray-800/50"
+            >
+              {showAllComparisons ? (
+                <>
+                  Show less <ChevronUp className="w-4 h-4" />
+                </>
+              ) : (
+                <>
+                  See our calculations <ChevronDown className="w-4 h-4" />
+                </>
+              )}
+            </button>
           </div>
         </div>
 
         <button
           onClick={handleReport}
-          className="text-gray-400 hover:text-red-400 transition-colors
-          cursor-pointer p-2 rounded-full self-center bg-black text-center items-center justify-center"
+          className="text-gray-400 hover:text-red-400 transition-colors cursor-pointer self-center text-center items-center justify-center"
           title="Report submission"
         >
-          <Flag />
+          <Flag className="w-4 h-4" />
         </button>
       </div>
     </div>

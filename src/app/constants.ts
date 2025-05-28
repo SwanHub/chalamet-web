@@ -9,3 +9,77 @@ export const BG_IMAGES = [
 
 export const NYT_ARTICLE =
   "https://www.nytimes.com/2024/10/28/nyregion/timothee-chalamet-lookalike-contest-new-york.html";
+
+interface RankMessage {
+  message: string;
+  condition: (rank: number, total: number) => boolean;
+}
+
+export const RESULT_MESSAGES: RankMessage[] = [
+  {
+    message: "BUT ARE YOU HIM IS MY QUESTION?!?",
+    condition: (rank) => rank === 1,
+  },
+  {
+    message: "The resemblance is uncanny.",
+    condition: (rank) => rank === 2,
+  },
+  {
+    message: "Top 👏 3 👏",
+    condition: (rank) => rank === 3,
+  },
+  {
+    message: "The Chalamet-ness is palpable",
+    condition: (rank, total) => rank <= Math.floor(total * 0.1),
+  },
+  {
+    message: "The bone structure is there 🦴",
+    condition: (rank, total) => rank <= Math.floor(total * 0.2),
+  },
+  {
+    message: "Not bad, not bad at all 👌",
+    condition: (rank, total) => rank <= Math.floor(total * 0.3),
+  },
+  {
+    message: "You've got potential, young padawan 🌟",
+    condition: (rank, total) => rank <= Math.floor(total * 0.4),
+  },
+  {
+    message: "Middle of the pack, but make it fashion 💅",
+    condition: (rank, total) => rank <= Math.floor(total * 0.5),
+  },
+  {
+    message: "The Chalamet vibes are... subtle 🔍",
+    condition: (rank, total) => rank <= Math.floor(total * 0.6),
+  },
+  {
+    message: "Have you considered a bowl cut? 💇‍♂️",
+    condition: (rank, total) => rank <= Math.floor(total * 0.7),
+  },
+  {
+    message: "Well... you've got the same number of eyes 👀",
+    condition: (rank, total) => rank <= Math.floor(total * 0.8),
+  },
+  {
+    message: "At least you're not last? 🤷‍♂️",
+    condition: (rank, total) => rank <= Math.floor(total * 0.9),
+  },
+  {
+    message: "oof... maybe try the Paul Atreides haircut? 🏜️",
+    condition: (rank, total) => rank === total,
+  },
+  {
+    message: "Hey, not everyone can be Timmy... you be you 💪",
+    condition: () => true,
+  },
+];
+
+export const getResultMessage = (
+  rank: number,
+  totalSubmissions: number
+): string => {
+  return (
+    RESULT_MESSAGES.find(({ condition }) => condition(rank, totalSubmissions))
+      ?.message || "Results are in..."
+  );
+};
