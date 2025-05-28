@@ -9,11 +9,7 @@ import {
   uploadImageToBaseComparisons,
 } from "../../lib/api/baseComparison";
 import { v4 as uuidv4 } from "uuid";
-import { imageUrlToBlob, getCentroidOfBaseComparisons } from "@/lib/utils";
-import { calculateTextClipComparison } from "@/lib/api/testzone";
-import { supabase } from "@/lib/supabase";
-import { getAllBaseComparisons } from "@/lib/api/submit";
-import similarity from "compute-cosine-similarity";
+import { imageUrlToBlob } from "@/lib/utils";
 
 export default function NewBaseComparison() {
   // part 1

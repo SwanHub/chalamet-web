@@ -28,9 +28,7 @@ export async function POST(request: Request) {
   }
 }
 
-export const fetchSimilarityScore = async (
-  imageUrl: string
-): Promise<number> => {
+const fetchSimilarityScore = async (imageUrl: string): Promise<number> => {
   try {
     const response = await fetch(
       "https://serverless.roboflow.com/infer/workflows/jp-roboflow-tests/clip-compare-text-image",

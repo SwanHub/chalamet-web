@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { ClipResponse, SubmitScore } from "../../app/types";
+import { SubmitScore } from "../../app/types";
 import similarity from "compute-cosine-similarity";
 
 export const batchInsertSimilarityScores = async (
@@ -208,48 +208,3 @@ export async function recomputeSimilarityScores(): Promise<{
 
   return result;
 }
-
-// ------- OLD -------------------------------------------------
-
-export const fetchSimilarityScore = async (
-  base64Image: string
-): Promise<number> => {
-  try {
-    const base64Data = base64Image.includes("base64,")
-      ? base64Image.split("base64,")[1]
-      : base64Image;
-
-    const response = await fetch(
-      "https://serverless.roboflow.com/infer/workflows/jp-roboflow-tests/detect-and-classify",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          api_key: process.env.ROBOFLOW_API_KEY,
-          inputs: {
-            image: {
-              type: "base64",
-              value: base64Data,
-            },
-            text_classes: ["timothée chalamet"],
-            version: "ViT-B-16",
-          },
-        }),
-      }
-    );
-    if (!response.ok) {
-      throw new Error(`API request failed with status ${response.status}`);
-    }
-    const result: ClipResponse = await response.json();
-    if (result.outputs) {
-      return result.outputs[0].clip_comparison.similarities[0];
-    } else {
-      throw new Error("No similarity score returned");
-    }
-  } catch (err: any) {
-    console.error("Error fetching similarity score:", err);
-    throw err;
-  }
-};
