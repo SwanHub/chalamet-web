@@ -11,7 +11,7 @@ import {
 } from "../../lib/api/baseComparison";
 import { v4 as uuidv4 } from "uuid";
 import { imageUrlToBlob } from "@/lib/utils";
-import { getAllBaseComparisons } from "../../lib/api/submit";
+import { recomputeSimilarityScores } from "@/lib/api/submit";
 
 export default function NewBaseComparison() {
   // part 1
@@ -61,15 +61,27 @@ export default function NewBaseComparison() {
     console.log(res);
     setIsRecalculating(false);
   };
+  const [isWorking, setIsWorking] = useState(false);
+  const recalculateAllSubmissionScores = async () => {
+    setIsRecalculating(true);
+    const res = await recomputeSimilarityScores();
+    console.log(res);
+    setIsRecalculating(false);
+  };
 
   return (
     <div className="flex flex-col max-w-screen-sm justify-center gap-12 w-full bg-amber-200 self-center">
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-12">
         <Button_Generic
           label={
             isRecalculating ? "Calculating" : "Recalculate all base comparisons"
           }
           onClick={recalculateAllBaseComparisons}
+        />
+        <Button_Generic
+          label={isWorking ? "Working" : "Recalculate all submission scores"}
+          onClick={recalculateAllSubmissionScores}
+          inverted
         />
       </div>
 

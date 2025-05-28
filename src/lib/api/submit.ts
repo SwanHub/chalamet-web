@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import { ClipResponse, SubmitScore } from "../../app/types";
+import similarity from "compute-cosine-similarity";
 
 export const batchInsertSimilarityScores = async (
   scores: SubmitScore[]
@@ -178,4 +179,85 @@ export async function createSubmission(imageUrl: string): Promise<string> {
 
   if (error) throw error;
   return data[0].id;
+}
+
+export async function recomputeSimilarityScores(): Promise<{
+  success: boolean;
+  total: number;
+  updated: number;
+  errors: string[];
+}> {
+  const result = {
+    success: false,
+    total: 0,
+    updated: 0,
+    errors: [] as string[],
+  };
+
+  try {
+    // Fetch all submissions with their embeddings
+    const { data: submissions, error: submissionsError } = await supabase
+      .from("submissions")
+      .select("id, embedding_vector");
+
+    if (submissionsError) throw submissionsError;
+    result.total = submissions.length;
+
+    // Get all base comparisons once to avoid multiple queries
+    const baseComparisons = await getAllBaseComparisons();
+
+    // Process each submission
+    for (const submission of submissions) {
+      try {
+        if (!submission.embedding_vector) {
+          result.errors.push(
+            `Submission ${submission.id} has no embedding vector`
+          );
+          continue;
+        }
+
+        const submissionVector = Array.isArray(submission.embedding_vector)
+          ? submission.embedding_vector
+          : JSON.parse(submission.embedding_vector);
+
+        const scores: SubmitScore[] = [];
+        baseComparisons.forEach((item) => {
+          const baseVector = Array.isArray(item.embedding_vector)
+            ? item.embedding_vector
+            : JSON.parse(item.embedding_vector);
+
+          const cosine_similarity = similarity(submissionVector, baseVector);
+          scores.push({
+            similarity_score: cosine_similarity ? cosine_similarity : 0,
+            submission_id: submission.id,
+            base_comparison_id: item.id,
+          });
+        });
+
+        // Insert new scores
+        const { error: insertError } = await supabase
+          .from("submission_scores")
+          .insert(scores);
+
+        if (insertError) {
+          result.errors.push(
+            `Failed to insert new scores for submission ${submission.id}: ${insertError.message}`
+          );
+          continue;
+        }
+
+        result.updated++;
+      } catch (err: any) {
+        result.errors.push(
+          `Error processing submission ${submission.id}: ${err.message}`
+        );
+      }
+    }
+
+    result.success = true;
+  } catch (err: any) {
+    result.errors.push(`General error: ${err.message}`);
+  }
+
+  return result;
 }
