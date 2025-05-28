@@ -6,6 +6,7 @@ import { Input_Text } from "@/components/shared/Input_Text";
 import { useState } from "react";
 import {
   createBaseComparison,
+  recalculateBaseComparisons,
   uploadImageToBaseComparisons,
 } from "../../lib/api/baseComparison";
 import { v4 as uuidv4 } from "uuid";
@@ -53,69 +54,84 @@ export default function NewBaseComparison() {
       console.log(res);
     }
   }
+  const [isRecalculating, setIsRecalculating] = useState(false);
+  const recalculateAllBaseComparisons = async () => {
+    setIsRecalculating(true);
+    const res = await recalculateBaseComparisons();
+    console.log(res);
+    setIsRecalculating(false);
+  };
 
   return (
-    <div className="flex flex-col max-w-screen-lg justify-center gap-12">
+    <div className="flex flex-col max-w-screen-sm justify-center gap-12 w-full bg-amber-200 self-center">
       <div className="flex flex-col">
         <Button_Generic
-          label="Test edge function access"
-          onClick={getAllBaseComparisons}
+          label={
+            isRecalculating ? "Calculating" : "Recalculate all base comparisons"
+          }
+          onClick={recalculateAllBaseComparisons}
         />
       </div>
 
-      {/* part 1: create new image */}
-      <div className="flex flex-col">
-        <div className="flex w-full pb-6">
-          <Input_Text
-            label="Initial image url"
-            value={inputImageUrl}
-            setValue={setInputImageUrl}
-            placeholder="img url"
+      <div className="flex flex-col w-full gap-12 justify-center">
+        <h1 className="text-2xl font-bold">Create a new base comparison</h1>
+        {/* part 1: create new image */}
+        <div className="flex flex-col">
+          <div className="flex w-full pb-6">
+            <Input_Text
+              label="Initial image url"
+              value={inputImageUrl}
+              setValue={setInputImageUrl}
+              placeholder="img url"
+            />
+          </div>
+          <img
+            src={inputImageUrl}
+            className="aspect-square w-128 object-cover"
+          />
+          <Button_Generic
+            label="Save image to our bucket"
+            onClick={createNewImage}
           />
         </div>
-        <img src={inputImageUrl} className="aspect-video w-128 object-cover" />
-        <Button_Generic
-          label="Save image to our bucket"
-          onClick={createNewImage}
-        />
+
+        {/* part 2: create vector embedding of said image */}
+        {supabaseImageUrl && (
+          <div>
+            <Button_Generic
+              label="Get and save image embedding"
+              onClick={setImageEmbedding}
+            />
+            <p>Embedding, printed (to check): {JSON.stringify(embedding)}</p>
+          </div>
+        )}
+
+        {/* part 3: given a vector embedding and imageUrl, insert value to our "base_comparisons" table */}
+        {embedding && (
+          <div>
+            <div className="flex w-full pb-6">
+              <Input_Text
+                label="Name"
+                value={name}
+                setValue={setName}
+                placeholder="img url"
+              />
+            </div>
+            <div className="flex w-full pb-6">
+              <Input_Text
+                label="Description"
+                value={description}
+                setValue={setDescription}
+                placeholder="img url"
+              />
+            </div>
+            <Button_Generic
+              label="Create base comparison"
+              onClick={saveBaseComparison}
+            />
+          </div>
+        )}
       </div>
-
-      {/* part 2: create vector embedding of said image */}
-      {supabaseImageUrl && (
-        <div>
-          <Button_Generic
-            label="Get and save image embedding"
-            onClick={setImageEmbedding}
-          />
-          <p>Embedding, printed (to check): {JSON.stringify(embedding)}</p>
-        </div>
-      )}
-
-      {/* part 3: given a vector embedding and imageUrl, insert value to our "base_comparisons" table */}
-      {embedding && (
-        <div>
-          <div className="flex w-full pb-6">
-            <Input_Text
-              label="Name"
-              value={name}
-              setValue={setName}
-              placeholder="img url"
-            />
-          </div>
-          <div className="flex w-full pb-6">
-            <Input_Text
-              label="Description"
-              value={description}
-              setValue={setDescription}
-              placeholder="img url"
-            />
-          </div>
-          <Button_Generic
-            label="Create base comparison"
-            onClick={saveBaseComparison}
-          />
-        </div>
-      )}
     </div>
   );
 }
