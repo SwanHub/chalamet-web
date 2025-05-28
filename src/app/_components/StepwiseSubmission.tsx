@@ -66,16 +66,53 @@ export const SubmitProcess2 = ({
   // SEQUENTIAL FUNCTIONS.
   const startCamera = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      // First check if getUserMedia is supported
+      if (!navigator.mediaDevices?.getUserMedia) {
+        throw new Error(
+          "Camera access is not supported in your browser. Try using Chrome or Safari."
+        );
+      }
+
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode: "user", // Prefer front camera
+          width: { ideal: 1280 },
+          height: { ideal: 720 },
+        },
+      });
+
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         await videoRef.current.play();
         setCameraActive(true);
         setStep(1);
       }
-    } catch (err) {
-      setError("Unable to start camera");
-      console.error(err);
+    } catch (err: any) {
+      let errorMessage = "Unable to start camera";
+
+      // Handle specific error cases
+      if (
+        err.name === "NotAllowedError" ||
+        err.name === "PermissionDeniedError"
+      ) {
+        errorMessage =
+          "Camera permission was denied. Please allow camera access and try again.";
+      } else if (
+        err.name === "NotFoundError" ||
+        err.name === "DevicesNotFoundError"
+      ) {
+        errorMessage =
+          "No camera found. Please make sure your device has a working camera.";
+      } else if (
+        err.name === "NotReadableError" ||
+        err.name === "TrackStartError"
+      ) {
+        errorMessage =
+          "Camera is in use by another application. Please close other apps using the camera.";
+      }
+
+      setError(errorMessage);
+      console.error("Camera error:", err);
     }
   };
 
@@ -100,7 +137,7 @@ export const SubmitProcess2 = ({
 
     setTimeout(() => {
       nextStep();
-    }, 5000);
+    }, 3000);
   };
 
   const takeScreenshot = () => {
@@ -250,6 +287,24 @@ export const SubmitProcess2 = ({
     };
   }, []);
 
+  // Update the error display component to be more visible and helpful
+  const ErrorMessage = () => {
+    if (!error) return null;
+    return (
+      <div className="absolute bottom-0 left-0 right-0 bg-red-500/90 p-4 rounded-b-2xl">
+        <p className="text-white text-sm text-center">{error}</p>
+        <div className="flex justify-center mt-2">
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-white text-red-500 px-3 py-1 text-sm rounded-full hover:bg-red-50 transition-colors"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div
       className="flex w-full aspect-square max-w-sm 
@@ -274,9 +329,7 @@ export const SubmitProcess2 = ({
                 className="w-full h-full object-cover rounded-2xl border-2 border-cyan-500"
               />
             )}
-            <p className="bg-black text-white">
-              {error ? `Error: ${error}` : ""}
-            </p>
+            <ErrorMessage />
             <Overlay
               step={step}
               nextStep={nextStep}
