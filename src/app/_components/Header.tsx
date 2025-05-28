@@ -26,7 +26,10 @@ export const Header = ({
           setModalOpen={setModalOpen}
         />
       </div>
-      <div className="text-sm text-white flex justify-center items-center">
+      <div className="text-sm text-white flex flex-col justify-center items-center">
+        <span className="text-sm">
+          And find your worldwide doppleganger 👀...
+        </span>
         <span className="inline sm:block pb-2">
           Inspired by{" "}
           <Link
