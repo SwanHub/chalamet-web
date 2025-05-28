@@ -5,8 +5,26 @@ import { Submission } from "../types";
 import { PostgrestError } from "@supabase/supabase-js";
 import useSWR from "swr";
 import GalleryItem_Image from "@/components/list-items/GalleryItem_Entry";
+import { useState } from "react";
+
+type ScoreType =
+  | "z_highest_normalized_score"
+  | "z_avg_similarity_score"
+  | "z_text_similarity_score"
+  | "z_centroid_similarity_score";
+
+const SCORE_LABELS: Record<ScoreType, string> = {
+  z_highest_normalized_score: "Highest normalized",
+  z_avg_similarity_score: "Average similarity",
+  z_text_similarity_score: "Text similarity",
+  z_centroid_similarity_score: "Centroid similarity",
+};
 
 export default function ScoringTest() {
+  const [selectedScore, setSelectedScore] = useState<ScoreType>(
+    "z_highest_normalized_score"
+  );
+
   const fetcher = async (): Promise<Submission[]> => {
     const { data: submissions, error: submissionsError } = await supabase
       .from("submissions")
@@ -25,8 +43,8 @@ export default function ScoringTest() {
         z_text_similarity_score
       `
       )
-      .not("highest_normalized_score", "is", null)
-      .order("highest_normalized_score", { ascending: false })
+      .not(selectedScore, "is", null)
+      .order(selectedScore, { ascending: false })
       .limit(25);
 
     if (submissionsError) throw submissionsError as PostgrestError;
@@ -45,7 +63,7 @@ export default function ScoringTest() {
   };
 
   const { data: submissions, error } = useSWR<Submission[]>(
-    "leaderboard",
+    ["leaderboard", selectedScore],
     fetcher
   );
 
@@ -58,6 +76,25 @@ export default function ScoringTest() {
       <h1 className="text-white text-2xl font-bold py-12 self-center">
         Scoring Vibe Test
       </h1>
+
+      <div className="flex gap-2 justify-center pb-6">
+        {(Object.entries(SCORE_LABELS) as [ScoreType, string][]).map(
+          ([scoreType, label]) => (
+            <button
+              key={scoreType}
+              onClick={() => setSelectedScore(scoreType)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                selectedScore === scoreType
+                  ? "bg-cyan-500 text-white"
+                  : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+              }`}
+            >
+              {label}
+            </button>
+          )
+        )}
+      </div>
+
       {error && (
         <p className="text-white italic text-sm">
           Error loading leaderboard data
@@ -76,7 +113,7 @@ export default function ScoringTest() {
               key={item.id}
               id={item.id}
               imageUrl={item.image_url}
-              similarityScore={item.highest_normalized_score}
+              similarityScore={item[selectedScore]}
               createdAt={item.created_at}
               rank={index + 1}
               onClick={onClickItem}
