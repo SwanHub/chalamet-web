@@ -29,15 +29,15 @@ export const RESULT_MESSAGES: RankMessage[] = [
     condition: (rank) => rank === 3,
   },
   {
-    message: "The Chalamet-ness is palpable",
+    message: "Pretty darn close...",
     condition: (rank, total) => rank <= Math.floor(total * 0.1),
   },
   {
-    message: "The bone structure is there 🦴",
+    message: "The Chalamet-ness is palpable",
     condition: (rank, total) => rank <= Math.floor(total * 0.2),
   },
   {
-    message: "Not bad, not bad at all 👌",
+    message: "Not bad 👌",
     condition: (rank, total) => rank <= Math.floor(total * 0.3),
   },
   {
@@ -45,11 +45,11 @@ export const RESULT_MESSAGES: RankMessage[] = [
     condition: (rank, total) => rank <= Math.floor(total * 0.4),
   },
   {
-    message: "Middle of the pack, but make it fashion 💅",
+    message: "Middle of the pack 🫡",
     condition: (rank, total) => rank <= Math.floor(total * 0.5),
   },
   {
-    message: "The Chalamet vibes are... subtle 🔍",
+    message: "The Chalamet vibes are subtle",
     condition: (rank, total) => rank <= Math.floor(total * 0.6),
   },
   {
