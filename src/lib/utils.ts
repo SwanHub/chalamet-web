@@ -69,3 +69,56 @@ export function formatTwoDecimals(score: number | string | null): string {
   if (isNaN(value)) return "0.0%";
   return `${value.toFixed(1)}%`;
 }
+
+function calculateCentroid(embeddings: number[][]): number[] {
+  if (!embeddings || embeddings.length === 0) {
+    throw new Error("Embeddings array is empty");
+  }
+
+  const embeddingDim = embeddings[0].length;
+
+  // Calculate mean across all embeddings (axis=0 equivalent)
+  const avg = new Array(embeddingDim).fill(0);
+
+  for (const embedding of embeddings) {
+    for (let i = 0; i < embeddingDim; i++) {
+      avg[i] += embedding[i];
+    }
+  }
+
+  // Divide by number of embeddings to get mean
+  for (let i = 0; i < embeddingDim; i++) {
+    avg[i] /= embeddings.length;
+  }
+
+  // Calculate L2 norm (magnitude)
+  let embeddingNorm = 0;
+  for (const value of avg) {
+    embeddingNorm += value * value;
+  }
+  embeddingNorm = Math.sqrt(embeddingNorm);
+
+  if (embeddingNorm === 0) {
+    throw new Error("Zero vector encountered during normalization.");
+  }
+
+  // Normalize by dividing each component by the norm
+  const normalizedAvg = avg.map((value) => value / embeddingNorm);
+
+  return normalizedAvg;
+}
+
+export const getCentroidOfBaseComparisons = async (
+  baseComparisons: { id: string; embedding_vector: number[] }[]
+): Promise<number[]> => {
+  try {
+    // Extract just the embedding vectors from the base comparisons
+    const embeddings = baseComparisons.map((comp) => comp.embedding_vector);
+
+    // Calculate and return the centroid
+    return calculateCentroid(embeddings);
+  } catch (error) {
+    console.error("Error calculating centroid of base comparisons:", error);
+    throw error;
+  }
+};

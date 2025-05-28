@@ -9,9 +9,11 @@ import {
   uploadImageToBaseComparisons,
 } from "../../lib/api/baseComparison";
 import { v4 as uuidv4 } from "uuid";
-import { imageUrlToBlob } from "@/lib/utils";
+import { imageUrlToBlob, getCentroidOfBaseComparisons } from "@/lib/utils";
 import { calculateTextClipComparison } from "@/lib/api/testzone";
 import { supabase } from "@/lib/supabase";
+import { getAllBaseComparisons } from "@/lib/api/submit";
+import similarity from "compute-cosine-similarity";
 
 export default function NewBaseComparison() {
   // part 1
@@ -73,55 +75,118 @@ export default function NewBaseComparison() {
   //   await supabase.rpc("correct_all_highest_normalized_scores");
   // };
 
-  const [isProcessing, setIsProcessing] = useState(false);
-  async function processNullTextSimilarityScores() {
-    try {
-      setIsProcessing(true);
-      const { data: submissions, error: submissionsError } = await supabase
-        .from("submissions")
-        .select("id, image_url")
-        .is("text_similarity_score", null);
+  // const [isProcessing, setIsProcessing] = useState(false);
+  // async function processNullTextSimilarityScores() {
+  //   try {
+  //     setIsProcessing(true);
+  //     const { data: submissions, error: submissionsError } = await supabase
+  //       .from("submissions")
+  //       .select("id, image_url")
+  //       .is("text_similarity_score", null);
 
-      if (submissionsError) throw submissionsError;
+  //     if (submissionsError) throw submissionsError;
 
-      if (!submissions || submissions.length === 0) {
-        console.log("No submissions found with null text_similarity_score");
-        return;
-      }
+  //     if (!submissions || submissions.length === 0) {
+  //       console.log("No submissions found with null text_similarity_score");
+  //       return;
+  //     }
 
-      for (const submission of submissions) {
-        try {
-          const score = await calculateTextClipComparison(submission.image_url);
+  //     for (const submission of submissions) {
+  //       try {
+  //         const score = await calculateTextClipComparison(submission.image_url);
 
-          if (score) {
-            const { error: updateError } = await supabase
-              .from("submissions")
-              .update({ text_similarity_score: score })
-              .eq("id", submission.id);
+  //         if (score) {
+  //           const { error: updateError } = await supabase
+  //             .from("submissions")
+  //             .update({ text_similarity_score: score })
+  //             .eq("id", submission.id);
 
-            if (updateError) {
-              console.error(
-                `Error updating submission ${submission.id}:`,
-                updateError
-              );
-            } else {
-              console.log(
-                `Successfully updated submission ${submission.id} with score ${score}`
-              );
-            }
-          }
-        } catch (error) {
-          console.error(`Error processing submission ${submission.id}:`, error);
-        }
-      }
+  //           if (updateError) {
+  //             console.error(
+  //               `Error updating submission ${submission.id}:`,
+  //               updateError
+  //             );
+  //           } else {
+  //             console.log(
+  //               `Successfully updated submission ${submission.id} with score ${score}`
+  //             );
+  //           }
+  //         }
+  //       } catch (error) {
+  //         console.error(`Error processing submission ${submission.id}:`, error);
+  //       }
+  //     }
 
-      console.log("Finished processing submissions");
-    } catch (error) {
-      console.error("Error in processNullTextSimilarityScores:", error);
-    } finally {
-      setIsProcessing(false);
-    }
-  }
+  //     console.log("Finished processing submissions");
+  //   } catch (error) {
+  //     console.error("Error in processNullTextSimilarityScores:", error);
+  //   } finally {
+  //     setIsProcessing(false);
+  //   }
+  // }
+  // const [isProcessingCentroid, setIsProcessingCentroid] = useState(false);
+  // async function processCentroidSimilarityScores() {
+  //   try {
+  //     setIsProcessingCentroid(true);
+  //     const baseComparisons = await getAllBaseComparisons();
+  //     const centroid = await getCentroidOfBaseComparisons(baseComparisons);
+
+  //     const { data: submissions, error: submissionsError } = await supabase
+  //       .from("submissions")
+  //       .select("id, image_url, embedding_vector")
+  //       .is("centroid_similarity_score", null);
+
+  //     if (submissionsError) throw submissionsError;
+
+  //     if (!submissions || submissions.length === 0) {
+  //       console.log("No submissions found with null centroid_similarity_score");
+  //       return;
+  //     }
+
+  //     for (const submission of submissions) {
+  //       try {
+  //         if (!submission.embedding_vector) {
+  //           console.log(
+  //             `Submission ${submission.id} has no embedding vector, skipping`
+  //           );
+  //           continue;
+  //         }
+
+  //         const submissionVector = Array.isArray(submission.embedding_vector)
+  //           ? submission.embedding_vector
+  //           : JSON.parse(submission.embedding_vector);
+
+  //         const cosine_similarity = similarity(submissionVector, centroid);
+
+  //         if (cosine_similarity !== null) {
+  //           const { error: updateError } = await supabase
+  //             .from("submissions")
+  //             .update({ centroid_similarity_score: cosine_similarity })
+  //             .eq("id", submission.id);
+
+  //           if (updateError) {
+  //             console.error(
+  //               `Error updating submission ${submission.id}:`,
+  //               updateError
+  //             );
+  //           } else {
+  //             console.log(
+  //               `Successfully updated submission ${submission.id} with centroid similarity score ${cosine_similarity}`
+  //             );
+  //           }
+  //         }
+  //       } catch (error) {
+  //         console.error(`Error processing submission ${submission.id}:`, error);
+  //       }
+  //     }
+
+  //     console.log("Finished processing submissions");
+  //   } catch (error) {
+  //     console.error("Error in processNullTextSimilarityScores:", error);
+  //   } finally {
+  //     setIsProcessingCentroid(false);
+  //   }
+  // }
 
   return (
     <div className="flex flex-col max-w-screen-sm justify-center gap-12 w-full bg-amber-200 self-center">
@@ -142,14 +207,22 @@ export default function NewBaseComparison() {
           onClick={normalizeSubmissionScores}
           inverted
         /> */}
-        <Button_Generic
+        {/* <Button_Generic
           label={
             isProcessing
               ? "Processing"
               : "Process submissions with null text similarity scores"
           }
           onClick={processNullTextSimilarityScores}
-        />
+        /> */}
+        {/* <Button_Generic
+          label={
+            isProcessingCentroid
+              ? "Processing centroid"
+              : "Process centroid similarity scores"
+          }
+          onClick={processCentroidSimilarityScores}
+        /> */}
       </div>
 
       <div className="flex flex-col w-full gap-12 justify-center">
