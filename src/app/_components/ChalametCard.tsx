@@ -80,16 +80,17 @@ export const ChalametScoreResults = ({ id }: Props) => {
   return (
     <div className="flex w-full items-center justify-center animate-fade-in overflow-auto pb-12">
       <div className="flex flex-col text-white max-w-screen-md w-full rounded-2xl overflow-hidden gap-6">
-        <h1 className="text-2xl pt-4 font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
-          The results are in: you ranked{" "}
-          <span className="text-white p-2 rounded-full bg-gray-800">
+        <div className="flex flex-col items-center gap-2 pt-8">
+          <h1 className="text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
+            The results are in... you ranked:
+          </h1>
+          <h1 className="text-xl font-bold text-white px-3 rounded-full bg-gray-800 border border-gray-600">
             #{data.rank} out of {data.totalSubmissions}
-          </span>
-          <br />
-        </h1>
-        <h1 className="text-2xl font-bold text-center text-white">
-          {getResultMessage(data.rank, data.totalSubmissions)}
-        </h1>
+          </h1>
+          <h1 className="text-2xl font-bold text-center text-white">
+            {getResultMessage(data.rank, data.totalSubmissions)}
+          </h1>
+        </div>
         <div className="relative grid grid-cols-2 gap-4">
           <ImageComponent title="You" imageUrl={data.submission.image_url} />
           <ImageComponent
@@ -110,8 +111,14 @@ export const ChalametScoreResults = ({ id }: Props) => {
 
         <div className="gap-2">
           <div className="flex justify-between gap-3">
-            <SocialShareButton platform="twitter" url="https://twitter.com" />
-            <SocialShareButton platform="linkedin" url="https://linkedin.com" />
+            <SocialShareButton
+              platform="twitter"
+              submissionId={data.submission.id}
+            />
+            <SocialShareButton
+              platform="linkedin"
+              submissionId={data.submission.id}
+            />
           </div>
         </div>
         <Link

@@ -3,28 +3,32 @@ import { FaTwitter, FaLinkedin } from "react-icons/fa";
 
 interface SocialShareButtonProps {
   platform: "twitter" | "linkedin";
-  url: string;
-  text?: string;
+  submissionId: string;
   className?: string;
 }
 
 export const SocialShareButton: React.FC<SocialShareButtonProps> = ({
   platform,
-  url,
-  text = "",
   className = "",
+  submissionId,
 }) => {
   const icons = {
     twitter: <FaTwitter className="w-5 h-5 text-[#1DA1F2]" />,
     linkedin: <FaLinkedin className="w-5 h-5 text-[#0A66C2]" />,
   };
 
+  const defaultShareText =
+    platform === "twitter"
+      ? "My @chalametwtf lookalike results:"
+      : "My chalamet.wtf lookalike results:";
+  const fullUrl = `https://chalamet.wtf/submission/${submissionId}`;
+
   const shareUrls = {
     twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(
-      url
-    )}&text=${encodeURIComponent(text)}`,
+      fullUrl
+    )}&text=${encodeURIComponent(defaultShareText)}`,
     linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-      url
+      fullUrl
     )}`,
   };
 
