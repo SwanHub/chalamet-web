@@ -57,7 +57,8 @@ export const fetchSubmissionResults = async (
   const { count: rank, error: rankError } = await supabase
     .from("submissions")
     .select("*", { count: "exact", head: true })
-    .gt("highest_score", submissionData.highest_score);
+    .gt("normalized_score", submissionData.normalized_score)
+    .neq("id", submissionData.id);
 
   if (rankError) throw rankError;
 

@@ -23,7 +23,7 @@ export const Leaderboard = ({ onClickItem }: Props) => {
         normalized_score
       `
       )
-      .order("highest_score", { ascending: false })
+      .order("normalized_score", { ascending: false })
       .limit(25);
 
     if (submissionsError) throw submissionsError as PostgrestError;

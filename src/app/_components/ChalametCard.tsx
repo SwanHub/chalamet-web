@@ -45,33 +45,33 @@ export const ChalametScoreResults = ({ id }: Props) => {
     }
   };
 
-  // async function handleDelete() {
-  //   if (!data) return;
+  async function handleDelete() {
+    if (!data) return;
 
-  //   try {
-  //     const fileName = data.submission.image_url.split("/").pop();
-  //     const { error: storageError } = await supabase.storage
-  //       .from("submissions")
-  //       .remove([`${fileName}`]);
-  //     if (storageError) throw storageError;
+    try {
+      const fileName = data.submission.image_url.split("/").pop();
+      const { error: storageError } = await supabase.storage
+        .from("submissions")
+        .remove([`${fileName}`]);
+      if (storageError) throw storageError;
 
-  //     const { error: submissionError } = await supabase
-  //       .from("submissions")
-  //       .delete()
-  //       .eq("id", data.submission.id);
-  //     if (submissionError) throw submissionError;
+      const { error: submissionError } = await supabase
+        .from("submissions")
+        .delete()
+        .eq("id", data.submission.id);
+      if (submissionError) throw submissionError;
 
-  //     const { error: scoresError } = await supabase
-  //       .from("submission_scores")
-  //       .delete()
-  //       .eq("submission_id", data.submission.id);
-  //     if (scoresError) throw scoresError;
+      const { error: scoresError } = await supabase
+        .from("submission_scores")
+        .delete()
+        .eq("submission_id", data.submission.id);
+      if (scoresError) throw scoresError;
 
-  //     window.location.href = "/";
-  //   } catch (error) {
-  //     console.error("Error deleting submission:", error);
-  //   }
-  // }
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Error deleting submission:", error);
+    }
+  }
 
   if (isLoading) return <Skeleton />;
   if (error) return <p className="text-white">Error</p>;
@@ -82,10 +82,10 @@ export const ChalametScoreResults = ({ id }: Props) => {
       <div className="flex flex-col text-white max-w-screen-md w-full rounded-2xl overflow-hidden gap-6">
         <div className="flex flex-col items-center gap-2 pt-8">
           <h1 className="text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
-            The results are in... you ranked:
-          </h1>
-          <h1 className="text-xl font-bold text-white px-3 rounded-full bg-gray-800 border border-gray-600">
-            #{data.rank} out of {data.totalSubmissions}
+            The results are in... you ranked:{" "}
+            <span className="text-xl font-bold text-white px-3 rounded-full bg-gray-800 border border-gray-600">
+              #{data.rank} out of {data.totalSubmissions}
+            </span>
           </h1>
           <h1 className="text-2xl font-bold text-center text-white">
             {getResultMessage(data.rank, data.totalSubmissions)}
@@ -171,13 +171,13 @@ export const ChalametScoreResults = ({ id }: Props) => {
         >
           <Flag className="w-4 h-4" />
         </button>
-        {/* <button
+        <button
           onClick={handleDelete}
           className="text-gray-400 hover:text-red-400 transition-colors cursor-pointer self-center text-center items-center justify-center"
           title="Report submission"
         >
           Delete
-        </button> */}
+        </button>
       </div>
     </div>
   );
