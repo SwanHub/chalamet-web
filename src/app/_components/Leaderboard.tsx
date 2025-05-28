@@ -19,18 +19,35 @@ export const Leaderboard = ({ onClickItem }: Props) => {
         id,
         image_url,
         created_at,
-        highest_normalized_score
-      `
+        highest_normalized_score,
+        z_highest_normalized_score,
+        avg_similarity_score,
+        z_avg_similarity_score,
+        centroid_similarity_score,
+        z_centroid_similarity_score,
+        text_similarity_score,
+        z_text_similarity_score
+        `
       )
       .not("highest_normalized_score", "is", null)
       .order("highest_normalized_score", { ascending: false })
       .limit(25);
 
-    if (submissionsError) throw submissionsError as PostgrestError;
-
-    return submissions.map((submission) => ({
+    if (submissionsError) {
+      console.log("submissionsError: ", submissionsError);
+      throw submissionsError as PostgrestError;
+    }
+    console.log("leaderboard submissions: ", submissions);
+    return submissions.map((submission: any) => ({
       ...submission,
       highest_normalized_score: submission.highest_normalized_score || 0,
+      z_highest_normalized_score: submission.z_highest_normalized_score || 0,
+      avg_similarity_score: submission.avg_similarity_score || 0,
+      z_avg_similarity_score: submission.z_avg_similarity_score || 0,
+      centroid_similarity_score: submission.centroid_similarity_score || 0,
+      z_centroid_similarity_score: submission.z_centroid_similarity_score || 0,
+      text_similarity_score: submission.text_similarity_score || 0,
+      z_text_similarity_score: submission.z_text_similarity_score || 0,
     }));
   };
 

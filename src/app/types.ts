@@ -41,6 +41,13 @@ export type Submission = {
   created_at: number;
   image_url: string;
   highest_normalized_score: number;
+  z_highest_normalized_score: number;
+  avg_similarity_score: number;
+  z_avg_similarity_score: number;
+  centroid_similarity_score: number;
+  z_centroid_similarity_score: number;
+  text_similarity_score: number;
+  z_text_similarity_score: number;
 };
 
 export type SubmitScore = {
