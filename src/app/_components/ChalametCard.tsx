@@ -1,6 +1,6 @@
 import { SocialShareButton } from "@/components/shared/SocialShareButton";
 import { SubmissionResults, SubmissionScore } from "../types";
-import { formatPercent, formatTwoDecimals } from "@/lib/utils";
+import { formatTwoDecimals } from "@/lib/utils";
 import { fetchSubmissionResults } from "../../lib/api/submit";
 import useSWR from "swr";
 import { GridLoader } from "react-spinners";
@@ -128,7 +128,6 @@ const ImageComponent = ({
 };
 
 const ComparisonItem = ({ score }: { score: SubmissionScore }) => {
-  console.log("comparison item: ", score);
   return (
     <div className="flex bg-gray-800 overflow-hidden h-24 rounded-xl">
       <div className="flex items-center w-24 h-24 flex-shrink-0">
@@ -153,7 +152,7 @@ const ComparisonItem = ({ score }: { score: SubmissionScore }) => {
 
         <div className="absolute inset-y-0 right-0 flex items-center pr-4">
           <span className="text-xl md:text-2xl font-bold text-white">
-            {formatTwoDecimals(score.normalized_score)}%
+            {formatTwoDecimals(score.normalized_score)}
           </span>
         </div>
       </div>
