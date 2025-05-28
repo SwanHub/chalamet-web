@@ -10,6 +10,8 @@ import {
 } from "../../lib/api/baseComparison";
 import { v4 as uuidv4 } from "uuid";
 import { imageUrlToBlob } from "@/lib/utils";
+import { calculateTextClipComparison } from "@/lib/api/testzone";
+import { supabase } from "@/lib/supabase";
 
 export default function NewBaseComparison() {
   // part 1
@@ -67,10 +69,59 @@ export default function NewBaseComparison() {
   //   console.log(res);
   //   setIsRecalculating(false);
   // };
-
   // const normalizeSubmissionScores = async () => {
   //   await supabase.rpc("correct_all_highest_normalized_scores");
   // };
+
+  const [isProcessing, setIsProcessing] = useState(false);
+  async function processNullTextSimilarityScores() {
+    try {
+      setIsProcessing(true);
+      const { data: submissions, error: submissionsError } = await supabase
+        .from("submissions")
+        .select("id, image_url")
+        .is("text_similarity_score", null);
+
+      if (submissionsError) throw submissionsError;
+
+      if (!submissions || submissions.length === 0) {
+        console.log("No submissions found with null text_similarity_score");
+        return;
+      }
+
+      for (const submission of submissions) {
+        try {
+          const score = await calculateTextClipComparison(submission.image_url);
+
+          if (score) {
+            const { error: updateError } = await supabase
+              .from("submissions")
+              .update({ text_similarity_score: score })
+              .eq("id", submission.id);
+
+            if (updateError) {
+              console.error(
+                `Error updating submission ${submission.id}:`,
+                updateError
+              );
+            } else {
+              console.log(
+                `Successfully updated submission ${submission.id} with score ${score}`
+              );
+            }
+          }
+        } catch (error) {
+          console.error(`Error processing submission ${submission.id}:`, error);
+        }
+      }
+
+      console.log("Finished processing submissions");
+    } catch (error) {
+      console.error("Error in processNullTextSimilarityScores:", error);
+    } finally {
+      setIsProcessing(false);
+    }
+  }
 
   return (
     <div className="flex flex-col max-w-screen-sm justify-center gap-12 w-full bg-amber-200 self-center">
@@ -80,8 +131,8 @@ export default function NewBaseComparison() {
             isRecalculating ? "Calculating" : "Recalculate all base comparisons"
           }
           onClick={recalculateAllBaseComparisons}
-        />
-        <Button_Generic
+        /> */}
+        {/* <Button_Generic
           label={isWorking ? "Working" : "Recalculate all submission scores"}
           onClick={recalculateAllSubmissionScores}
           inverted
@@ -91,6 +142,14 @@ export default function NewBaseComparison() {
           onClick={normalizeSubmissionScores}
           inverted
         /> */}
+        <Button_Generic
+          label={
+            isProcessing
+              ? "Processing"
+              : "Process submissions with null text similarity scores"
+          }
+          onClick={processNullTextSimilarityScores}
+        />
       </div>
 
       <div className="flex flex-col w-full gap-12 justify-center">

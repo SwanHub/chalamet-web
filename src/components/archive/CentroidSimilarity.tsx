@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { compareToCentroid } from "../../lib/api/centroid";
+import { compareToCentroid } from "../../lib/api/testzone";
 import { Button_Generic } from "@/components/shared/Button_Generic";
 import { Input_Text } from "@/components/shared/Input_Text";
 
