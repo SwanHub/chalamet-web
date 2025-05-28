@@ -6,6 +6,7 @@ import useSWR from "swr";
 import { GridLoader } from "react-spinners";
 import { Button_Generic } from "@/components/shared/Button_Generic";
 import { supabase } from "@/lib/supabase";
+import { Flag } from "lucide-react";
 
 interface Props {
   id: string;
@@ -113,7 +114,15 @@ export const ChalametScoreResults = ({ id }: Props) => {
             ))}
           </div>
         </div>
-        <Button_Generic label="Report" onClick={handleReport} />
+
+        <button
+          onClick={handleReport}
+          className="text-gray-400 hover:text-red-400 transition-colors
+          cursor-pointer p-2 rounded-full self-center bg-black text-center items-center justify-center"
+          title="Report submission"
+        >
+          <Flag />
+        </button>
       </div>
     </div>
   );
