@@ -6,12 +6,10 @@ import { Input_Text } from "@/components/shared/Input_Text";
 import { useState } from "react";
 import {
   createBaseComparison,
-  recalculateBaseComparisons,
   uploadImageToBaseComparisons,
 } from "../../lib/api/baseComparison";
 import { v4 as uuidv4 } from "uuid";
 import { imageUrlToBlob } from "@/lib/utils";
-import { recomputeSimilarityScores } from "@/lib/api/submit";
 
 export default function NewBaseComparison() {
   // part 1
@@ -54,24 +52,24 @@ export default function NewBaseComparison() {
       console.log(res);
     }
   }
-  const [isRecalculating, setIsRecalculating] = useState(false);
-  const recalculateAllBaseComparisons = async () => {
-    setIsRecalculating(true);
-    const res = await recalculateBaseComparisons();
-    console.log(res);
-    setIsRecalculating(false);
-  };
-  const [isWorking, setIsWorking] = useState(false);
-  const recalculateAllSubmissionScores = async () => {
-    setIsRecalculating(true);
-    const res = await recomputeSimilarityScores();
-    console.log(res);
-    setIsRecalculating(false);
-  };
+  // const [isRecalculating, setIsRecalculating] = useState(false);
+  // const recalculateAllBaseComparisons = async () => {
+  //   setIsRecalculating(true);
+  //   const res = await recalculateBaseComparisons();
+  //   console.log(res);
+  //   setIsRecalculating(false);
+  // };
+  // const [isWorking, setIsWorking] = useState(false);
+  // const recalculateAllSubmissionScores = async () => {
+  //   setIsRecalculating(true);
+  //   const res = await recomputeSimilarityScores();
+  //   console.log(res);
+  //   setIsRecalculating(false);
+  // };
 
   return (
     <div className="flex flex-col max-w-screen-sm justify-center gap-12 w-full bg-amber-200 self-center">
-      <div className="flex flex-col gap-12">
+      {/* <div className="flex flex-col gap-12">
         <Button_Generic
           label={
             isRecalculating ? "Calculating" : "Recalculate all base comparisons"
@@ -83,7 +81,7 @@ export default function NewBaseComparison() {
           onClick={recalculateAllSubmissionScores}
           inverted
         />
-      </div>
+      </div> */}
 
       <div className="flex flex-col w-full gap-12 justify-center">
         <h1 className="text-2xl font-bold">Create a new base comparison</h1>
