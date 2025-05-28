@@ -171,6 +171,13 @@ export const ChalametScoreResults = ({ id }: Props) => {
         >
           <Flag className="w-4 h-4" />
         </button>
+        {/* <button
+          onClick={handleDelete}
+          className="text-gray-400 hover:text-red-400 transition-colors cursor-pointer self-center text-center items-center justify-center"
+          title="Report submission"
+        >
+          Delete
+        </button> */}
       </div>
     </div>
   );
