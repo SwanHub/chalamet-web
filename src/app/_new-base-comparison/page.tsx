@@ -10,6 +10,7 @@ import {
 } from "../../lib/api/baseComparison";
 import { v4 as uuidv4 } from "uuid";
 import { imageUrlToBlob } from "@/lib/utils";
+import { supabase } from "@/lib/supabase";
 
 export default function NewBaseComparison() {
   // part 1
@@ -52,6 +53,7 @@ export default function NewBaseComparison() {
       console.log(res);
     }
   }
+
   // const [isRecalculating, setIsRecalculating] = useState(false);
   // const recalculateAllBaseComparisons = async () => {
   //   setIsRecalculating(true);
@@ -67,10 +69,16 @@ export default function NewBaseComparison() {
   //   setIsRecalculating(false);
   // };
 
+  const normalizeSubmissionScores = async () => {
+    const { data, error } = await supabase.rpc(
+      "correct_all_highest_normalized_scores"
+    );
+  };
+
   return (
     <div className="flex flex-col max-w-screen-sm justify-center gap-12 w-full bg-amber-200 self-center">
-      {/* <div className="flex flex-col gap-12">
-        <Button_Generic
+      <div className="flex flex-col gap-12">
+        {/* <Button_Generic
           label={
             isRecalculating ? "Calculating" : "Recalculate all base comparisons"
           }
@@ -80,8 +88,13 @@ export default function NewBaseComparison() {
           label={isWorking ? "Working" : "Recalculate all submission scores"}
           onClick={recalculateAllSubmissionScores}
           inverted
+        /> */}
+        <Button_Generic
+          label={"Correct submission scores"}
+          onClick={normalizeSubmissionScores}
+          inverted
         />
-      </div> */}
+      </div>
 
       <div className="flex flex-col w-full gap-12 justify-center">
         <h1 className="text-2xl font-bold">Create a new base comparison</h1>

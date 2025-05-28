@@ -14,6 +14,7 @@ import { GridLoader, PuffLoader } from "react-spinners";
 import { createVectorEmbOfImage } from "../../lib/api/embed";
 import similarity from "compute-cosine-similarity";
 import { SubmitScore } from "../types";
+import { supabase } from "@/lib/supabase";
 
 interface Props {
   activeSubmissionId: string | null;
@@ -202,7 +203,11 @@ export const SubmitProcess2 = ({
             base_comparison_id: item.id,
           });
         });
-        await batchInsertSimilarityScores(scores);
+        const result = await batchInsertSimilarityScores(scores);
+        if (result.success) {
+          await supabase.rpc("submission_score_normalizer");
+          await supabase.rpc("correct_all_highest_normalized_scores");
+        }
       } catch (error) {
         console.log("error: ", error);
       } finally {
