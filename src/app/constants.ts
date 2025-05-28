@@ -41,7 +41,7 @@ export const RESULT_MESSAGES: RankMessage[] = [
     condition: (rank, total) => rank <= Math.floor(total * 0.3),
   },
   {
-    message: "You've got potential, young padawan 🌟",
+    message: "There is Chalamet potential here...",
     condition: (rank, total) => rank <= Math.floor(total * 0.4),
   },
   {

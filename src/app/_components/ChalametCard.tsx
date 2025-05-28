@@ -80,13 +80,15 @@ export const ChalametScoreResults = ({ id }: Props) => {
   return (
     <div className="flex w-full items-center justify-center animate-fade-in overflow-auto py-12">
       <div className="flex flex-col text-white max-w-screen-md w-full rounded-2xl overflow-hidden gap-6">
-        <h1 className="text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
-          The results are in... you are ranked{" "}
-          <span className="text-white underline">
+        <h1 className="text-2xl pt-4 font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
+          The results are in: you ranked{" "}
+          <span className="text-white p-2 rounded-full bg-gray-800">
             #{data.rank} out of {data.totalSubmissions}
-          </span>{" "}
-          total submissions.
+          </span>
+          .
           <br />
+        </h1>
+        <h1 className="text-2xl font-bold text-center text-white">
           {getResultMessage(data.rank, data.totalSubmissions)}
         </h1>
         <div className="relative grid grid-cols-2 gap-4">
@@ -117,7 +119,7 @@ export const ChalametScoreResults = ({ id }: Props) => {
           href={`/submission/${data.submission.id}`}
           className="text-center px-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl font-medium text-white hover:opacity-90 transition-opacity cursor-pointer"
         >
-          Want to see who you look like? Try find my match feature.
+          {"Want to see who else you look like? Try 'find my match' feature."}
         </Link>
 
         <div className="pb-6">
