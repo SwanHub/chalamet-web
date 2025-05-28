@@ -27,9 +27,7 @@ export const Header = ({
         />
       </div>
       <div className="text-sm text-white flex flex-col justify-center items-center">
-        <span className="text-sm">
-          And find your worldwide doppleganger 👀...
-        </span>
+        <span className="text-sm">Then find your doppleganger...</span>
         <span className="inline sm:block pb-2">
           Inspired by{" "}
           <Link
