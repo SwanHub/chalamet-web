@@ -140,28 +140,20 @@ const ComparisonItem = ({ score }: { score: SubmissionScore }) => {
       </div>
 
       <div className="flex-grow relative">
-        <div className="absolute inset-0 flex items-center px-4 z-10">
-          <p className="text-white text-sm">{score.base_comparisons.name}</p>
-        </div>
-      </div>
-      {/* <div className="w-24 h-24 flex-shrink-0">
-        <img
-          src={score.base_comparisons.image_url}
-          alt="Chalamet comparison"
-          className="w-full h-full object-cover"
-        />
-      </div> */}
-      {/* <p className="text-white text-sm">{score.base_comparisons.name}</p> */}
-
-      <div className="flex-grow relative">
         <div
           className="absolute inset-y-0 left-0 bg-gradient-to-r from-cyan-500 to-blue-500"
-          style={{ width: `${score.similarity_score * 100}%` }}
+          style={{ width: `${score.normalized_score}%` }}
         />
+
+        <div className="absolute inset-0 flex items-center px-4 z-10">
+          <p className="text-white text-sm font-medium">
+            {score.base_comparisons.name}
+          </p>
+        </div>
 
         <div className="absolute inset-y-0 right-0 flex items-center pr-4">
           <span className="text-xl md:text-2xl font-bold text-white">
-            {formatPercent(score.similarity_score)}
+            {formatTwoDecimals(score.normalized_score)}%
           </span>
         </div>
       </div>

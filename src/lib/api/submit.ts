@@ -60,6 +60,7 @@ export const fetchSubmissionResults = async (
       id,
       created_at,
       similarity_score,
+      normalized_score,
       submission_id,
       base_comparison_id,
       base_comparisons(id, image_url, name)

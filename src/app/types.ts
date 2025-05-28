@@ -79,6 +79,7 @@ export type SubmissionScore = {
   id: number;
   created_at: string;
   similarity_score: number;
+  normalized_score: number;
   submission_id: string;
   base_comparison_id: number;
   base_comparisons: Comparison;
