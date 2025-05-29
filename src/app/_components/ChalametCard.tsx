@@ -18,6 +18,7 @@ interface Props {
 
 export const ChalametScoreResults = ({ id, showSimilarImages }: Props) => {
   const [showAllComparisons, setShowAllComparisons] = useState(false);
+  const [showDoppelgangers, setShowDoppelgangers] = useState(false);
   const hydrate = () => fetchSubmissionResults(id);
   const { data, error, isLoading } = useSWR<SubmissionResults>(
     `submission-results-${id}`,
@@ -124,58 +125,68 @@ export const ChalametScoreResults = ({ id, showSimilarImages }: Props) => {
             />
           </div>
         </div>
-        {!showSimilarImages ? (
-          <Link
-            href={`/submission/${data.submission.id}`}
-            className="text-center px-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl font-medium text-white hover:opacity-90 transition-opacity cursor-pointer"
-          >
-            {"See who else you look like 🔍"}
-          </Link>
-        ) : (
-          <Gallery_Doppleganger id={data.submission.id} />
-        )}
 
-        <div className="pb-6">
-          <div className="space-y-4">
-            {showAllComparisons && (
-              <>
-                <p>
-                  We compared your screenshot to 10 unique Chalamet looks. The
-                  percentage on the right is your similarity score to that
-                  version of Timmy.
-                </p>
-                <div className="space-y-4 animate-fadeDown">
-                  {data.scores.map((score, index) => (
-                    <ComparisonItem key={index + 1} score={score} />
-                  ))}
-                </div>
-                <p>
-                  Then averaged the scores and compared{" "}
-                  <strong>that average</strong> to all other submissions, which
-                  resulted in a final score of{" "}
-                  <strong>
-                    {formatTwoDecimals(data.submission.z_avg_similarity_score)}
-                  </strong>
-                  .
-                </p>
-              </>
-            )}
-
+        <div>
+          <div className="space-y-2">
             <button
-              onClick={() => setShowAllComparisons(!showAllComparisons)}
-              className="w-full cursor-pointer mt-2 py-2 px-4 text-sm text-gray-400 hover:text-gray-300 transition-colors flex items-center justify-center gap-1 rounded-lg bg-gray-800/30 hover:bg-gray-800/50"
+              onClick={() => setShowDoppelgangers(!showDoppelgangers)}
+              className="w-full cursor-pointer mt-2 py-2 px-4 text-sm text-gray-200 hover:text-gray-300 transition-colors flex items-center justify-center gap-1 rounded-lg bg-gray-800/30 hover:bg-gray-800/50"
             >
-              {showAllComparisons ? (
+              {showDoppelgangers ? (
                 <>
-                  Show less <ChevronUp className="w-4 h-4" />
+                  Hide similar submissions <ChevronUp className="w-4 h-4" />
                 </>
               ) : (
                 <>
-                  See the Chalamet calculations{" "}
-                  <ChevronDown className="w-4 h-4" />
+                  See similar submissions <ChevronDown className="w-4 h-4" />
                 </>
               )}
             </button>
+
+            {showDoppelgangers && (
+              <Gallery_Doppleganger id={data.submission.id} />
+            )}
+          </div>
+
+          <div className="">
+            <button
+              onClick={() => setShowAllComparisons(!showAllComparisons)}
+              className="w-full cursor-pointer mt-2 py-2 px-4 text-sm text-gray-200 hover:text-gray-300 transition-colors flex items-center justify-center gap-1 rounded-lg bg-gray-800/30 hover:bg-gray-800/50"
+            >
+              {showAllComparisons ? (
+                <>
+                  Hide calculations <ChevronUp className="w-4 h-4" />
+                </>
+              ) : (
+                <>
+                  See Chalamet calculations <ChevronDown className="w-4 h-4" />
+                </>
+              )}
+            </button>
+            <div className="space-y-4 py-4">
+              {showAllComparisons && (
+                <>
+                  <p className="text-sm">
+                    We compared your screenshot to 10 unique Chalamet looks. The
+                    percentage on the right is your similarity score to that
+                    version of Timmy. We then averaged the scores and compared{" "}
+                    <strong>that average</strong> to all other submissions,
+                    which resulted in a final score of{" "}
+                    <strong>
+                      {formatTwoDecimals(
+                        data.submission.z_avg_similarity_score
+                      )}
+                    </strong>
+                    .
+                  </p>
+                  <div className="space-y-4 animate-fadeDown">
+                    {data.scores.map((score, index) => (
+                      <ComparisonItem key={index + 1} score={score} />
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </div>
 
@@ -286,10 +297,11 @@ const Gallery_Doppleganger = ({ id }: { id: string }) => {
   }
 
   return (
-    <div>
-      <h2 className="text-lg font-medium text-white pb-6 self-center text-center">
-        Check out your dopplegangers...
+    <div className="animate-fadeDown">
+      <h2 className="text-sm text-white py-4 self-center text-center">
+        These contestants look most like you...
       </h2>
+
       <div className="grid grid-cols-3 gap-4">
         {data?.map((submission) => (
           <GalleryItem_Image
