@@ -29,8 +29,8 @@ export const Leaderboard = ({ onClickItem }: Props) => {
         z_text_similarity_score
         `
       )
-      .not("z_avg_similarity_score", "is", null)
-      .order("z_avg_similarity_score", { ascending: false })
+      .not("highest_normalized_score", "is", null)
+      .order("highest_normalized_score", { ascending: false })
       .limit(25);
 
     if (submissionsError) {
@@ -71,7 +71,7 @@ export const Leaderboard = ({ onClickItem }: Props) => {
           key={submissions[0].id}
           id={submissions[0].id}
           imageUrl={submissions[0].image_url}
-          similarityScore={submissions[0].z_avg_similarity_score}
+          similarityScore={submissions[0].highest_normalized_score}
           createdAt={submissions[0].created_at}
           rank={1}
           onClick={onClickItem}
@@ -85,7 +85,7 @@ export const Leaderboard = ({ onClickItem }: Props) => {
               key={item.id}
               id={item.id}
               imageUrl={item.image_url}
-              similarityScore={item.z_avg_similarity_score}
+              similarityScore={item.highest_normalized_score}
               createdAt={item.created_at}
               rank={index + 2}
               onClick={onClickItem}
@@ -101,7 +101,7 @@ export const Leaderboard = ({ onClickItem }: Props) => {
               key={item.id}
               id={item.id}
               imageUrl={item.image_url}
-              similarityScore={item.z_avg_similarity_score}
+              similarityScore={item.highest_normalized_score}
               createdAt={item.created_at}
               rank={index + 4}
               onClick={onClickItem}

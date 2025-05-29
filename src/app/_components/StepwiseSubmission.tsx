@@ -240,8 +240,10 @@ export const SubmitProcess2 = ({
         const result = await batchInsertSimilarityScores(scores);
         if (result.success) {
           await supabase.rpc("submission_score_normalizer");
-          await supabase.rpc("calculate_avg_similarity_scores");
-          await supabase.rpc("calculate_z_avg_similarity_scores");
+          await supabase.rpc("correct_all_highest_normalized_scores");
+          await supabase.rpc("calculate_z_highest_normalized_scores");
+          // await supabase.rpc("calculate_avg_similarity_scores");
+          // await supabase.rpc("calculate_z_avg_similarity_scores");
         }
       } catch (error) {
         console.log("error: ", error);
