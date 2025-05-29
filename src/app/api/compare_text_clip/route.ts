@@ -13,6 +13,7 @@ export async function POST(request: Request) {
       },
     });
   } catch (error) {
+    console.error("Error:", error);
     return new NextResponse(
       JSON.stringify({ error: "Failed to process request" }),
       {
