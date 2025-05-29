@@ -2,6 +2,8 @@
 
 import { useEffect } from "react";
 import { ChalametScoreResults } from "./ChalametCard";
+import { FaXmark } from "react-icons/fa6";
+import { X } from "lucide-react";
 
 interface Props {
   isOpen: boolean;
@@ -44,9 +46,10 @@ const Button_Close = ({ onClose }: { onClose: () => void }) => {
   return (
     <button
       onClick={onClose}
-      className="absolute top-8 z-20 right-8 text-gray-300 hover:text-gray-200 cursor-pointer h-12 w-12 aspect-square rounded-full bg-black hover:bg-gray-700"
+      className="absolute top-4 z-20 right-4 border border-gray-700 text-gray-300 hover:text-gray-200 cursor-pointer h-12 w-12
+      aspect-square rounded-full bg-gray-800 hover:bg-gray-700 flex items-center justify-center"
     >
-      ✕
+      <X />
     </button>
   );
 };

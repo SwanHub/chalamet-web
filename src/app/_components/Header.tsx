@@ -26,7 +26,7 @@ export const Header = ({
           setModalOpen={setModalOpen}
         />
       </div>
-      <div className="text-sm text-white flex flex-col justify-center items-center">
+      <div className="text-sm text-white flex flex-col justify-center items-center text-center">
         <span className="inline sm:block pb-2">
           Inspired by{" "}
           <Link
