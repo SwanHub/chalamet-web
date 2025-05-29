@@ -40,6 +40,7 @@ export type Submission = {
   id: string;
   created_at: number;
   image_url: string;
+  created_order: number;
   highest_normalized_score: number;
   z_highest_normalized_score: number;
   avg_similarity_score: number;

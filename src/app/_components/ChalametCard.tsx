@@ -94,7 +94,10 @@ export const ChalametScoreResults = ({ id }: Props) => {
           </div>
         </div>
         <div className="relative grid grid-cols-2 gap-4">
-          <ImageComponent title="You" imageUrl={data.submission.image_url} />
+          <ImageComponent
+            title={`Submission #${data.submission.created_order}`}
+            imageUrl={data.submission.image_url}
+          />
           <ImageComponent
             title={"Chalamet"}
             imageUrl={data.scores[0].base_comparisons.image_url}
@@ -111,7 +114,7 @@ export const ChalametScoreResults = ({ id }: Props) => {
           </div>
         </div>
 
-        <div className="gap-2">
+        <div className="flex flex-col w-full gap-3">
           <div className="flex justify-between gap-3">
             <SocialShareButton
               platform="twitter"
@@ -119,6 +122,12 @@ export const ChalametScoreResults = ({ id }: Props) => {
             />
             <SocialShareButton
               platform="linkedin"
+              submissionId={data.submission.id}
+            />
+          </div>
+          <div className="flex justify-center w-full">
+            <SocialShareButton
+              platform="copy"
               submissionId={data.submission.id}
             />
           </div>
@@ -289,7 +298,7 @@ const Gallery_Doppleganger = ({ id }: { id: string }) => {
   return (
     <div className="animate-fadeDown">
       <h2 className="text-sm text-white py-4 self-center text-center">
-        These contestants look most like you...
+        Check out your dopplegangers...
       </h2>
 
       <div className="grid grid-cols-3 gap-4">

@@ -48,7 +48,7 @@ export const fetchSubmissionResults = async (
 ): Promise<any> => {
   const { data: submissionData, error: submissionError } = await supabase
     .from("submissions")
-    .select("id, image_url, z_avg_similarity_score")
+    .select("id, image_url, z_avg_similarity_score, created_order")
     .eq("id", submissionId)
     .single();
 
