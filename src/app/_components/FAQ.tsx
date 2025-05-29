@@ -62,8 +62,8 @@ export const FAQ = () => {
                 and cosine similarity.
               </li>
               <li>
-                We assign your screenshot a score based on which Timothée
-                Chalamet image it most closely resembles.
+                We assign your screenshot a score based on its average
+                similarity to that set of Timothée Chalamet images.
               </li>
             </ul>
             {/* <p>

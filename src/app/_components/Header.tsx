@@ -32,15 +32,15 @@ export const Header = ({
           <Link
             href={NYT_ARTICLE}
             target="_blank"
-            className="font-medium text-cyan-500 underline underline-offset-2"
+            className="font-bold text-cyan-500 underline underline-offset-2"
           >
             the original
           </Link>{" "}
           in-person contest in NYC.{" "}
         </span>
         <span className="text-sm">
-          With a fun twist: after you submit, we show you <strong>your</strong>{" "}
-          dopplegangers as well.
+          With a fun twist: after you submit, see <strong>your</strong>{" "}
+          dopplegangers too.
         </span>
       </div>
     </div>
