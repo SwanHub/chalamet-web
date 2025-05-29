@@ -46,33 +46,33 @@ export const ChalametScoreResults = ({ id }: Props) => {
     }
   };
 
-  async function handleDelete() {
-    if (!data) return;
+  // async function handleDelete() {
+  //   if (!data) return;
 
-    try {
-      const fileName = data.submission.image_url.split("/").pop();
-      const { error: storageError } = await supabase.storage
-        .from("submissions")
-        .remove([`${fileName}`]);
-      if (storageError) throw storageError;
+  //   try {
+  //     const fileName = data.submission.image_url.split("/").pop();
+  //     const { error: storageError } = await supabase.storage
+  //       .from("submissions")
+  //       .remove([`${fileName}`]);
+  //     if (storageError) throw storageError;
 
-      const { error: submissionError } = await supabase
-        .from("submissions")
-        .delete()
-        .eq("id", data.submission.id);
-      if (submissionError) throw submissionError;
+  //     const { error: submissionError } = await supabase
+  //       .from("submissions")
+  //       .delete()
+  //       .eq("id", data.submission.id);
+  //     if (submissionError) throw submissionError;
 
-      const { error: scoresError } = await supabase
-        .from("submission_scores")
-        .delete()
-        .eq("submission_id", data.submission.id);
-      if (scoresError) throw scoresError;
+  //     const { error: scoresError } = await supabase
+  //       .from("submission_scores")
+  //       .delete()
+  //       .eq("submission_id", data.submission.id);
+  //     if (scoresError) throw scoresError;
 
-      window.location.href = "/";
-    } catch (error) {
-      console.error("Error deleting submission:", error);
-    }
-  }
+  //     window.location.href = "/";
+  //   } catch (error) {
+  //     console.error("Error deleting submission:", error);
+  //   }
+  // }
 
   if (isLoading) return <Skeleton />;
   if (error) return <p className="text-white">Error</p>;
@@ -196,13 +196,13 @@ export const ChalametScoreResults = ({ id }: Props) => {
         >
           <Flag className="w-4 h-4" />
         </button>
-        <button
+        {/* <button
           onClick={handleDelete}
           className="text-gray-400 hover:text-red-400 transition-colors cursor-pointer self-center text-center items-center justify-center"
           title="Report submission"
         >
           Delete
-        </button>
+        </button> */}
       </div>
     </div>
   );

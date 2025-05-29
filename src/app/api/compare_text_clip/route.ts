@@ -7,15 +7,12 @@ export async function POST(request: Request) {
 
     const response = await fetchSimilarityScore(item.imageUrl);
 
-    console.log("response from text clip comparison: ", response);
-
     return new NextResponse(JSON.stringify(response), {
       headers: {
         "Content-Type": "application/json",
       },
     });
   } catch (error) {
-    console.error("Server-side errorr:", error);
     return new NextResponse(
       JSON.stringify({ error: "Failed to process request" }),
       {
