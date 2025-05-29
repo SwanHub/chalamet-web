@@ -7,16 +7,14 @@ import { GridLoader } from "react-spinners";
 import { supabase } from "@/lib/supabase";
 import { Flag, ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
-import Link from "next/link";
 import GalleryItem_Image from "@/components/list-items/GalleryItem_Entry";
 import { useRouter } from "next/navigation";
 
 interface Props {
   id: string;
-  showSimilarImages: boolean;
 }
 
-export const ChalametScoreResults = ({ id, showSimilarImages }: Props) => {
+export const ChalametScoreResults = ({ id }: Props) => {
   const [showAllComparisons, setShowAllComparisons] = useState(false);
   const [showDoppelgangers, setShowDoppelgangers] = useState(false);
   const hydrate = () => fetchSubmissionResults(id);
