@@ -1,20 +1,23 @@
 import { SocialShareButton } from "@/components/shared/SocialShareButton";
-import { SubmissionResults, SubmissionScore } from "../types";
+import { Submission, SubmissionResults, SubmissionScore } from "../types";
 import { formatTwoDecimals } from "@/lib/utils";
 import { fetchSubmissionResults } from "../../lib/api/submit";
 import useSWR from "swr";
 import { GridLoader } from "react-spinners";
 import { supabase } from "@/lib/supabase";
 import { Flag, ChevronDown, ChevronUp } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getResultMessage } from "../constants";
+import GalleryItem_Image from "@/components/list-items/GalleryItem_Entry";
+import { useRouter } from "next/navigation";
 
 interface Props {
   id: string;
+  showSimilarImages: boolean;
 }
 
-export const ChalametScoreResults = ({ id }: Props) => {
+export const ChalametScoreResults = ({ id, showSimilarImages }: Props) => {
   const [showAllComparisons, setShowAllComparisons] = useState(false);
   const hydrate = () => fetchSubmissionResults(id);
   const { data, error, isLoading } = useSWR<SubmissionResults>(
@@ -123,12 +126,16 @@ export const ChalametScoreResults = ({ id }: Props) => {
             />
           </div>
         </div>
-        <Link
-          href={`/submission/${data.submission.id}`}
-          className="text-center px-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl font-medium text-white hover:opacity-90 transition-opacity cursor-pointer"
-        >
-          {"See who else you look like 🔍"}
-        </Link>
+        {!showSimilarImages ? (
+          <Link
+            href={`/submission/${data.submission.id}`}
+            className="text-center px-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl font-medium text-white hover:opacity-90 transition-opacity cursor-pointer"
+          >
+            {"See who else you look like 🔍"}
+          </Link>
+        ) : (
+          <Gallery_Doppleganger id={data.submission.id} />
+        )}
 
         <div className="pb-6">
           <div className="space-y-4">
@@ -246,6 +253,49 @@ const Skeleton = () => {
   return (
     <div className="flex items-center justify-center w-full">
       <GridLoader color="cyan" size={12} />
+    </div>
+  );
+};
+
+const Gallery_Doppleganger = ({ id }: { id: string }) => {
+  const router = useRouter();
+
+  async function hydrateSimilarSubmissions() {
+    const { data, error } = await supabase.rpc("find_similar_submissions", {
+      target_id: id,
+      match_count: 12,
+    });
+    return data;
+  }
+
+  const { data, error } = useSWR<Submission[]>(
+    `similar-submissions-${id}`,
+    hydrateSimilarSubmissions
+  );
+
+  if (error) {
+    console.error("Error fetching similar submissions:", error);
+    return <p className="text-white">Error fetching similar submissions</p>;
+  }
+
+  return (
+    <div>
+      <h2 className="text-lg font-medium text-white pb-6 self-center text-center">
+        Here are some other folks who look like you
+      </h2>
+      <div className="grid grid-cols-3 gap-4">
+        {data?.map((submission) => (
+          <GalleryItem_Image
+            key={submission.id}
+            id={submission.id}
+            imageUrl={submission.image_url}
+            similarityScore={submission.highest_normalized_score}
+            rank={null}
+            createdAt={submission.created_at}
+            onClick={() => router.push(`/submission/${submission.id}`)}
+          />
+        ))}
+      </div>
     </div>
   );
 };

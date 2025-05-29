@@ -12,7 +12,7 @@ export default function SubmissionPage({
 
   return (
     <div className="p-8 bg-gray-900 min-h-screen">
-      <ChalametScoreResults id={resolvedParams.id} />
+      <ChalametScoreResults id={resolvedParams.id} showSimilarImages={true} />
     </div>
   );
 }
