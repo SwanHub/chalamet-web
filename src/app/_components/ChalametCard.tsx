@@ -83,14 +83,13 @@ export const ChalametScoreResults = ({ id, showSimilarImages }: Props) => {
     <div className="flex w-full items-center justify-center animate-fade-in overflow-auto pb-12">
       <div className="flex flex-col text-white max-w-screen-md w-full rounded-2xl overflow-hidden gap-6">
         <div className="flex flex-col items-center gap-4 sm:gap-4 pt-4 sm:pt-8">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-0 text-center">
-            <h1 className="text-xl sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 px-4">
-              The results are in... you ranked:
-            </h1>
-            <span className="text-lg sm:text-xl font-bold text-white px-3 py-1 rounded-full bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-500 border border-yellow-400 shadow-lg">
-              #{data.rank} out of {data.totalSubmissions}
-            </span>
-            <h1 className="text-xl sm:text-2xl font-bold text-center text-white px-4">
+          <div className="flex items-center justify-center">
+            <h1 className="text-xl sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
+              Ranking:
+              <span className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-500 border border-yellow-400 shadow-lg text-white mx-2">
+                #{data.rank}
+                <span className="text-sm ml-1">/{data.totalSubmissions}</span>
+              </span>
               in overall Chalamet-ness.
             </h1>
           </div>
@@ -143,7 +142,7 @@ export const ChalametScoreResults = ({ id, showSimilarImages }: Props) => {
                 <p>
                   We compared your screenshot to 10 unique Chalamet looks. The
                   percentage on the right is your similarity score to that
-                  Chalamet look.
+                  version of Timmy.
                 </p>
                 <div className="space-y-4 animate-fadeDown">
                   {data.scores.map((score, index) => (
@@ -164,7 +163,7 @@ export const ChalametScoreResults = ({ id, showSimilarImages }: Props) => {
 
             <button
               onClick={() => setShowAllComparisons(!showAllComparisons)}
-              className="w-full cursor-pointer mt-2 py-2 px-4 text-sm text-gray-400 hover:text-gray-300 transition-colors flex items-center justify-center gap-1 rounded-lg hover:bg-gray-800/50"
+              className="w-full cursor-pointer mt-2 py-2 px-4 text-sm text-gray-400 hover:text-gray-300 transition-colors flex items-center justify-center gap-1 rounded-lg bg-gray-800/30 hover:bg-gray-800/50"
             >
               {showAllComparisons ? (
                 <>
@@ -172,7 +171,8 @@ export const ChalametScoreResults = ({ id, showSimilarImages }: Props) => {
                 </>
               ) : (
                 <>
-                  See the calculations <ChevronDown className="w-4 h-4" />
+                  See the Chalamet calculations{" "}
+                  <ChevronDown className="w-4 h-4" />
                 </>
               )}
             </button>
@@ -269,8 +269,9 @@ const Gallery_Doppleganger = ({ id }: { id: string }) => {
   async function hydrateSimilarSubmissions() {
     const { data } = await supabase.rpc("find_similar_submissions", {
       target_id: id,
-      match_count: 12,
+      match_count: 6,
     });
+    console.log(data);
     return data;
   }
 
@@ -287,7 +288,7 @@ const Gallery_Doppleganger = ({ id }: { id: string }) => {
   return (
     <div>
       <h2 className="text-lg font-medium text-white pb-6 self-center text-center">
-        Here are some other folks who look like you
+        Check out your dopplegangers...
       </h2>
       <div className="grid grid-cols-3 gap-4">
         {data?.map((submission) => (
