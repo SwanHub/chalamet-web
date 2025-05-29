@@ -125,67 +125,59 @@ export const ChalametScoreResults = ({ id }: Props) => {
         </div>
 
         <div>
-          <div className="space-y-2">
-            <button
-              onClick={() => setShowDoppelgangers(!showDoppelgangers)}
-              className="w-full cursor-pointer mt-2 py-2 px-4 text-sm text-gray-200 hover:text-gray-300 transition-colors flex items-center justify-center gap-1 rounded-lg bg-gray-800/30 hover:bg-gray-800/50"
-            >
-              {showDoppelgangers ? (
-                <>
-                  Hide similar submissions <ChevronUp className="w-4 h-4" />
-                </>
-              ) : (
-                <>
-                  See similar submissions <ChevronDown className="w-4 h-4" />
-                </>
-              )}
-            </button>
-
-            {showDoppelgangers && (
-              <Gallery_Doppleganger id={data.submission.id} />
+          <button
+            onClick={() => setShowAllComparisons(!showAllComparisons)}
+            className="w-full cursor-pointer mt-2 py-2 px-4 text-sm text-gray-200 hover:text-gray-300 transition-colors flex items-center justify-center gap-1 rounded-lg bg-gray-800/30 hover:bg-gray-800/50"
+          >
+            {showAllComparisons ? (
+              <>
+                Hide calculations <ChevronUp className="w-4 h-4" />
+              </>
+            ) : (
+              <>
+                See Chalamet calculations <ChevronDown className="w-4 h-4" />
+              </>
             )}
-          </div>
+          </button>
 
-          <div className="">
-            <button
-              onClick={() => setShowAllComparisons(!showAllComparisons)}
-              className="w-full cursor-pointer mt-2 py-2 px-4 text-sm text-gray-200 hover:text-gray-300 transition-colors flex items-center justify-center gap-1 rounded-lg bg-gray-800/30 hover:bg-gray-800/50"
-            >
-              {showAllComparisons ? (
-                <>
-                  Hide calculations <ChevronUp className="w-4 h-4" />
-                </>
-              ) : (
-                <>
-                  See Chalamet calculations <ChevronDown className="w-4 h-4" />
-                </>
-              )}
-            </button>
+          {showAllComparisons && (
             <div className="space-y-4 py-4">
-              {showAllComparisons && (
-                <>
-                  <p className="text-sm">
-                    We compared your screenshot to 10 unique Chalamet looks. The
-                    percentage on the right is your similarity score to that
-                    version of Timmy. We then averaged the scores and compared{" "}
-                    <strong>that average</strong> to all other submissions,
-                    which resulted in a final score of{" "}
-                    <strong>
-                      {formatTwoDecimals(
-                        data.submission.z_avg_similarity_score
-                      )}
-                    </strong>
-                    .
-                  </p>
-                  <div className="space-y-4 animate-fadeDown">
-                    {data.scores.map((score, index) => (
-                      <ComparisonItem key={index + 1} score={score} />
-                    ))}
-                  </div>
-                </>
-              )}
+              <p className="text-sm">
+                We compared your screenshot to 10 unique Chalamet looks. The
+                percentage on the right is your similarity score to that version
+                of Timmy. We then averaged the scores and compared{" "}
+                <strong>that average</strong> to all other submissions, which
+                resulted in a final score of{" "}
+                <strong>
+                  {formatTwoDecimals(data.submission.z_avg_similarity_score)}
+                </strong>
+                .
+              </p>
+              <div className="space-y-4 animate-fadeDown">
+                {data.scores.map((score, index) => (
+                  <ComparisonItem key={index + 1} score={score} />
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+          <button
+            onClick={() => setShowDoppelgangers(!showDoppelgangers)}
+            className="w-full cursor-pointer mt-2 py-2 px-4 text-sm text-gray-200 hover:text-gray-300 transition-colors flex items-center justify-center gap-1 rounded-lg bg-gray-800/30 hover:bg-gray-800/50"
+          >
+            {showDoppelgangers ? (
+              <>
+                Hide similar submissions <ChevronUp className="w-4 h-4" />
+              </>
+            ) : (
+              <>
+                See similar submissions <ChevronDown className="w-4 h-4" />
+              </>
+            )}
+          </button>
+
+          {showDoppelgangers && (
+            <Gallery_Doppleganger id={data.submission.id} />
+          )}
         </div>
 
         <button
