@@ -242,8 +242,8 @@ export const SubmitProcess2 = ({
           await supabase.rpc("submission_score_normalizer");
           await supabase.rpc("correct_all_highest_normalized_scores");
           await supabase.rpc("calculate_z_highest_normalized_scores");
-          // await supabase.rpc("calculate_avg_similarity_scores");
-          // await supabase.rpc("calculate_z_avg_similarity_scores");
+          await supabase.rpc("calculate_avg_similarity_scores");
+          await supabase.rpc("calculate_z_avg_similarity_scores");
         }
       } catch (error) {
         console.log("error: ", error);
@@ -398,6 +398,7 @@ const Overlay = ({
             <CameraIcon className="w-6 h-6" />
             Take a pic
           </button>
+          <PuffLoader size={32} color="cyan" />
 
           <p className="text-white text-base font-medium opacity-80">
             Good luck 🤝
@@ -407,18 +408,24 @@ const Overlay = ({
     );
   } else {
     return (
-      <div className="absolute inset-0 flex flex-col justify-between p-4 pointer-events-none z-10">
+      <div
+        className={`absolute inset-0 flex flex-col justify-between p-4 pointer-events-none z-10 ${
+          step === 2 || step === 3
+            ? "after:absolute after:inset-0 after:bg-cyan-500/20 after:animate-pulse after:rounded-2xl"
+            : ""
+        }`}
+      >
         <div className="flex justify-between w-full items-center pointer-events-auto">
           <button
             onClick={handleClickSeeResults}
             className="backdrop-blur cursor-pointer bg-white/10 text-white border border-white/10 rounded-full px-4 py-2 text-sm font-medium shadow-md"
           >
             {step < 2 ? (
-              <>🔍  Detecting...</>
+              <>🔍 Detecting...</>
             ) : step === 4 ? (
-              <>✅  See results</>
+              <>✅ See results</>
             ) : (
-              <>🔬  Analyzing...</>
+              <>🔬 Analyzing...</>
             )}
           </button>
           {step < 4 && (
@@ -432,24 +439,47 @@ const Overlay = ({
           )}
         </div>
 
-        {step < 2 ? (
-          <div className="text-white text-4xl font-bold drop-shadow-md">
-            <div className="text-white text-xs font-medium drop-shadow-md uppercase pb-1">
-              screenshot in...{" "}
-              <strong className="text-cyan-500 text-2xl font-bold">
+        {step === 1 ? (
+          <div className="text-white text-4xl font-bold drop-shadow-lg animate-pulse">
+            <div className="relative flex items-center justify-center mb-4">
+              <div className="absolute w-24 h-24 bg-cyan-500/20 rounded-full animate-ping"></div>
+              <div className="absolute w-20 h-20 bg-cyan-400/30 rounded-full animate-pulse"></div>
+
+              <div className="relative z-10 text-6xl font-black text-cyan-400 drop-shadow-2xl">
                 {countdown?.toString()}
-              </strong>
+              </div>
             </div>
-            Look straight
-            <br /> into the camera
+
+            <div className="text-center space-y-2">
+              <div className="text-2xl animate-pulse">Look straight</div>
+              <div className="text-2xl animate-pulse delay-150">
+                into the camera
+              </div>
+
+              {/* Progress dots */}
+              <div className="flex justify-center space-x-2 pt-4">
+                {[...Array(3)].map((_, i) => (
+                  <div
+                    key={i}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      countdown && countdown <= 3 - i
+                        ? "bg-cyan-400 scale-150"
+                        : "bg-white/30"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         ) : step === 4 ? (
           <div className="text-white text-4xl font-bold drop-shadow-md">
             {""}
           </div>
         ) : (
-          <div className="text-white text-5xl font-bold drop-shadow-md">
-            {"📸"}
+          <div className="text-white text-5xl font-bold drop-shadow-md animate-bounce">
+            <div className="relative">
+              <span className="relative z-10">📸</span>
+            </div>
           </div>
         )}
       </div>

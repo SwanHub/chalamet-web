@@ -2,7 +2,6 @@
 
 import { supabase } from "@/lib/supabase";
 import { Submission } from "../types";
-import { LEADERBOARD_PAGE_SIZE } from "../constants";
 import { PostgrestError } from "@supabase/supabase-js";
 import useSWRInfinite from "swr/infinite";
 import GalleryItem_Image from "@/components/list-items/GalleryItem_Entry";
@@ -11,12 +10,7 @@ interface Props {
   onClickItem: (id: string) => void;
 }
 
-const fetcher = async (
-  pageIndex: number,
-  pageSize: number = LEADERBOARD_PAGE_SIZE
-): Promise<any> => {
-  console.log(pageIndex, pageSize);
-
+const fetcher = async (): Promise<any> => {
   const { data: submissions, error: submissionsError } = await supabase
     .from("submissions")
     .select(
@@ -24,7 +18,7 @@ const fetcher = async (
       id,
       image_url,
       created_at,
-      highest_normalized_score
+      z_avg_similarity_score
     `
     )
     .order("created_at", { ascending: false });
@@ -93,7 +87,7 @@ export const SubmissionGallery = ({ onClickItem }: Props) => {
           onClick={onClickItem}
           id={item.id}
           imageUrl={item.image_url}
-          similarityScore={item.highest_normalized_score}
+          similarityScore={item.z_avg_similarity_score}
           createdAt={item.created_at}
           rank={null}
         />

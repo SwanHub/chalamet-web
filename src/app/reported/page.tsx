@@ -64,7 +64,7 @@ export default function ReportedSubmissions() {
                 key={item.id}
                 id={item.id}
                 imageUrl={item.image_url}
-                similarityScore={item.highest_normalized_score}
+                similarityScore={item.z_avg_similarity_score}
                 createdAt={item.created_at}
                 rank={null}
                 onClick={onClickItem}

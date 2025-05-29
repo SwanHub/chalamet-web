@@ -8,7 +8,6 @@ import { supabase } from "@/lib/supabase";
 import { Flag, ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
-import { getResultMessage } from "../constants";
 import GalleryItem_Image from "@/components/list-items/GalleryItem_Entry";
 import { useRouter } from "next/navigation";
 
@@ -91,10 +90,10 @@ export const ChalametScoreResults = ({ id, showSimilarImages }: Props) => {
             <span className="text-lg sm:text-xl font-bold text-white px-3 py-1 rounded-full bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-500 border border-yellow-400 shadow-lg">
               #{data.rank} out of {data.totalSubmissions}
             </span>
+            <h1 className="text-xl sm:text-2xl font-bold text-center text-white px-4">
+              in overall Chalamet-ness.
+            </h1>
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold text-center text-white px-4">
-            {getResultMessage(data.rank, data.totalSubmissions)}
-          </h1>
         </div>
         <div className="relative grid grid-cols-2 gap-4">
           <ImageComponent title="You" imageUrl={data.submission.image_url} />
@@ -105,7 +104,7 @@ export const ChalametScoreResults = ({ id, showSimilarImages }: Props) => {
           <div className="absolute z-20 bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2">
             <div className="bg-white text-center px-3 sm:px-6 py-1 sm:py-3 rounded-full shadow-lg border-2 border-gray-100">
               <span className="text-2xl sm:text-4xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
-                {formatTwoDecimals(data.submission.highest_normalized_score)}
+                {formatTwoDecimals(data.submission.z_avg_similarity_score)}
               </span>
               <span className="text-lg text-cyan-700 font-medium ml-1">
                 similar
@@ -142,7 +141,9 @@ export const ChalametScoreResults = ({ id, showSimilarImages }: Props) => {
             {showAllComparisons && (
               <>
                 <p>
-                  We compared your screenshot to 10 different Chalamet looks.
+                  We compared your screenshot to 10 unique Chalamet looks. The
+                  percentage on the right is your similarity score to that
+                  Chalamet look.
                 </p>
                 <div className="space-y-4 animate-fadeDown">
                   {data.scores.map((score, index) => (
@@ -151,7 +152,12 @@ export const ChalametScoreResults = ({ id, showSimilarImages }: Props) => {
                 </div>
                 <p>
                   Then averaged the scores and compared{" "}
-                  <strong>that average</strong> to all other submissions.
+                  <strong>that average</strong> to all other submissions, which
+                  resulted in a final score of{" "}
+                  <strong>
+                    {formatTwoDecimals(data.submission.z_avg_similarity_score)}
+                  </strong>
+                  .
                 </p>
               </>
             )}
@@ -289,7 +295,7 @@ const Gallery_Doppleganger = ({ id }: { id: string }) => {
             key={submission.id}
             id={submission.id}
             imageUrl={submission.image_url}
-            similarityScore={submission.highest_normalized_score}
+            similarityScore={submission.z_avg_similarity_score}
             rank={null}
             createdAt={submission.created_at}
             onClick={() => router.push(`/submission/${submission.id}`)}

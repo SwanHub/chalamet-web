@@ -34,7 +34,7 @@ export default function MediaToggle({ onClickItem }: Props) {
           onClick={() => setFilter("leaderboard")}
           className={buttonStyle(filter === "leaderboard")}
         >
-          Leaderboard
+          Top 25
         </button>
 
         <button

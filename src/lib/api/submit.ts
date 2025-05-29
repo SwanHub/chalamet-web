@@ -48,7 +48,7 @@ export const fetchSubmissionResults = async (
 ): Promise<any> => {
   const { data: submissionData, error: submissionError } = await supabase
     .from("submissions")
-    .select("id, image_url, highest_normalized_score")
+    .select("id, image_url, z_avg_similarity_score")
     .eq("id", submissionId)
     .single();
 
@@ -57,7 +57,7 @@ export const fetchSubmissionResults = async (
   const { count: rank, error: rankError } = await supabase
     .from("submissions")
     .select("*", { count: "exact", head: true })
-    .gt("highest_normalized_score", submissionData.highest_normalized_score)
+    .gt("z_avg_similarity_score", submissionData.z_avg_similarity_score)
     .neq("id", submissionData.id);
 
   if (rankError) throw rankError;

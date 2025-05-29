@@ -27,7 +27,6 @@ export const Header = ({
         />
       </div>
       <div className="text-sm text-white flex flex-col justify-center items-center">
-        <span className="text-sm">Then find your doppleganger...</span>
         <span className="inline sm:block pb-2">
           Inspired by{" "}
           <Link
@@ -38,6 +37,10 @@ export const Header = ({
             the original
           </Link>{" "}
           in-person contest in NYC.{" "}
+        </span>
+        <span className="text-sm">
+          With a fun twist: after you submit, we show you <strong>your</strong>{" "}
+          dopplegangers as well.
         </span>
       </div>
     </div>
