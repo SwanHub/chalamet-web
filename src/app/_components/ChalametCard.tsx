@@ -6,7 +6,7 @@ import useSWR from "swr";
 import { GridLoader } from "react-spinners";
 import { supabase } from "@/lib/supabase";
 import { Flag, ChevronDown, ChevronUp } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { getResultMessage } from "../constants";
 import GalleryItem_Image from "@/components/list-items/GalleryItem_Entry";
@@ -261,7 +261,7 @@ const Gallery_Doppleganger = ({ id }: { id: string }) => {
   const router = useRouter();
 
   async function hydrateSimilarSubmissions() {
-    const { data, error } = await supabase.rpc("find_similar_submissions", {
+    const { data } = await supabase.rpc("find_similar_submissions", {
       target_id: id,
       match_count: 12,
     });
