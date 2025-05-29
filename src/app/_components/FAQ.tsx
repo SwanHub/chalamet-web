@@ -86,9 +86,7 @@ export const FAQ = () => {
             No. CLIP considers the full image, so background, lighting, and
             pixelation all make a significant difference in your score. For
             example, you&apos;re more likely to do well if you have the exact
-            same background and take up the exact same amount of the image. I
-            haven&apos;t done any extra processing to crop your face or
-            homogenize backgrounds.
+            same background and take up the exact same amount of the image.
           </p>
         </div>
         <div>
