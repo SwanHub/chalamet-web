@@ -1,9 +1,5 @@
-## The official README for the Internet Official Timothée Chalamet Lookalike Contest
+## CHALAMET.wtf
 
-Built using [`roboflow`](https://roboflow.com?ref=chalamet.wtf), `nextjs` (client) and `supabase` (db).
+Built using [`Roboflow`](https://roboflow.com?ref=chalamet.wtf), [`Vercel + NextJS`](https://vercel.com?ref=chalamet) and [`Supabase`](https://supabase.com?ref=chalamet.wtf).
 
-View the project here: [Chalamet.wtf](https://chalamet-web.vercel.app/)
-
-### Understanding CLIP
-
-The point of the project was to experiment with Roboflow's new Workflow and Deploy features, and to have fun with OpenAI's [CLIP](https://openai.com/index/clip/) model.
+View the project here: [Chalamet.wtf](https://chalamet.wtf/)

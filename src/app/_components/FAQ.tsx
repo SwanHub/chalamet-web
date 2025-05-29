@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export const FAQ = () => {
   return (
-    <div className="py-8 px-6 max-w-3xl mx-auto text-white bg-gray-900 rounded-2xl mb-36">
+    <div className="py-8 px-6 max-w-3xl mx-auto text-white bg-gray-900 rounded-2xl border border-cyan-800">
       <h1 className="text-3xl font-bold mb-6">FAQ</h1>
       <div className="space-y-4 text-left pb-8">
         <div>

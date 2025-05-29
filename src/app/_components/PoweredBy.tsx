@@ -3,7 +3,9 @@ import Link from "next/link";
 export const PoweredBy = () => {
   return (
     <div className="flex flex-col items-center gap-6 py-36">
-      <span className="text-lg font-thin uppercase text-white">Powered by</span>
+      <span className="text-base font-light uppercase text-white">
+        Powered by
+      </span>
       <div className="flex items-center justify-center gap-8">
         <Link
           href="https://roboflow.com/?ref=chalamet"
