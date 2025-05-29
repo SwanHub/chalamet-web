@@ -6,6 +6,7 @@ interface ImageCardProps {
   similarityScore: number;
   createdAt: number;
   rank: number | null;
+  hideOverlay?: boolean;
   onClick: (id: string) => void;
 }
 
@@ -50,6 +51,7 @@ const GalleryItem_Image = ({
   similarityScore,
   createdAt,
   rank,
+  hideOverlay = false,
   onClick,
 }: ImageCardProps) => {
   const gradient = getGradientForScore(similarityScore);
@@ -77,29 +79,33 @@ const GalleryItem_Image = ({
           className="absolute top-0 left-0 w-full h-full object-cover bg-gray-900 opacity-90 group-hover:opacity-100 transition-opacity duration-300"
         />
 
-        {rank && (
-          <div
-            className={`absolute top-2 left-2 bg-gradient-to-br ${rankStyle} ${rankSize} font-extrabold rounded-full shadow-md`}
-          >
-            {rank === 1
-              ? "🥇 1st Place (for now!)"
-              : rank === 2
-              ? "🥈 2nd Place"
-              : rank === 3
-              ? "🥉 3rd Place"
-              : `Rank #${rank}`}
-          </div>
+        {!hideOverlay && (
+          <>
+            {rank && (
+              <div
+                className={`absolute top-2 left-2 bg-gradient-to-br ${rankStyle} ${rankSize} font-extrabold rounded-full shadow-md`}
+              >
+                {rank === 1
+                  ? "🥇 1st Place (for now!)"
+                  : rank === 2
+                  ? "🥈 2nd Place"
+                  : rank === 3
+                  ? "🥉 3rd Place"
+                  : `Rank #${rank}`}
+              </div>
+            )}
+
+            <div
+              className={`absolute bottom-2 left-2 bg-gradient-to-br ${gradient} text-white text-xs font-bold px-2 py-1 rounded-full shadow-md`}
+            >
+              {formatTwoDecimals(similarityScore)}
+            </div>
+
+            <div className="absolute bottom-2 right-2 bg-gray-800/40 text-gray-200 text-[11px] font-medium px-3 py-1 rounded-full shadow-sm backdrop-blur-sm group-hover:bg-gray-800/60 transition-colors duration-200">
+              {formatRelativeTimestamp(createdAt)}
+            </div>
+          </>
         )}
-
-        <div
-          className={`absolute bottom-2 left-2 bg-gradient-to-br ${gradient} text-white text-xs font-bold px-2 py-1 rounded-full shadow-md`}
-        >
-          {formatTwoDecimals(similarityScore)}
-        </div>
-
-        <div className="absolute bottom-2 right-2 bg-gray-800/40 text-gray-200 text-[11px] font-medium px-3 py-1 rounded-full shadow-sm backdrop-blur-sm group-hover:bg-gray-800/60 transition-colors duration-200">
-          {formatRelativeTimestamp(createdAt)}
-        </div>
       </div>
     </div>
   );

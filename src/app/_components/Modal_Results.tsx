@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import { ChalametScoreResults } from "./ChalametCard";
-import { FaXmark } from "react-icons/fa6";
 import { X } from "lucide-react";
 
 interface Props {

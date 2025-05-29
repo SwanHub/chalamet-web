@@ -311,6 +311,7 @@ const Gallery_Doppleganger = ({ id }: { id: string }) => {
             rank={null}
             createdAt={submission.created_at}
             onClick={() => router.push(`/submission/${submission.id}`)}
+            hideOverlay
           />
         ))}
       </div>
