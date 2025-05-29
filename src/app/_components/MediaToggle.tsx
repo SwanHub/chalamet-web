@@ -16,7 +16,7 @@ interface Props {
 }
 
 export default function MediaToggle({ onClickItem }: Props) {
-  const [filter, setFilter] = useState<View>("gallery");
+  const [filter, setFilter] = useState<View>("leaderboard");
 
   const buttonStyle = (active: boolean) =>
     `px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-full text-sm sm:text-base font-semibold transition-all duration-200 
@@ -31,16 +31,16 @@ export default function MediaToggle({ onClickItem }: Props) {
     <div className="w-full flex flex-col items-center">
       <div className="flex justify-center gap-4 pb-6">
         <button
-          onClick={() => setFilter("gallery")}
-          className={buttonStyle(filter === "gallery")}
-        >
-          Recent
-        </button>
-        <button
           onClick={() => setFilter("leaderboard")}
           className={buttonStyle(filter === "leaderboard")}
         >
           Top 25
+        </button>
+        <button
+          onClick={() => setFilter("gallery")}
+          className={buttonStyle(filter === "gallery")}
+        >
+          Recent
         </button>
 
         <button
