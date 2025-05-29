@@ -22,7 +22,7 @@ const Header_Title = () => {
     <div className="text-white w-full flex flex-col flex-grow justify-center items-center text-center">
       <div className="relative flex flex-col gap-4 pb-6 justify-center items-center">
         <h1 className="font-light text-gray-300 text-base uppercase">
-          compete in the internet official
+          Calling all doppelgängers
         </h1>
         <h1 className="font-bold sm:text-5xl text-4xl font-playfair">
           Timothée Chalamet Lookalike Contest
