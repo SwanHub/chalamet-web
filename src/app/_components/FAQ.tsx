@@ -100,14 +100,13 @@ export const FAQ = () => {
         </div>
         <div>
           <h3 className="font-bold text-lg">
-            Is Anthony Po (organizer of the original lookalike contest)
-            involved?
+            Is Anthony Po (original lookalike contest organizer) involved?
           </h3>
           <p>Nope!</p>
         </div>
         <div>
           <h3 className="font-bold text-lg">Are there prizes?</h3>
-          <span>No, just for fun.</span>
+          <span>You will be showered in love from the web.</span>
         </div>
       </div>
     </div>
