@@ -16,10 +16,6 @@ export default function ReportedSubmissions() {
     }
   );
 
-  const onClickItem = (id: string) => {
-    console.log("clicked item: ", id);
-  };
-
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900/80 px-4">
@@ -65,7 +61,6 @@ export default function ReportedSubmissions() {
                 id={item.id}
                 imageUrl={item.image_url}
                 rank={null}
-                onClick={onClickItem}
               />
             ))}
           </div>

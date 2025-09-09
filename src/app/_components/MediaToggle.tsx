@@ -6,14 +6,7 @@ import { Leaderboard } from "./Leaderboard";
 
 type View = "leaderboard" | "gallery" | "privacy" | "faq";
 
-interface Props {
-  onClickItem: (id: string) => void;
-  setModalOpen: (val: boolean) => void;
-  setActiveSubmissionId: (id: string | null) => void;
-  activeSubmissionId: string | null;
-}
-
-export default function MediaToggle({ onClickItem }: Props) {
+export default function MediaToggle() {
   const [filter, setFilter] = useState<View>("leaderboard");
 
   return (
@@ -25,10 +18,8 @@ export default function MediaToggle({ onClickItem }: Props) {
       </div>
 
       <div className="max-w-124 w-full">
-        {filter === "leaderboard" && <Leaderboard onClickItem={onClickItem} />}
-        {filter === "gallery" && (
-          <SubmissionGallery onClickItem={onClickItem} />
-        )}
+        {filter === "leaderboard" && <Leaderboard />}
+        {filter === "gallery" && <SubmissionGallery />}
       </div>
     </div>
   );

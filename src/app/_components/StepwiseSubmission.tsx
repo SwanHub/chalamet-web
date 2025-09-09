@@ -16,17 +16,7 @@ import similarity from "compute-cosine-similarity";
 import { SubmitScore } from "../types";
 import { supabase } from "@/lib/supabase";
 
-interface Props {
-  activeSubmissionId: string | null;
-  setActiveSubmissionId: (val: string | null) => void;
-  setModalOpen: (val: boolean) => void;
-}
-
-export const SubmitProcess2 = ({
-  activeSubmissionId,
-  setActiveSubmissionId,
-  setModalOpen,
-}: Props) => {
+export const SubmitProcess2 = () => {
   // STATE.
   const [isResetting, setIsResetting] = useState<boolean>(false);
   const [localNewSubId, setLocalNewId] = useState<string | null>(null);
@@ -50,9 +40,6 @@ export const SubmitProcess2 = ({
         setError(null);
         setCameraActive(false);
         setCountdown(null);
-        // props.
-        setActiveSubmissionId(null);
-        setModalOpen(false);
         // clear vid.
         stopCamera();
       } catch (error) {
@@ -249,20 +236,20 @@ export const SubmitProcess2 = ({
         console.log("error: ", error);
       } finally {
         setStep(4);
-        setActiveSubmissionId(localNewSubId);
       }
     }
   }
 
   useEffect(() => {
-    if (activeSubmissionId && step === 4) {
+    if (step === 4) {
       nextStep();
     }
-  }, [activeSubmissionId, step]);
+  }, [step]);
 
   const showResultsView = () => {
     setTimeout(() => {
-      setModalOpen(true);
+      // Go to results page.
+      // setModalOpen(true);
     }, 1000);
   };
 
@@ -333,8 +320,6 @@ export const SubmitProcess2 = ({
               nextStep={nextStep}
               countdown={countdown}
               localNewSubId={localNewSubId}
-              setModalOpen={setModalOpen}
-              setActiveSubmissionId={setActiveSubmissionId}
             />
             <canvas ref={canvasRef} className="hidden" />
           </div>
@@ -360,8 +345,6 @@ interface OverlayProps {
   countdown: number | null;
   localNewSubId: string | null;
   nextStep: () => void;
-  setActiveSubmissionId: (val: string | null) => void;
-  setModalOpen: (val: boolean) => void;
 }
 
 const Overlay = ({
@@ -369,14 +352,9 @@ const Overlay = ({
   nextStep,
   localNewSubId,
   countdown,
-  setActiveSubmissionId,
-  setModalOpen,
 }: OverlayProps) => {
   function handleClickSeeResults() {
-    if (step === 4 && localNewSubId) {
-      setActiveSubmissionId(localNewSubId);
-      setModalOpen(true);
-    }
+    console.log("localNewSubId: ", localNewSubId);
   }
   if (step === 0) {
     return (

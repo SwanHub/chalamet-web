@@ -6,11 +6,7 @@ import { PostgrestError } from "@supabase/supabase-js";
 import useSWR from "swr";
 import GalleryItem_Image from "@/components/list-items/GalleryItem_Entry";
 
-interface Props {
-  onClickItem: (id: string) => void;
-}
-
-export const Leaderboard = ({ onClickItem }: Props) => {
+export const Leaderboard = () => {
   const fetcher = async (): Promise<Submission[]> => {
     const { data: submissions, error: submissionsError } = await supabase
       .from("submissions")
@@ -75,7 +71,6 @@ export const Leaderboard = ({ onClickItem }: Props) => {
               id={item.id}
               imageUrl={item.image_url}
               rank={index + 1}
-              onClick={onClickItem}
             />
           ))}
         </div>

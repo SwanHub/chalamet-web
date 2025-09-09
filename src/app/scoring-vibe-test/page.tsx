@@ -68,10 +68,6 @@ export default function ScoringTest() {
     fetcher
   );
 
-  function onClickItem(id: string) {
-    console.log("clicked item", id);
-  }
-
   return (
     <div className="flex flex-col w-full gap-4 max-w-screen-sm min-h-screen self-center">
       <h1 className="text-white text-2xl font-bold py-12 self-center">
@@ -115,7 +111,6 @@ export default function ScoringTest() {
               id={item.id}
               imageUrl={item.image_url}
               rank={index + 1}
-              onClick={onClickItem}
             />
           ))}
         </div>

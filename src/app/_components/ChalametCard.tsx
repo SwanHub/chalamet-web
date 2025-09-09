@@ -8,7 +8,6 @@ import { supabase } from "@/lib/supabase";
 import { Flag, ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 import GalleryItem_Image from "@/components/list-items/GalleryItem_Entry";
-import { useRouter } from "next/navigation";
 
 interface Props {
   id: string;
@@ -274,8 +273,6 @@ const Skeleton = () => {
 };
 
 const Gallery_Doppleganger = ({ id }: { id: string }) => {
-  const router = useRouter();
-
   async function hydrateSimilarSubmissions() {
     const { data } = await supabase.rpc("find_similar_submissions", {
       target_id: id,
@@ -307,7 +304,6 @@ const Gallery_Doppleganger = ({ id }: { id: string }) => {
             id={submission.id}
             imageUrl={submission.image_url}
             rank={index + 1}
-            onClick={() => router.push(`/submission/${submission.id}`)}
           />
         ))}
       </div>
