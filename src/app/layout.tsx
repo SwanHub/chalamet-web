@@ -1,21 +1,16 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Roboto_Mono } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const robotoMono = Roboto_Mono({
+  variable: "--font-robotoMono",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Chalamet Lookalike Contest",
+  title: "Chalamet Look alike Competition",
   description:
-    "Miss the Chalamet lookalike contest in NYC? We've taken it to the internet",
+    "Timothee Chalamet Look alike Competition on the internet judged by an AI",
 };
 
 export default function RootLayout({
@@ -25,8 +20,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} ${playfair.variable} antialiased`}>
-        <main className="flex flex-col bg-gray-900 w-full">{children}</main>
+      <body className={`${robotoMono.className} antialiased`}>
+        <main className="flex flex-col w-full text-black">{children}</main>
       </body>
     </html>
   );
