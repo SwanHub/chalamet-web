@@ -387,10 +387,6 @@ const Overlay = ({
         onClick={nextStep}
       >
         <div className="flex flex-col items-center justify-center gap-6 h-full">
-          <h1 className="text-4xl font-extrabold text-white drop-shadow-xl">
-            Ready?
-          </h1>
-
           <button
             className="bg-white cursor-pointer text-pink-600 text-2xl font-bold py-5 px-10 rounded-full shadow-xl
               group-hover:scale-110 transition-transform duration-300 ease-in-out flex items-center gap-3"
@@ -399,10 +395,6 @@ const Overlay = ({
             Take a pic
           </button>
           <PuffLoader size={32} color="cyan" />
-
-          <p className="text-white text-base font-medium opacity-80">
-            Good luck 🤝
-          </p>
         </div>
       </div>
     );

@@ -3,8 +3,6 @@
 import { useState } from "react";
 import { SubmissionGallery } from "./Gallery";
 import { Leaderboard } from "./Leaderboard";
-import { PrivacyPolicy } from "./PrivacyPolicy";
-import { FAQ } from "./FAQ";
 
 type View = "leaderboard" | "gallery" | "privacy" | "faq";
 
@@ -31,8 +29,6 @@ export default function MediaToggle({ onClickItem }: Props) {
         {filter === "gallery" && (
           <SubmissionGallery onClickItem={onClickItem} />
         )}
-        {filter === "faq" && <FAQ />}
-        {filter === "privacy" && <PrivacyPolicy />}
       </div>
     </div>
   );

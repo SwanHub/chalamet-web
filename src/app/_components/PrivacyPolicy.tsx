@@ -8,10 +8,7 @@ export const PrivacyPolicy = () => {
 
       <ol className="list-decimal list-inside space-y-4 text-left pb-8">
         <li>
-          I created this project 100% just for fun, experimenting with a few new
-          tools: OpenAI&apos;s CLIP model, Roboflow for inference and model
-          hosting, Vercel for site deployment, and Supabase as a database with
-          native vector embedding support.
+          I created this project for fun, experimenting with some new tools.
         </li>
         <li>This project is non-commercial - for the love of the game.</li>
         <li>

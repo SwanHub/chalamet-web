@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Header } from "./_components/Header";
 import MediaToggle from "./_components/MediaToggle";
 import { Modal_Results } from "./_components/Modal_Results";
+import Header_Banner from "./_components/Header_Banner";
 
 export default function Home() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -24,9 +25,10 @@ export default function Home() {
   }, [activeSubmissionId]);
 
   return (
-    <div className="relative min-h-screen bg-white">
-      <div className="relative min-h-screen">
-        <div className="flex flex-col w-full px-4 sm:px-8 h-full min-h-screen items-center">
+    <div className="relative">
+      <div className="relative">
+        <div className="flex flex-col w-full px-2 sm:px-2 h-full items-center">
+          <Header_Banner />
           <Header
             setModalOpen={setModalIsOpen}
             setActiveSubmissionId={setActiveSubmissionId}

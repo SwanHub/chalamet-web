@@ -11,7 +11,7 @@ export const SiteFooter = () => {
             href="https://www.linkedin.com/in/jackson-prince/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs hover:underline focus:underline focus:outline-none hover:italic"
+            className="text-xs hover:underline focus:underline focus:outline-none"
             aria-label="Jackson's LinkedIn profile"
           >
             Jackson
@@ -70,13 +70,13 @@ export const SiteFooter = () => {
         <nav className="flex items-center gap-2" aria-label="Footer navigation">
           <Link
             href="/privacy"
-            className="text-xs hover:underline focus:underline focus:outline-none hover:italic"
+            className="text-xs hover:underline focus:underline focus:outline-none"
           >
             Privacy
           </Link>
           <Link
             href="/faq"
-            className="text-xs hover:underline focus:underline focus:outline-none hover:italic"
+            className="text-xs hover:underline focus:underline focus:outline-none"
           >
             FAQ
           </Link>
