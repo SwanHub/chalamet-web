@@ -114,8 +114,6 @@ export default function ScoringTest() {
               key={item.id}
               id={item.id}
               imageUrl={item.image_url}
-              similarityScore={item[selectedScore]}
-              createdAt={item.created_at}
               rank={index + 1}
               onClick={onClickItem}
             />

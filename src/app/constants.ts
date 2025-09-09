@@ -7,9 +7,6 @@ export const BG_IMAGES = [
   "https://m.media-amazon.com/images/M/MV5BNmQ2MjhhOGQtMjEwYi00Y2NiLWEyMWUtODJkZWM3MjliMTUyXkEyXkFqcGc@._V1_QL75_UX1616_.jpg",
 ];
 
-export const NYT_ARTICLE =
-  "https://www.nytimes.com/2024/10/28/nyregion/timothee-chalamet-lookalike-contest-new-york.html";
-
 interface RankMessage {
   message: string;
   condition: (rank: number, total: number) => boolean;

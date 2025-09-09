@@ -281,7 +281,6 @@ const Gallery_Doppleganger = ({ id }: { id: string }) => {
       target_id: id,
       match_count: 6,
     });
-    console.log(data);
     return data;
   }
 
@@ -302,16 +301,13 @@ const Gallery_Doppleganger = ({ id }: { id: string }) => {
       </h2>
 
       <div className="grid grid-cols-3 gap-4">
-        {data?.map((submission) => (
+        {data?.map((submission, index) => (
           <GalleryItem_Image
             key={submission.id}
             id={submission.id}
             imageUrl={submission.image_url}
-            similarityScore={submission.z_avg_similarity_score}
-            rank={null}
-            createdAt={submission.created_at}
+            rank={index + 1}
             onClick={() => router.push(`/submission/${submission.id}`)}
-            hideOverlay
           />
         ))}
       </div>

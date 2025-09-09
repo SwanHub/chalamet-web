@@ -27,7 +27,7 @@ const Header_Title = () => {
           <h1 className="font-bold text-5xl">chalamet.wtf</h1>
           <div className="relative">
             {submissionCount !== null && (
-              <span className="text-sm bg-white px-3 py-1 w-fit absolute z-20 top-0 left-0 border">
+              <span className="text-sm bg-white px-2 py-1 w-fit absolute z-20 top-0 left-0 border">
                 <span className="text-sm font-semibold">
                   {submissionCount.toLocaleString()}
                 </span>{" "}

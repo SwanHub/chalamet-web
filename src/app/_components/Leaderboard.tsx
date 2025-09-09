@@ -66,44 +66,15 @@ export const Leaderboard = ({ onClickItem }: Props) => {
           <p className="text-white italic text-sm">Loading...</p>
         </div>
       )}
-      {submissions && submissions[0] && (
-        <GalleryItem_Image
-          key={submissions[0].id}
-          id={submissions[0].id}
-          imageUrl={submissions[0].image_url}
-          similarityScore={submissions[0].z_avg_similarity_score}
-          createdAt={submissions[0].created_at}
-          rank={1}
-          onClick={onClickItem}
-        />
-      )}
-
-      {submissions && submissions.length > 2 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {submissions.slice(1, 3).map((item, index) => (
-            <GalleryItem_Image
-              key={item.id}
-              id={item.id}
-              imageUrl={item.image_url}
-              similarityScore={item.z_avg_similarity_score}
-              createdAt={item.created_at}
-              rank={index + 2}
-              onClick={onClickItem}
-            />
-          ))}
-        </div>
-      )}
 
       {submissions && submissions.length > 3 && (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {submissions.slice(3).map((item, index) => (
+          {submissions.map((item, index) => (
             <GalleryItem_Image
               key={item.id}
               id={item.id}
               imageUrl={item.image_url}
-              similarityScore={item.z_avg_similarity_score}
-              createdAt={item.created_at}
-              rank={index + 4}
+              rank={index + 1}
               onClick={onClickItem}
             />
           ))}

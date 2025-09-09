@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Roboto_Mono } from "next/font/google";
 import "./globals.css";
+import { SiteFooter } from "@/components/headerfooter/SiteFooter";
 
 const robotoMono = Roboto_Mono({
   variable: "--font-robotoMono",
@@ -22,6 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${robotoMono.className} antialiased`}>
         <main className="flex flex-col w-full text-black">{children}</main>
+        <SiteFooter />
       </body>
     </html>
   );
