@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { ExternalLink } from "lucide-react";
-import Link from "next/link";
 
 const Header_Banner = () => {
   const [submissionCount, setSubmissionCount] = useState<number | null>(null);
@@ -21,35 +19,20 @@ const Header_Banner = () => {
   }, []);
 
   return (
-    <div className="relative w-full text-center">
+    <div className="relative w-full text-center flex flex-col items-center justify-center gap-4">
       {submissionCount !== null && (
-        <span className="text-sm bg-white px-2 py-1 w-fit absolute z-20 top-0 left-0 border">
+        <span className="text-sm bg-white px-2 py-1 w-fit border">
           <span className="text-sm font-semibold">
             {submissionCount.toLocaleString()}
           </span>{" "}
-          submissions so far
+          total submissions
         </span>
       )}
-      <Link
-        href="https://www.nytimes.com/2024/10/28/nyregion/timothee-chalamet-lookalike-contest-new-york.html"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-sm bg-white p-1 w-fit absolute z-20 top-0 right-0 border"
-      >
-        <ExternalLink className="w-4 h-4" />
-      </Link>
       <img
-        src="/banners/washington-square-park.png"
+        src="/images/chalamet.jpg"
         alt="Timothee Chalamet lookalike competition in Washington Square Park"
         className="w-124 h-full border"
       />
-      <h1 className="bg-black text-white font-bold text-3xl font-playfair absolute z-20 bottom-0 left-0 right-0 pb-2">
-        Timothee Chalamet
-        <br />
-        Look alike Competition
-        <br />
-        Judged by an AI
-      </h1>
     </div>
   );
 };

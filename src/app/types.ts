@@ -38,6 +38,7 @@ export type ClipComparisonResponseArray = ClipComparisonResponse[];
 
 export type Submission = {
   id: string;
+  name: string | null;
   created_at: number;
   image_url: string;
   created_order: number;

@@ -5,7 +5,7 @@ import { fetchSubmissionResults } from "../../../../lib/api/submit";
 import useSWR from "swr";
 import { SquareLoader } from "react-spinners";
 import { supabase } from "@/lib/supabase";
-import { Flag, ChevronDown, ChevronUp } from "lucide-react";
+import { Flag } from "lucide-react";
 import { useState } from "react";
 import GalleryItem_Image from "@/components/list-items/GalleryItem_Entry";
 
@@ -15,7 +15,6 @@ interface Props {
 
 export const ChalametScoreResults = ({ id }: Props) => {
   const [showAllComparisons, setShowAllComparisons] = useState(false);
-  const [showDoppelgangers, setShowDoppelgangers] = useState(false);
   const hydrate = () => fetchSubmissionResults(id);
   const { data, error, isLoading } = useSWR<SubmissionResults>(
     `submission-${id}`,
@@ -53,19 +52,20 @@ export const ChalametScoreResults = ({ id }: Props) => {
     <div className="flex w-full items-center justify-center overflow-auto pb-12">
       <div className="flex flex-col text-black max-w-screen-md w-full gap-6">
         <Summary data={data} />
-        <div className="w-60">
+        <div className="w-full self-center flex justify-between items-center gap-4">
           <ImageComponent
-            title={`Submission #${data.submission.created_order}`}
+            title={`${data.submission.name ?? "SUBMISSION"}`}
             imageUrl={data.submission.image_url}
           />
+          <p>vs.</p>
+          <ImageComponent
+            title={"Timothee Chalamet"}
+            imageUrl={"/images/chalamet.jpg"}
+          />
         </div>
-        {/* <ImageComponent
-            title={"Chalamet"}
-            imageUrl={data.scores[0].base_comparisons.image_url}
-          /> */}
         <ShareButtons submissionId={data.submission.id} />
 
-        <div>
+        {/* <div>
           <button
             onClick={() => setShowAllComparisons(!showAllComparisons)}
             className="w-full cursor-pointer mt-2 py-2 px-4 text-sm flex items-center justify-center gap-1 border border-black text-black bg-white"
@@ -101,25 +101,12 @@ export const ChalametScoreResults = ({ id }: Props) => {
               </div>
             </div>
           )}
-          <button
-            onClick={() => setShowDoppelgangers(!showDoppelgangers)}
-            className="w-full cursor-pointer mt-2 py-2 px-4 text-sm flex items-center justify-center gap-1 border border-black text-black bg-white"
-          >
-            {showDoppelgangers ? (
-              <>
-                Hide similar submissions <ChevronUp className="w-4 h-4" />
-              </>
-            ) : (
-              <>
-                See similar submissions <ChevronDown className="w-4 h-4" />
-              </>
-            )}
-          </button>
+        </div> */}
 
-          {showDoppelgangers && (
-            <Gallery_Doppleganger id={data.submission.id} />
-          )}
-        </div>
+        <Gallery_Doppleganger
+          id={data.submission.id}
+          name={data.submission.name ?? "Your"}
+        />
 
         <button
           onClick={handleReport}
@@ -142,9 +129,6 @@ const ImageComponent = ({
 }) => {
   return (
     <div className="flex flex-col w-full max-w-md">
-      <div className="w-full bg-white text-center py-4 px-2 border border-black">
-        <p className="text-sm uppercase text-black font-medium">{title}</p>
-      </div>
       <div className="relative w-full">
         <div className="aspect-square w-full">
           <img
@@ -153,6 +137,9 @@ const ImageComponent = ({
             className="w-full h-full object-cover border border-black border-t-0"
           />
         </div>
+      </div>
+      <div className="w-full bg-white text-center py-2 px-2 border border-black">
+        <p className="text-sm uppercase text-black font-medium">{title}</p>
       </div>
     </div>
   );
@@ -195,6 +182,9 @@ const Summary = ({ data }: { data: SubmissionResults }) => {
   return (
     <div className="text-center space-y-2">
       <h2 className="text-lg sm:text-xl text-black">
+        <strong>{data.submission.name ?? "SUBMISSION"}</strong>
+      </h2>
+      <h2 className="text-lg sm:text-xl text-black">
         All-time:{" "}
         <strong>
           #{data.rank} out of {data.totalSubmissions}
@@ -218,11 +208,11 @@ const Skeleton = () => {
   );
 };
 
-const Gallery_Doppleganger = ({ id }: { id: string }) => {
+const Gallery_Doppleganger = ({ id, name }: { id: string; name: string }) => {
   async function hydrateSimilarSubmissions() {
     const { data } = await supabase.rpc("find_similar_submissions", {
       target_id: id,
-      match_count: 6,
+      match_count: 3,
     });
     return data;
   }
@@ -238,11 +228,13 @@ const Gallery_Doppleganger = ({ id }: { id: string }) => {
   }
 
   return (
-    <div className="animate-fadeDown">
-      <h2 className="text-sm text-black py-4 self-center text-center">
-        Check out your dopplegangers...
+    <div className="flex flex-col gap-4">
+      <h2 className="text-3xl text-black self-center text-center">
+        See {name} Community Dopplegangers
       </h2>
-
+      <p className="text-sm text-black self-center">
+        These are the most similar-looking community submissions
+      </p>
       <div className="grid grid-cols-3 gap-4">
         {data?.map((submission, index) => (
           <GalleryItem_Image
