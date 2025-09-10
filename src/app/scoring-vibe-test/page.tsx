@@ -34,6 +34,7 @@ export default function ScoringTest() {
         `
         id,
         image_url,
+        name,
         created_at,
         highest_normalized_score,
         z_highest_normalized_score,
@@ -111,6 +112,7 @@ export default function ScoringTest() {
               id={item.id}
               imageUrl={item.image_url}
               flag={`#${index + 1}`}
+              name={item.name}
             />
           ))}
         </div>

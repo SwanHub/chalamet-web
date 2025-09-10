@@ -61,6 +61,7 @@ export default function ReportedSubmissions() {
                 id={item.id}
                 imageUrl={item.image_url}
                 flag={null}
+                name={item.name}
               />
             ))}
           </div>
