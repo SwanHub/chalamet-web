@@ -11,7 +11,7 @@ export const SiteHeader = () => {
       <Link href="/" className="pb-4">
         <h1 className="font-bold text-5xl">chalamet.wtf</h1>
       </Link>
-      <h3 className="text-lg text-gray-500 text-center">
+      <h3 className="text-lg text-center">
         Timothee Chalamet Look alike Competition
         <br />
         Judged by{" "}
