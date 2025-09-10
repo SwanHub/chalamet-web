@@ -10,7 +10,7 @@ import { Comparison } from "./_components/Comparison";
 import { ShareButtons } from "./_components/ShareButtons";
 import { Dopplegangers } from "./_components/Dopplegangers";
 import { Report } from "./_components/Report";
-import { Calculations } from "./_components/Calculations";
+import { HowItWorks } from "./_components/HowItWorks";
 
 export default function SubmissionPage({
   params,
@@ -44,7 +44,7 @@ export default function SubmissionPage({
           id={data.submission.id}
           name={data.submission.name ?? "Your"}
         />
-        <Calculations data={data} />
+        <HowItWorks data={data} />
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ interface Props {
   data: SubmissionResults;
 }
 
-export const Calculations = ({ data }: Props) => {
+export const HowItWorks = ({ data }: Props) => {
   return (
     <div className="flex flex-col gap-4 pt-24">
       <h2 className="text-3xl text-black self-center text-center">
