@@ -8,7 +8,7 @@ import {
   getAllBaseComparisons,
   uploadImageToSubmissions,
 } from "../../lib/api/submit";
-import { base64ToBlob } from "@/lib/utils";
+import { base64ToBlob, randomName } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
 import { createVectorEmbOfImage } from "../../lib/api/embed";
 import similarity from "compute-cosine-similarity";
@@ -16,12 +16,6 @@ import { SubmitScore } from "../types";
 import { supabase } from "@/lib/supabase";
 import { SquareLoader } from "react-spinners";
 import { useRouter } from "next/navigation";
-import {
-  uniqueNamesGenerator,
-  adjectives,
-  animals,
-  colors,
-} from "unique-names-generator";
 
 export const SubmissionSimple = () => {
   // STATE.
@@ -172,26 +166,7 @@ export const SubmissionSimple = () => {
           const emb = await createVectorEmbOfImage(uploadedImageUrl);
 
           if (emb) {
-            // Generate random name with adjective + noun (animals/colors), 4-8 letters each
-            const filteredAdjectives = adjectives.filter(
-              (word) => word.length >= 4 && word.length <= 8
-            );
-            const filteredAnimals = animals.filter(
-              (word) => word.length >= 4 && word.length <= 8
-            );
-            const filteredColors = colors.filter(
-              (word) => word.length >= 4 && word.length <= 8
-            );
-
-            const name = uniqueNamesGenerator({
-              dictionaries: [
-                filteredAdjectives,
-                [...filteredAnimals, ...filteredColors],
-              ],
-              separator: " ",
-              style: "lowerCase",
-            });
-
+            const name = randomName();
             setEmbedding(emb);
             const newsubID = await createSubmissionWithEmbedding(
               uploadedImageUrl,

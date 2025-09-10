@@ -4,9 +4,10 @@ interface ImageCardProps {
   id: string;
   imageUrl: string;
   flag: string | null;
+  name: string | null;
 }
 
-const GalleryItem_Image = ({ id, imageUrl, flag }: ImageCardProps) => {
+const GalleryItem_Image = ({ id, imageUrl, flag, name }: ImageCardProps) => {
   return (
     <Link href={`/submission/${id}`}>
       <div className="cursor-pointer group relative border">
@@ -25,6 +26,11 @@ const GalleryItem_Image = ({ id, imageUrl, flag }: ImageCardProps) => {
           )}
         </div>
       </div>
+      {name && (
+        <p className="text-xs text-black w-full border text-center py-1">
+          {name}
+        </p>
+      )}
     </Link>
   );
 };

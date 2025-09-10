@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { RecentSubmissions } from "./RecentSubmissions";
-import { TopSubmissions } from "./Leaderboard";
+import { TopSubmissions } from "./TopSubmissions";
 
 type View = "top" | "recent";
 type TimePeriod = "weekly" | "all-time";

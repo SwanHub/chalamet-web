@@ -1,3 +1,10 @@
+import {
+  adjectives,
+  animals,
+  colors,
+  uniqueNamesGenerator,
+} from "unique-names-generator";
+
 export function formatRelativeTimestamp(
   timestamp: string | number | Date
 ): string {
@@ -128,4 +135,25 @@ export const capitalizeFirstLetters = (string: string): string => {
     .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
+};
+
+export const randomName = () => {
+  const filteredAdjectives = adjectives.filter(
+    (word) => word.length >= 4 && word.length <= 8
+  );
+  const filteredAnimals = animals.filter(
+    (word) => word.length >= 4 && word.length <= 8
+  );
+  const filteredColors = colors.filter(
+    (word) => word.length >= 4 && word.length <= 8
+  );
+
+  const name = uniqueNamesGenerator({
+    dictionaries: [filteredAdjectives, [...filteredAnimals, ...filteredColors]],
+    separator: " ",
+    length: 2,
+    style: "capital",
+  });
+
+  return name;
 };

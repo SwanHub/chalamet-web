@@ -14,6 +14,7 @@ const fetcher = async (): Promise<any> => {
       `
       id,
       image_url,
+      name,
       created_at,
       z_avg_similarity_score
     `
@@ -84,6 +85,7 @@ export const RecentSubmissions = () => {
           id={item.id}
           imageUrl={item.image_url}
           flag={`${formatRelativeTimestamp(item.created_at)}`}
+          name={item.name}
         />
       ))}
     </div>
