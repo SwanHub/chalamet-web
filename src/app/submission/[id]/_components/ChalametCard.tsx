@@ -1,9 +1,9 @@
-import { SocialShareButton } from "@/components/shared/SocialShareButton";
-import { Submission, SubmissionResults, SubmissionScore } from "../types";
+import { ShareButtons } from "@/app/submission/[id]/_components/ShareButtons";
+import { Submission, SubmissionResults, SubmissionScore } from "../../../types";
 import { formatTwoDecimals } from "@/lib/utils";
-import { fetchSubmissionResults } from "../../lib/api/submit";
+import { fetchSubmissionResults } from "../../../../lib/api/submit";
 import useSWR from "swr";
-import { GridLoader } from "react-spinners";
+import { SquareLoader } from "react-spinners";
 import { supabase } from "@/lib/supabase";
 import { Flag, ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
@@ -18,12 +18,12 @@ export const ChalametScoreResults = ({ id }: Props) => {
   const [showDoppelgangers, setShowDoppelgangers] = useState(false);
   const hydrate = () => fetchSubmissionResults(id);
   const { data, error, isLoading } = useSWR<SubmissionResults>(
-    `submission-results-${id}`,
+    `submission-${id}`,
     hydrate,
     {
-      revalidateOnFocus: true,
-      revalidateOnReconnect: true,
-      revalidateIfStale: true,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      refreshInterval: 0,
     }
   );
 
@@ -45,97 +45,30 @@ export const ChalametScoreResults = ({ id }: Props) => {
     }
   };
 
-  // async function handleDelete() {
-  //   if (!data) return;
-
-  //   try {
-  //     const fileName = data.submission.image_url.split("/").pop();
-  //     const { error: storageError } = await supabase.storage
-  //       .from("submissions")
-  //       .remove([`${fileName}`]);
-  //     if (storageError) throw storageError;
-
-  //     const { error: submissionError } = await supabase
-  //       .from("submissions")
-  //       .delete()
-  //       .eq("id", data.submission.id);
-  //     if (submissionError) throw submissionError;
-
-  //     const { error: scoresError } = await supabase
-  //       .from("submission_scores")
-  //       .delete()
-  //       .eq("submission_id", data.submission.id);
-  //     if (scoresError) throw scoresError;
-
-  //     window.location.href = "/";
-  //   } catch (error) {
-  //     console.error("Error deleting submission:", error);
-  //   }
-  // }
-
   if (isLoading) return <Skeleton />;
-  if (error) return <p className="text-white">Error</p>;
-  if (!data) return <p className="text-white">No data error</p>;
+  if (error) return <p className="text-black">Error</p>;
+  if (!data) return <p className="text-black">No data error</p>;
 
   return (
-    <div className="flex w-full items-center justify-center animate-fade-in overflow-auto pb-12">
-      <div className="flex flex-col text-white max-w-screen-md w-full rounded-2xl overflow-hidden gap-6">
-        <div className="flex flex-col items-center gap-4 sm:gap-4 pt-4 sm:pt-8">
-          <div className="flex items-center justify-center">
-            <h1 className="text-xl sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
-              Ranking:
-              <span className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-500 border border-yellow-400 shadow-lg text-white mx-2">
-                #{data.rank}
-                <span className="text-sm ml-1">/{data.totalSubmissions}</span>
-              </span>
-              in overall Chalamet-ness.
-            </h1>
-          </div>
-        </div>
-        <div className="relative grid grid-cols-2 gap-4">
+    <div className="flex w-full items-center justify-center overflow-auto pb-12">
+      <div className="flex flex-col text-black max-w-screen-md w-full gap-6">
+        <Summary data={data} />
+        <div className="w-60">
           <ImageComponent
             title={`Submission #${data.submission.created_order}`}
             imageUrl={data.submission.image_url}
           />
-          <ImageComponent
+        </div>
+        {/* <ImageComponent
             title={"Chalamet"}
             imageUrl={data.scores[0].base_comparisons.image_url}
-          />
-          <div className="absolute z-20 bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2">
-            <div className="bg-white text-center px-3 sm:px-6 py-1 sm:py-3 rounded-full shadow-lg border-2 border-gray-100">
-              <span className="text-2xl sm:text-4xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
-                {formatTwoDecimals(data.submission.z_avg_similarity_score)}
-              </span>
-              <span className="text-lg text-cyan-700 font-medium ml-1">
-                similar
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-col w-full gap-3">
-          <div className="flex justify-between gap-3">
-            <SocialShareButton
-              platform="twitter"
-              submissionId={data.submission.id}
-            />
-            <SocialShareButton
-              platform="linkedin"
-              submissionId={data.submission.id}
-            />
-          </div>
-          <div className="flex justify-center w-full">
-            <SocialShareButton
-              platform="copy"
-              submissionId={data.submission.id}
-            />
-          </div>
-        </div>
+          /> */}
+        <ShareButtons submissionId={data.submission.id} />
 
         <div>
           <button
             onClick={() => setShowAllComparisons(!showAllComparisons)}
-            className="w-full cursor-pointer mt-2 py-2 px-4 text-sm text-gray-200 hover:text-gray-300 transition-colors flex items-center justify-center gap-1 rounded-lg bg-gray-800/30 hover:bg-gray-800/50"
+            className="w-full cursor-pointer mt-2 py-2 px-4 text-sm flex items-center justify-center gap-1 border border-black text-black bg-white"
           >
             {showAllComparisons ? (
               <>
@@ -150,7 +83,7 @@ export const ChalametScoreResults = ({ id }: Props) => {
 
           {showAllComparisons && (
             <div className="space-y-4 py-4">
-              <p className="text-sm">
+              <p className="text-sm text-black">
                 We compared your screenshot to 10 unique Chalamet looks. The
                 percentage on the right is your similarity score to that version
                 of Timmy. We then averaged the scores and compared{" "}
@@ -170,7 +103,7 @@ export const ChalametScoreResults = ({ id }: Props) => {
           )}
           <button
             onClick={() => setShowDoppelgangers(!showDoppelgangers)}
-            className="w-full cursor-pointer mt-2 py-2 px-4 text-sm text-gray-200 hover:text-gray-300 transition-colors flex items-center justify-center gap-1 rounded-lg bg-gray-800/30 hover:bg-gray-800/50"
+            className="w-full cursor-pointer mt-2 py-2 px-4 text-sm flex items-center justify-center gap-1 border border-black text-black bg-white"
           >
             {showDoppelgangers ? (
               <>
@@ -190,18 +123,11 @@ export const ChalametScoreResults = ({ id }: Props) => {
 
         <button
           onClick={handleReport}
-          className="text-gray-400 hover:text-red-400 transition-colors cursor-pointer self-center text-center items-center justify-center"
+          className="text-black hover:text-red-600 transition-colors cursor-pointer self-center text-center items-center justify-center"
           title="Report submission"
         >
           <Flag className="w-4 h-4" />
         </button>
-        {/* <button
-          onClick={handleDelete}
-          className="text-gray-400 hover:text-red-400 transition-colors cursor-pointer self-center text-center items-center justify-center"
-          title="Report submission"
-        >
-          Delete
-        </button> */}
       </div>
     </div>
   );
@@ -216,14 +142,15 @@ const ImageComponent = ({
 }) => {
   return (
     <div className="flex flex-col w-full max-w-md">
-      <div className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-center py-4 px-2 rounded-t-2xl">
-        <p className="text-sm uppercase text-white font-medium">{title}</p>
+      <div className="w-full bg-white text-center py-4 px-2 border border-black">
+        <p className="text-sm uppercase text-black font-medium">{title}</p>
       </div>
       <div className="relative w-full">
         <div className="aspect-square w-full">
           <img
             src={imageUrl}
-            className="w-full h-full object-cover rounded-b-2xl"
+            alt={title}
+            className="w-full h-full object-cover border border-black border-t-0"
           />
         </div>
       </div>
@@ -233,7 +160,7 @@ const ImageComponent = ({
 
 const ComparisonItem = ({ score }: { score: SubmissionScore }) => {
   return (
-    <div className="flex bg-gray-800 overflow-hidden h-24 rounded-xl">
+    <div className="flex bg-white overflow-hidden h-24 border border-black">
       <div className="flex items-center w-24 h-24 flex-shrink-0">
         <img
           src={score.base_comparisons.image_url}
@@ -244,18 +171,18 @@ const ComparisonItem = ({ score }: { score: SubmissionScore }) => {
 
       <div className="flex-grow relative">
         <div
-          className="absolute inset-y-0 left-0 bg-gradient-to-r from-cyan-500 to-blue-500"
+          className="absolute inset-y-0 left-0 bg-black"
           style={{ width: `${score.normalized_score}%` }}
         />
 
         <div className="absolute inset-0 flex items-center px-4 z-10">
-          <p className="text-white text-sm font-medium">
+          <p className="text-black text-sm font-medium">
             {score.base_comparisons.name}
           </p>
         </div>
 
         <div className="absolute inset-y-0 right-0 flex items-center pr-4">
-          <span className="text-xl md:text-2xl font-bold text-white">
+          <span className="text-xl md:text-2xl font-bold text-black">
             {formatTwoDecimals(score.normalized_score)}
           </span>
         </div>
@@ -264,10 +191,29 @@ const ComparisonItem = ({ score }: { score: SubmissionScore }) => {
   );
 };
 
+const Summary = ({ data }: { data: SubmissionResults }) => {
+  return (
+    <div className="text-center space-y-2">
+      <h2 className="text-lg sm:text-xl text-black">
+        All-time:{" "}
+        <strong>
+          #{data.rank} out of {data.totalSubmissions}
+        </strong>
+      </h2>
+      <h2 className="text-lg sm:text-xl text-black">
+        Similarity:{" "}
+        <strong>
+          {formatTwoDecimals(data.submission.z_avg_similarity_score)}
+        </strong>
+      </h2>
+    </div>
+  );
+};
+
 const Skeleton = () => {
   return (
-    <div className="flex items-center justify-center w-full">
-      <GridLoader color="cyan" size={12} />
+    <div className="flex items-center justify-center w-full h-full">
+      <SquareLoader color="black" size={12} />
     </div>
   );
 };
@@ -288,12 +234,12 @@ const Gallery_Doppleganger = ({ id }: { id: string }) => {
 
   if (error) {
     console.error("Error fetching similar submissions:", error);
-    return <p className="text-white">Error fetching similar submissions</p>;
+    return <p className="text-black">Error fetching similar submissions</p>;
   }
 
   return (
     <div className="animate-fadeDown">
-      <h2 className="text-sm text-white py-4 self-center text-center">
+      <h2 className="text-sm text-black py-4 self-center text-center">
         Check out your dopplegangers...
       </h2>
 
