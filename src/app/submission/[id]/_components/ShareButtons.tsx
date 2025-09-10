@@ -35,7 +35,7 @@ export const ShareButtons: React.FC<Props> = ({ submissionId }) => {
         rel="noopener noreferrer"
         className={`text-center justify-between flex items-center gap-1 whitespace-nowrap border text-black px-2 py-1`}
       >
-        <span className="text-xs">Share</span>
+        <span className="text-xs">Share on X</span>
         <FaXTwitter className="w-4 h-4 text-black" />
       </Link>
       <Link
@@ -46,7 +46,7 @@ export const ShareButtons: React.FC<Props> = ({ submissionId }) => {
         rel="noopener noreferrer"
         className={`text-center justify-between flex items-center gap-1 whitespace-nowrap border text-black px-2 py-1`}
       >
-        <span className="text-xs">Share</span>
+        <span className="text-xs">Share on LinkedIn</span>
         <FaLinkedin className="w-4 h-4 text-black" />
       </Link>
       <button

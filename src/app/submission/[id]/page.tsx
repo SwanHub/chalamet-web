@@ -11,6 +11,7 @@ import { ShareButtons } from "./_components/ShareButtons";
 import { Dopplegangers } from "./_components/Dopplegangers";
 import { Report } from "./_components/Report";
 import { HowItWorks } from "./_components/HowItWorks";
+import { formatRelativeTimestamp } from "@/lib/utils";
 
 export default function SubmissionPage({
   params,
@@ -39,6 +40,9 @@ export default function SubmissionPage({
         <ResultsSummary data={data} />
         <Comparison data={data} />
         <ShareButtons submissionId={data.submission.id} />
+        <p className="text-xs text-gray-500">
+          {formatRelativeTimestamp(data.submission.created_at)}
+        </p>
         <Report data={data} />
         <Dopplegangers
           id={data.submission.id}
