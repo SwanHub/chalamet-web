@@ -10,16 +10,14 @@ interface Props {
 
 export const ShareButtons: React.FC<Props> = ({ submissionId }) => {
   const [copied, setCopied] = useState(false);
-
   const shareUrl = `https://chalamet.wtf/submission/${submissionId}`;
-
-  const label = copied ? "Copied!" : "Share link";
+  const label = copied ? "Copied!" : "Copy link";
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      setTimeout(() => setCopied(false), 4000);
     } catch (err) {
       console.error("Failed to copy:", err);
     }
@@ -37,7 +35,7 @@ export const ShareButtons: React.FC<Props> = ({ submissionId }) => {
         rel="noopener noreferrer"
         className={`text-center justify-between flex items-center gap-1 whitespace-nowrap border text-black px-2 py-1`}
       >
-        <span className="text-xs">Share on X</span>
+        <span className="text-xs">Share</span>
         <FaXTwitter className="w-4 h-4 text-black" />
       </Link>
       <Link
@@ -48,22 +46,19 @@ export const ShareButtons: React.FC<Props> = ({ submissionId }) => {
         rel="noopener noreferrer"
         className={`text-center justify-between flex items-center gap-1 whitespace-nowrap border text-black px-2 py-1`}
       >
-        <span className="text-xs">Share on LinkedIn</span>
+        <span className="text-xs">Share</span>
         <FaLinkedin className="w-4 h-4 text-black" />
       </Link>
       <button
         onClick={handleCopy}
-        className={`flex text-center justify-center whitespace-nowrap cursor-pointer
-        bg-white/10 backdrop-blur-sm border border-white/20 text-white
-        hover:bg-white/20 flex-1 items-center gap-2 rounded-full 
-        px-4 py-3 transition-all duration-200`}
+        className={`cursor-pointer text-center justify-between flex items-center gap-1 whitespace-nowrap border text-black px-2 py-1`}
       >
+        <span className="text-xs">{label}</span>
         {copied ? (
-          <Check className="w-5 h-5 text-green-400" />
+          <Check className="w45 h-4 text-green-400" />
         ) : (
-          <LinkIcon className="w-5 h-5 text-gray-400" />
+          <LinkIcon className="w-4 h-4 text-gray-400" />
         )}
-        <span className="font-medium text-xs sm:text-sm">{label}</span>
       </button>
     </div>
   );
