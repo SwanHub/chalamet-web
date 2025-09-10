@@ -4,7 +4,7 @@ import { formatTwoDecimals } from "@/lib/utils";
 export const ResultsSummary = ({ data }: { data: SubmissionResults }) => {
   return (
     <div className="text-center space-y-2">
-      <h2 className="text-lg sm:text-xl text-black">
+      <h2 className="text-lg sm:text-3xl text-black">
         <strong>{data.submission.name ?? "SUBMISSION"}</strong>
       </h2>
       <h2 className="text-lg sm:text-xl text-black">

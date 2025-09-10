@@ -24,11 +24,12 @@ export const Dopplegangers = ({ id, name }: { id: string; name: string }) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-3xl text-black self-center text-center">
-        See {name}&apos;s Community Dopplegangers
+      <h2 className="text-2xl text-black self-center text-center">
+        See who looks like <br />
+        {name}
       </h2>
       <p className="text-sm text-black self-center">
-        These are the most similar-looking community submissions
+        Maybe you find YOUR doppleganger
       </p>
       <div className="grid grid-cols-3 gap-4">
         {data?.map((submission, index) => (

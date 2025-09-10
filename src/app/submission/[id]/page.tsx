@@ -43,12 +43,12 @@ export default function SubmissionPage({
         <p className="text-xs text-gray-500">
           {formatRelativeTimestamp(data.submission.created_at)}
         </p>
-        <Report data={data} />
         <Dopplegangers
           id={data.submission.id}
           name={data.submission.name ?? "Your"}
         />
         <HowItWorks data={data} />
+        <Report data={data} />
       </div>
     </div>
   );
