@@ -3,10 +3,10 @@ import Link from "next/link";
 interface ImageCardProps {
   id: string;
   imageUrl: string;
-  rank: number | null;
+  flag: string | null;
 }
 
-const GalleryItem_Image = ({ id, imageUrl, rank }: ImageCardProps) => {
+const GalleryItem_Image = ({ id, imageUrl, flag }: ImageCardProps) => {
   return (
     <Link href={`/submission/${id}`}>
       <div className="cursor-pointer group relative border">
@@ -16,11 +16,13 @@ const GalleryItem_Image = ({ id, imageUrl, rank }: ImageCardProps) => {
             alt="Submission"
             className="absolute top-0 left-0 w-full h-full object-cover"
           />
-          <div
-            className={`bg-white absolute top-0 left-0 px-1 border-r border-b`}
-          >
-            #{rank}
-          </div>
+          {flag && (
+            <div
+              className={`bg-white absolute top-0 left-0 px-1 border-r border-b`}
+            >
+              {flag}
+            </div>
+          )}
         </div>
       </div>
     </Link>

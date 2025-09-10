@@ -6,9 +6,15 @@ import { PostgrestError } from "@supabase/supabase-js";
 import useSWR from "swr";
 import GalleryItem_Image from "@/components/list-items/GalleryItem_Entry";
 
-export const Leaderboard = () => {
+type TimePeriod = "weekly" | "all-time";
+
+interface TopSubmissionsProps {
+  timePeriod: TimePeriod;
+}
+
+export const TopSubmissions = ({ timePeriod }: TopSubmissionsProps) => {
   const fetcher = async (): Promise<Submission[]> => {
-    const { data: submissions, error: submissionsError } = await supabase
+    let query = supabase
       .from("submissions")
       .select(
         `
@@ -25,7 +31,16 @@ export const Leaderboard = () => {
         z_text_similarity_score
         `
       )
-      .not("z_avg_similarity_score", "is", null)
+      .not("z_avg_similarity_score", "is", null);
+
+    // Add time filter for weekly
+    if (timePeriod === "weekly") {
+      const oneWeekAgo = new Date();
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+      query = query.gte("created_at", oneWeekAgo.toISOString());
+    }
+
+    const { data: submissions, error: submissionsError } = await query
       .order("z_avg_similarity_score", { ascending: false })
       .limit(25);
 
@@ -47,7 +62,7 @@ export const Leaderboard = () => {
   };
 
   const { data: submissions, error } = useSWR<Submission[]>(
-    "leaderboard",
+    `leaderboard-${timePeriod}`,
     fetcher
   );
 
@@ -70,7 +85,7 @@ export const Leaderboard = () => {
               key={item.id}
               id={item.id}
               imageUrl={item.image_url}
-              rank={index + 1}
+              flag={`#${index + 1}`}
             />
           ))}
         </div>

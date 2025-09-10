@@ -36,7 +36,7 @@ export const Dopplegangers = ({ id, name }: { id: string; name: string }) => {
             key={submission.id}
             id={submission.id}
             imageUrl={submission.image_url}
-            rank={index + 1}
+            flag={`#${index + 1}`}
           />
         ))}
       </div>

@@ -110,7 +110,7 @@ export default function ScoringTest() {
               key={item.id}
               id={item.id}
               imageUrl={item.image_url}
-              rank={index + 1}
+              flag={`#${index + 1}`}
             />
           ))}
         </div>

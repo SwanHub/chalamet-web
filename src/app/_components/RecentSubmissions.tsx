@@ -5,6 +5,7 @@ import { Submission } from "../types";
 import { PostgrestError } from "@supabase/supabase-js";
 import useSWRInfinite from "swr/infinite";
 import GalleryItem_Image from "@/components/list-items/GalleryItem_Entry";
+import { formatRelativeTimestamp } from "@/lib/utils";
 
 const fetcher = async (): Promise<any> => {
   const { data: submissions, error: submissionsError } = await supabase
@@ -62,7 +63,7 @@ const getKey = (
   return `gallery-${pageIndex}`;
 };
 
-export const SubmissionGallery = () => {
+export const RecentSubmissions = () => {
   const { data, error } = useSWRInfinite<Submission[]>(getKey, fetcher);
 
   const submissions: Submission[] = data
@@ -82,7 +83,7 @@ export const SubmissionGallery = () => {
           key={item.id}
           id={item.id}
           imageUrl={item.image_url}
-          rank={null}
+          flag={`${formatRelativeTimestamp(item.created_at)}`}
         />
       ))}
     </div>

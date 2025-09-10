@@ -60,7 +60,7 @@ export default function ReportedSubmissions() {
                 key={item.id}
                 id={item.id}
                 imageUrl={item.image_url}
-                rank={null}
+                flag={null}
               />
             ))}
           </div>
