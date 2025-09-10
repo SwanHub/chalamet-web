@@ -7,7 +7,7 @@ export const Dopplegangers = ({ id, name }: { id: string; name: string }) => {
   async function hydrateSimilarSubmissions() {
     const { data } = await supabase.rpc("find_similar_submissions", {
       target_id: id,
-      match_count: 3,
+      match_count: 6,
     });
     return data;
   }

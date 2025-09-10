@@ -23,7 +23,7 @@ export const Report = ({ data }: { data: SubmissionResults }) => {
   return (
     <button
       onClick={handleReport}
-      className="text-black hover:text-red-600 transition-colors cursor-pointer self-center text-center items-center justify-center"
+      className="text-black hover:text-red-600 transition-colors cursor-pointer self-center text-center items-center justify-center my-12"
       title="Report submission"
     >
       <Flag className="w-4 h-4" />

@@ -3,18 +3,18 @@ import Image from "next/image";
 
 export const SiteFooter = () => {
   return (
-    <footer className="w-full border-t mt-16 py-4">
+    <footer className="w-full border-t mt-16 py-4 z-30 bottom-0 left-0 right-0 fixed bg-white">
       <div className="flex flex-wrap justify-center items-center gap-2 px-4">
         <div className="flex items-center gap-2">
           <span className="text-xs text-gray-600">Made by</span>
           <Link
-            href="https://www.linkedin.com/in/jackson-prince/"
+            href="https://www.github.com/SwanHub"
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs hover:underline focus:underline focus:outline-none"
-            aria-label="Jackson's LinkedIn profile"
+            aria-label="Author's github profile"
           >
-            Jackson
+            JP
           </Link>
         </div>
 

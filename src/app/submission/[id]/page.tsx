@@ -38,11 +38,11 @@ export default function SubmissionPage({
         <ResultsSummary data={data} />
         <Comparison data={data} />
         <ShareButtons submissionId={data.submission.id} />
+        <Report data={data} />
         <Dopplegangers
           id={data.submission.id}
           name={data.submission.name ?? "Your"}
         />
-        <Report data={data} />
       </div>
     </div>
   );

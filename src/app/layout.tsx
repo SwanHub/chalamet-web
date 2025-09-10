@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${robotoMono.className} antialiased flex flex-col min-h-screen`}
+        className={`${robotoMono.className} antialiased flex flex-col min-h-screen pb-16`}
       >
         <SiteHeader />
         <main className="flex flex-col w-full text-black max-w-124 items-center justify-center mx-auto">
