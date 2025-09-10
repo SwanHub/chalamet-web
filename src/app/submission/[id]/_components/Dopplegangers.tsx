@@ -25,7 +25,7 @@ export const Dopplegangers = ({ id, name }: { id: string; name: string }) => {
   return (
     <div className="flex flex-col gap-4">
       <h2 className="text-3xl text-black self-center text-center">
-        See {name} Community Dopplegangers
+        See {name}&apos;s Community Dopplegangers
       </h2>
       <p className="text-sm text-black self-center">
         These are the most similar-looking community submissions

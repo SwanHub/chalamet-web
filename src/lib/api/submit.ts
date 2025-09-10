@@ -1,6 +1,7 @@
 import { supabase } from "@/lib/supabase";
 import { SubmitScore } from "../../app/types";
 import similarity from "compute-cosine-similarity";
+import { capitalizeFirstLetters } from "../utils";
 
 export const batchInsertSimilarityScores = async (
   scores: SubmitScore[]
@@ -32,11 +33,18 @@ export const batchInsertSimilarityScores = async (
 
 export async function createSubmissionWithEmbedding(
   imageUrl: string,
-  embedding: number[]
+  embedding: number[],
+  name: string
 ): Promise<string> {
   const { data, error } = await supabase
     .from("submissions")
-    .insert([{ image_url: imageUrl, embedding_vector: embedding }])
+    .insert([
+      {
+        image_url: imageUrl,
+        embedding_vector: embedding,
+        name: capitalizeFirstLetters(name),
+      },
+    ])
     .select();
 
   if (error) throw error;
@@ -48,7 +56,7 @@ export const fetchSubmissionResults = async (
 ): Promise<any> => {
   const { data: submissionData, error: submissionError } = await supabase
     .from("submissions")
-    .select("id, image_url, z_avg_similarity_score, created_order")
+    .select("id, image_url, z_avg_similarity_score, created_order, name")
     .eq("id", submissionId)
     .single();
 
@@ -89,6 +97,7 @@ export const fetchSubmissionResults = async (
     rank: (rank || 0) + 1,
     totalSubmissions: totalSubmissions,
     scores: scoresData,
+    name: submissionData.name,
   };
   return returnObj;
 };
