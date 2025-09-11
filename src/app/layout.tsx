@@ -21,12 +21,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" style={{ colorScheme: "light" }}>
       <body
         className={`${robotoMono.className} antialiased flex flex-col min-h-screen pb-16`}
+        style={{ backgroundColor: "#ffffff", color: "#000000" }}
       >
         <SiteHeader />
-        <main className="flex flex-col w-full text-black max-w-124 items-center justify-center mx-auto">
+        <main className="flex flex-col w-full text-black bg-white max-w-124 items-center justify-center mx-auto">
           {children}
         </main>
         <SiteFooter />
