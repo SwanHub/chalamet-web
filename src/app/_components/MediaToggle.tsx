@@ -9,7 +9,7 @@ type TimePeriod = "weekly" | "all-time";
 
 export default function MediaToggle() {
   const [filter, setFilter] = useState<View>("top");
-  const [timePeriod, setTimePeriod] = useState<TimePeriod>("all-time");
+  const [timePeriod] = useState<TimePeriod>("all-time");
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -25,7 +25,7 @@ export default function MediaToggle() {
           >
             Top
           </button>
-          {filter === "top" && (
+          {/* {filter === "top" && (
             <select
               value={timePeriod}
               onChange={(e) => setTimePeriod(e.target.value as TimePeriod)}
@@ -34,7 +34,7 @@ export default function MediaToggle() {
               <option value="weekly">This week</option>
               <option value="all-time">All-time</option>
             </select>
-          )}
+          )} */}
         </div>
 
         <button
