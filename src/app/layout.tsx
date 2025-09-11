@@ -10,7 +10,7 @@ const robotoMono = Roboto_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Chalamet Look alike Competition",
+  title: "Chalamet Look alike Competition judged by an AI",
   description:
     "Timothee Chalamet Look alike Competition on the internet judged by an AI",
 };
