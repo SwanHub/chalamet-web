@@ -69,22 +69,13 @@ export const SiteFooter = () => {
         <div className="flex items-center gap-2">
           <span className="text-xs text-gray-600">inspired by</span>
           <Link
-            href="https://www.youtube.com/@anthpo"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs hover:underline focus:underline focus:outline-none"
-            aria-label="Anthpo's YouTube channel"
-          >
-            {"Anthpo's"}
-          </Link>
-          <Link
             href="https://www.nytimes.com/2024/10/28/nyregion/timothee-chalamet-lookalike-contest-new-york.html"
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs hover:underline focus:underline focus:outline-none"
             aria-label="Anthpo's YouTube channel"
           >
-            {"viral event"}
+            {"Anthpo's viral event"}
           </Link>
           <span className="text-xs text-gray-600">-</span>
         </div>
