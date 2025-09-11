@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" style={{ colorScheme: "light" }}>
       <body
-        className={`${robotoMono.className} antialiased flex flex-col min-h-screen pb-16`}
+        className={`${robotoMono.className} antialiased flex flex-col min-h-screen pb-16 px-4 sm:px-0`}
         style={{ backgroundColor: "#ffffff", color: "#000000" }}
       >
         <SiteHeader />
