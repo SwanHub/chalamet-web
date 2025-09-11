@@ -37,15 +37,11 @@ export default function FAQ() {
         />
         <FAQItem
           question="How does it work?"
-          answer="Take a screenshot. We compare that screenshot to a list of Timothée Chalamet images using Roboflow, CLIP and cosine similarity."
+          answer="Take a screenshot. We compare that screenshot to a list of Timothée Chalamet images using Roboflow and OpenAI's CLIP model."
         />
         <FAQItem
-          question="Is it meant to be perfectly accurate?"
-          answer="No - CLIP is prone to errors, but the first time you can compare text to images which is cool."
-        />
-        <FAQItem
-          question="Do chalamet or Anthpo have anything to do with this?"
-          answer="Nope."
+          question="Is it accurate?"
+          answer="No - CLIP is prone to errors, but not bad!"
         />
         <FAQItem
           question="I don't want my image in the database anymore. Who do I contact?"

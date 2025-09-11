@@ -28,9 +28,7 @@ export const Dopplegangers = ({ id, name }: { id: string; name: string }) => {
         See who looks like <br />
         {name}
       </h2>
-      <p className="text-sm text-black self-center">
-        Maybe you find YOUR doppleganger
-      </p>
+      <p className="text-sm text-black self-center">Community dopplegangers</p>
       <div className="grid grid-cols-3 gap-4">
         {data?.map((submission, index) => (
           <GalleryItem_Image
